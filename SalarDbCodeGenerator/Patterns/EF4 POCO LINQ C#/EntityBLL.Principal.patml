@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database Entity BLL</Name>
+	<Description>Entity objects BLL pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="BLL\Principal\EntitiesBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data.Objects;
+using System.Linq;
+using System.Text;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].BLL
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="Tables_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	public partial class [:TableName:]BLL : [:DatabaseName:]BLLBase
+	{
+		public [:TableName:]BLL()
+		{
+		}
+
+		public [:TableName:]BLL(bool autoSave)
+			: base(autoSave)
+		{
+		}
+
+		public ObjectSet<[:TableNativeName:]> GetAll()
+		{
+			return base.ObjectContext.[:TableNativeName:];
+		}
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityMany"></Content>
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public IQueryable<[:LocalTableNativeName:]> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			return base.ObjectContext.[:LocalTableNativeName:].Where(x => x.[:LocalFieldName:] == [:LocalFieldName:]);
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public IQueryable<[:TableNativeName:]> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return base.ObjectContext.[:TableNativeName:].Where(x => x.[:IndexKeyName:] == [:IndexKeyName:]);
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public [:TableNativeName:] GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return base.ObjectContext.[:TableNativeName:].Where(x => x.[:IndexKeyName:] == [:IndexKeyName:]).FirstOrDefault();
+		}
+
+		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			var deleteObj = new [:TableNativeName:] { [:IndexKeyNativeName:] = [:IndexKeyName:] };
+			base.ObjectContext.[:TableNativeName:].Attach(deleteObj);
+			base.ObjectContext.[:TableNativeName:].DeleteObject(deleteObj);
+			AutoSave();
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+		public void Insert([:TableNativeName:] insertEntity)
+		{
+			try
+			{
+				base.ObjectContext.[:TableNativeName:].AddObject(insertEntity);
+			}
+			catch { }
+			base.ObjectContext.ObjectStateManager.ChangeObjectState(insertEntity, System.Data.EntityState.Added);
+			AutoSave();
+		}]]>
+			</Content>
+
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		public [:TableNativeName:] GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			return base.ObjectContext.[:TableNativeName:].Where(x => x.[:PrimaryKeyName:] == [:PrimaryKeyName:]).FirstOrDefault();
+		}
+
+		public void Update([:TableNativeName:] updateEntity)
+		{
+			try
+			{
+				base.ObjectContext.[:TableNativeName:].Attach(updateEntity);
+			}
+			catch { }
+			base.ObjectContext.ObjectStateManager.ChangeObjectState(updateEntity, System.Data.EntityState.Modified);
+			AutoSave();
+		}
+
+		public void Insert([:TableNativeName:] insertEntity)
+		{
+			try
+			{
+				base.ObjectContext.[:TableNativeName:].AddObject(insertEntity);
+			}
+			catch { }
+			base.ObjectContext.ObjectStateManager.ChangeObjectState(insertEntity, System.Data.EntityState.Added);
+			AutoSave();
+		}
+
+		public void Delete([:TableNativeName:] deleteEntity)
+		{
+			try
+			{
+				base.ObjectContext.[:TableNativeName:].Attach(deleteEntity);
+			}
+			catch { }
+			base.ObjectContext.[:TableNativeName:].DeleteObject(deleteEntity);
+			AutoSave();
+		}
+
+		public void DeleteBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			var deleteObj = new [:TableNativeName:] { [:PrimaryKeyName:] = [:PrimaryKeyName:] };
+			base.ObjectContext.[:TableNativeName:].Attach(deleteObj);
+			base.ObjectContext.[:TableNativeName:].DeleteObject(deleteObj);
+			AutoSave();
+		}]]>
+			</Content>
+		</PatternContent>
+	</PatternContent>
+</pattern>

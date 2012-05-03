@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+	<title>NHibernate ActiveRecord Pattern - SalarDbCodeGenerator</title>
+	<style type="text/css">
+		* {
+			padding: 0;
+			margin: 0;
+		}
+		
+		body {
+			font-family: Verdana, Arial, Helvetica, sans-serif;
+			font-size: 13px;
+		}
+		
+		p {
+			padding: 10px;
+		}
+		
+		#wrapper {
+			margin: 0 auto;
+			width: 800px;
+			-moz-box-shadow: 0px 6px 8px #4d4d4d;
+			-webkit-box-shadow: 0px 6px 8px #4d4d4d;
+			box-shadow: 0px 6px 8px #4d4d4d;
+			background: #85c8e7;
+			background: -moz-linear-gradient(top, #85c8e7 11%, #a0dcee 25%, #deeef2 95%, #c6eaf4 100%);
+			background: -webkit-gradient(linear, left top, left bottom, color-stop(11%,#85c8e7), color-stop(25%,#a0dcee), color-stop(95%,#deeef2), color-stop(100%,#c6eaf4));
+			background: -webkit-linear-gradient(top, #85c8e7 11%,#a0dcee 25%,#deeef2 95%,#c6eaf4 100%);
+			background: -o-linear-gradient(top, #85c8e7 11%,#a0dcee 25%,#deeef2 95%,#c6eaf4 100%);
+			background: -ms-linear-gradient(top, #85c8e7 11%,#a0dcee 25%,#deeef2 95%,#c6eaf4 100%);
+			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#85c8e7', endColorstr='#c6eaf4',GradientType=0 );
+			background: linear-gradient(top, #85c8e7 11%,#a0dcee 25%,#deeef2 95%,#c6eaf4 100%);
+		}
+		
+		#content {
+			float: left;
+			color: #333;
+			-height: 350px;
+			width: 750px;
+			display: inline;
+			padding: 15px 15px;
+		}
+		#header .title {
+			margin: 10px;
+			font-size: large;
+			font-weight: bold;
+			padding-bottom: 0px;
+			margin-bottom: 0px;
+		}
+		#header .comment {
+			margin-left: 30px;
+		}
+		#header {
+			color: #333;
+			width: 800px;
+			float: left;
+			height: 75px;
+			background: #fff;
+			-moz-box-shadow: 0px 3px 9px #292929;
+			-webkit-box-shadow: 0px 3px 9px #292929;
+			box-shadow: 0px 3px 9px #292929;
+			-moz-border-radius-topleft: 0px;
+			-moz-border-radius-topright: 0px;
+			-moz-border-radius-bottomleft: 10px;
+			-moz-border-radius-bottomright: 10px;
+			-webkit-border-top-left-radius: 0px;
+			-webkit-border-top-right-radius: 0px;
+			-webkit-border-bottom-left-radius: 10px;
+			-webkit-border-bottom-right-radius: 10px;
+			border-top-left-radius: 0px;
+			border-top-right-radius: 0px;
+			border-bottom-left-radius: 10px;
+			border-bottom-right-radius: 10px;
+		}
+		
+		#footer {
+			clear: both;
+			color: #333;
+			background: whitesmoke;
+			-moz-box-shadow: inset 2px 2px 8px silver;
+			-webkit-box-shadow: inset 2px 2px 8px silver;
+			box-shadow: inset 2px 2px 8px silver;
+		}
+		
+		code, .code {
+			font-family: Courier New;
+			font-size: small;
+			background: white;
+			border: 1px silver gray;
+			border-left: 4px solid silver;
+			padding: 5px;
+			max-width: 750px;
+			-moz-box-shadow: 0px 0px 4px #3d3d3d;
+			-webkit-box-shadow: 0px 0px 4px #3d3d3d;
+			box-shadow: 0px 0px 4px #3d3d3d;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			overflow: auto;
+		}
+		
+		h1 {
+			font-size: large;
+			color: Navy;
+			text-shadow: 1px 1px 4px #ffffff;
+		}
+		h2 {
+			font-size: medium;
+			padding-left: 5px;
+			color: #bd7202;
+		}
+		h3,h4 {
+			padding-left: 10px;
+		}
+		
+		ul {
+			margin: 2px 20px;
+		}
+		
+		h1, h2, h3 {
+		}
+		.marker-blue {
+			background-color: #abe4ff;
+		}
+		.marker-red {
+			background-color: #ffc2c2;
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			<p class="title">
+				NHibernate ActiveRecord Generator Pattern</p>
+			<span class="comment">C# pattern based on Castle ActiveRecord which uses NHibernate
+				internally</span>
+		</div>
+		<div id="content">
+			<h1>
+				Introduction</h1>
+			<p>
+				The ActiveRecord pattern consists on instance properties representing a record in
+				the database, instance methods acting on that specific record and static methods
+				acting on all records.</p>
+			<p>
+				<a href="http://www.castleproject.org/activerecord/">Castle ActiveRecord</a> is
+				built on top of NHibernate, but its attribute-based mapping free the developer of
+				writing XML for database-to-object mapping, which is needed when using NHibernate
+				directly.</p>
+			<h1>
+				How to use the generated code!</h1>
+			<p>
+				You have to initialize the ActiveRecord then start working with it. To do that the
+				pattern has generated a class called DBNAMEActiveRecord which DBNAME is your database
+				name.<br />
+				You need to call its initializer method which is named InitializeActiveRecord, the
+				method does the rest.<br />
+				It is better to call it in application initialization.</p>
+			<pre class="code">DBNAMEActiveRecord.InitializeActiveRecord()</pre>
+			<p>
+				Here we use this SqlServer database schema to describe usage of this pattern:</p>
+			<pre class="code">CREATE TABLE [Person](
+	[PersonId] [int] NOT NULL,
+	[FullName] [nvarchar](50) NOT NULL,
+	[Age] [int] NULL,
+	CONSTRAINT [PK_Person] PRIMARY KEY(	[PersonId] ASC)
+) ON [PRIMARY]
+GO
+
+CREATE TABLE  [Car](
+	[CarId] [int] NOT NULL,
+	[PersonId] [int] NOT NULL,
+	[CarName] [nvarchar](50) NOT NULL,
+	[ModelName] [nvarchar](50) NOT NULL,
+	[ProductionYear] [int] NULL,
+ CONSTRAINT [PK_Car] PRIMARY KEY (	[CarId] ASC)
+) ON [PRIMARY] 
+GO
+
+ALTER TABLE [Car]  WITH CHECK ADD  CONSTRAINT [FK_Car_Person] FOREIGN KEY([PersonId])
+REFERENCES [Person] ([PersonId])
+GO
+
+ALTER TABLE [Car] CHECK CONSTRAINT [FK_Car_Person]</pre>
+			<p>
+				And here is the graphical diagram for easy understand:</p>
+			<img src="..\SampleDbDiagram.png" />
+			<p>
+				And here is the code that the genereator generates using this pattern found in 'Entities\Principal\EntityObjects.cs':</p>
+			<pre class="code">[Serializable]
+[DataContract]
+[ActiveRecord(Table=&quot;Car&quot;, Lazy=true)]
+public partial class Car : CodeGenSampleDBBaseEntity&lt;Car&gt;
+{
+
+	/// &lt;summary&gt;
+	/// The car
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;The car&quot;)]
+	[DataMember]
+	[PrimaryKey(Column = &quot;CarId&quot;, Generator = PrimaryKeyType.Assigned)]
+	public virtual Int32 CarId { get; set; }
+
+	/// &lt;summary&gt;
+	/// Name of the car
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;Name of the car&quot;)]
+	[DataMember]
+	[Property(&quot;CarName&quot;, NotNull = true, Length = 50)]
+	public virtual String CarName { get; set; }
+
+	/// &lt;summary&gt;
+	/// The model
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;The model&quot;)]
+	[DataMember]
+	[Property(&quot;ModelName&quot;, NotNull = true, Length = 50)]
+	public virtual String ModelName { get; set; }
+
+	/// &lt;summary&gt;
+	/// The year of car
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;The year of car&quot;)]
+	[DataMember]
+	[Property(&quot;ProductionYear&quot;, NotNull = false, Length = 0)]
+	public virtual Int32? ProductionYear { get; set; }
+
+
+	/// &lt;summary&gt;
+	/// Person - PersonId
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;Person&quot;)]
+	[XmlIgnoreAttribute]
+	[SoapIgnoreAttribute]
+	[BrowsableAttribute(false)]
+	[BelongsTo(Column = &quot;PersonId&quot;, Lazy = CodeGenSampleDBCarConfig.LazyBelongs)]
+	public virtual Person Person { get; set; }
+}
+
+[Serializable]
+[DataContract]
+[ActiveRecord(Table=&quot;Person&quot;, Lazy=true)]
+public partial class Person : CodeGenSampleDBBaseEntity&lt;Person&gt;
+{
+	/// &lt;summary&gt;
+	/// The person
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;The person&quot;)]
+	[DataMember]
+	[PrimaryKey(Column = &quot;PersonId&quot;, Generator = PrimaryKeyType.Assigned)]
+	public virtual Int32 PersonId { get; set; }
+
+	/// &lt;summary&gt;
+	/// Frist name - last name
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;Frist name - last name&quot;)]
+	[DataMember]
+	[Property(&quot;FullName&quot;, NotNull = true, Length = 50)]
+	public virtual String FullName { get; set; }
+
+	/// &lt;summary&gt;
+	/// The age
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;The age&quot;)]
+	[DataMember]
+	[Property(&quot;Age&quot;, NotNull = false, Length = 0)]
+	public virtual Int32? Age { get; set; }
+
+	/// &lt;summary&gt;
+	/// Car - PersonId
+	/// &lt;/summary&gt;
+	[DisplayName(&quot;Car&quot;)]
+	[XmlIgnoreAttribute]
+	[SoapIgnoreAttribute]
+	[BrowsableAttribute(false)]
+    [HasMany(typeof(Car), Inverse = true, Table=&quot;Car&quot; ,ColumnKey=&quot;PersonId&quot;, Lazy=CodeGenSampleDBCarConfig.LazyCollections)]
+	public virtual IList&lt;Car&gt; Car { get; set; }
+}</pre>
+			<p>
+				Below I show you how to use them.</p>
+			<h2>
+				CRUD (Create - Read - Update - Delete)</h2>
+				<br />
+			<h3>
+				Create</h3>
+			<p>
+				Inserting a new record is simple, here a new person is adding to Db:</p>
+				<pre class="code">var person = new Person
+	{
+		FullName = "Salar Khalilzadeh",
+		Age = null
+	};
+person.Create();</pre>
+			<p>
+				Inserting records with foreign keys are simple too, just need to assign the 
+				right property. Here person is associated to a car:</p>
+			<pre class="code">var car = new Car
+	{
+		CarName = "Benz - White",
+		ModelName = "C126",
+		ProductionYear = 2008,
+	};
+car.Person = person;
+car.Create();
+</pre>
+			<p>
+				Or you can add a car to person's cars list:</p>
+				<pre class="code">person.Car.Add(new Car
+	{
+		CarName = "BMW - Black",
+		ModelName = "W330",
+		ProductionYear = 2011
+	});
+person.Save();
+</pre>
+			<br />
+			<h3>
+				Reading</h3>
+			<p>
+				Readding data is simple too. There is several ways to read data from database, 
+				here is a few samples.<br />
+				Here I assume that we only know the ID of the a person record:</p>
+				<pre class="code">// the id we already know
+var personId = person.PersonId;
+
+var p = Person.Find(personId);
+
+// Using the Refresh if the Id is valid
+var thep = new Person { PersonId = personId };
+thep.Refresh();
+</pre>
+			<p><span class="marker-blue">Find</span> 
+			method always works with PrimaryKeys, so you need to know what 
+			column of your table is Key. Note that the <span class="marker-blue">Find</span> method throws exception if nothing found. You can use 
+			<span class="marker-blue">TryFind</span> method which doesn't throw exception if nothing found.</p>
+			<p>It is possible to use NHibernate queries:</p>
+			<pre class="code">p = Person.FindOne(Expression.Eq("FullName", "Salar Khalilzadeh"));</pre>
+			<p>Here is another sample shows how to read bunch of records:</p>
+			<pre class="code">// Reads all recods
+var pList = Person.FindAll();
+
+// using Nhibernate queries
+pList = Person.FindAll(Expression.Like("FullName", "Salar"));
+</pre>
+			<p>And also you can use LINQ to write down your code:</p>
+			<pre class="code">var linqQuery = ActiveRecordLinq.AsQueryable&lt;Person&gt;().Where(x =&gt; x.FullName.Contains(&quot;Salar&quot;));
+
+var linqPerson = ActiveRecordLinq.AsQueryable&lt;Person&gt;().FirstOrDefault(x =&gt; x.PersonId == personId);
+if (linqPerson != null)
+{
+	// do something
+}</pre>
+			<p>Remember to import the <span class="marker-blue">
+			Castle.ActiveRecord.Framework</span> namespace in usings.</p>
+			<p>Also here is how to query relational tables:</p>
+			<pre class="code">var carQuery = ActiveRecordLinq.AsQueryable&lt;Car&gt;().Where(x =&gt; x.Person.FullName.Contains(&quot;Salar&quot;));</pre>
+			<h3>Update</h3>
+			<p>Updating is as easy as this code. Remember the entity used to 
+			call Update method should be already avilable with valid PrimaryKey 
+			value:</p>
+			<pre class="code">car.CarName = "Benz - Red";
+car.Update();
+</pre>
+			<h3>Delete</h3>
+			<p>Deleting is same as Update:</p>
+			<pre class="code">car.Delete();
+</pre><h3>Save</h3>
+			<p>There is a method called <span class="marker-blue">Save</span>
+			with takes care of entity existance. It saves the object to 
+			database. Which means if the records already exists in database it 
+			updates the records, if it's new a new records will insert to 
+			database.</p>
+
+			<h2>
+				Transactions</h2>
+			<p>
+				How to use transactions</p>
+			<h2>
+				Deployment</h2>
+			<p>
+				You will need to add following assemblies to the generated project if they are absent.
+				Also you have to deploy them along side of your application.</p>
+			<ul>
+				<li>Castle.ActiveRecord.dll</li>
+				<li>Castle.Core.dll</li>
+				<li>Castle.Components.Validator.dll</li>
+				<li>NHibernate.ByteCode.Castle.dll</li>
+				<li>NHibernate.dll</li>
+				<li>Iesi.Collections.dll</li>
+			</ul>
+			<p>
+				And for web projects:</p>
+			<ul>
+				<li>Castle.ActiveRecord.Web.dll</li>
+			</ul>
+			<p>
+				You can always find these assemblies in Castle ActiveRecord's
+				<a href="http://www.castleproject.org/castle/download.html">download page</a>.</p>
+			<h1>
+				See also</h1>
+			<p>
+				Here is useful links:</p>
+			<ul>
+				<li><a href="http://www.castleproject.org/activerecord/index.html">Castle ActiveRecord Homepage</a></li>
+				<li><a href="http://www.castleproject.org/castle/download.html">Castle ActiveRecord Download</a></li>
+				<li><a href="http://www.castleproject.org/activerecord/documentation/index.html">Castle ActiveRecord Documentation</a></li>
+				<li><a href="http://en.wikipedia.org/wiki/Active_record">ActiveRecord pattern Wiki</a></li>
+			</ul>
+		</div>
+		<div id="footer">
+			<p>
+				Generated by <a href="http://salardbcodegenerator.codeplex.com/">SalarDbCodeGenerator</a>
+				&copy; 2009-2011 by Salar</p>
+		</div>
+	</div>
+</body>
+</html>

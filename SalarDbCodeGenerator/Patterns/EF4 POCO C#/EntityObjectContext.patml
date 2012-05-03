@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>EntityObjectContext</Name>
+	<Description>Entity context object</Description>
+	<Options
+		Group="Entity Context"
+		AppliesTo="Tables_All"
+		Overwrite="True"
+		FilePath="[:DatabaseName:]Entities.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.EntityClient;
+using System.Data.Objects;
+using System.Linq;
+using System.Text;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:]
+{
+	public class [:DatabaseName:]Entities : ObjectContext
+	{
+		public [:DatabaseName:]Entities()
+			: base("name=[:DatabaseName:]Entities", "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public [:DatabaseName:]Entities(string connectionString)
+			: base(connectionString, "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public [:DatabaseName:]Entities(EntityConnection connection)
+			: base(connection, "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public override int SaveChanges(SaveOptions options)
+		{
+			return base.SaveChanges(options);
+		}
+
+[#TablesAndViewsContent#]
+	}
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="Tables_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+		private ObjectSet<[:TableNativeName:]> _[:TableName:];
+		public ObjectSet<[:TableNativeName:]> [:TableNativeName:]
+		{
+			get
+			{
+				return _[:TableName:] ?? (_[:TableName:] = base.CreateObjectSet<[:TableNativeName:]>());
+			}
+		}
+]]>
+		</Content>
+	</PatternContent>
+</pattern>

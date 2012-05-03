@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Enumerations</Name>
+	<Description>Enumerations</Description>
+	<Options
+		Group="Common"
+		AppliesTo="GeneralOnce"
+		Overwrite="False"
+		FilePath="Common\Enumerations.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace [:Namespace:].Common
+{
+
+}
+
+]]>
+	</BaseContent>
+</pattern>

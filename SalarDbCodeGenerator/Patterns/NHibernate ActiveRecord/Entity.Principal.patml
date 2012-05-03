@@ -1,0 +1,271 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Xml.Serialization;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Linq;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	[Serializable]
+	[DataContract]
+	[ActiveRecord(Table="[:TableNativeName:]", Lazy=true)]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity<[:TableName:]>
+	{
+[#FieldsProperties#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:LocalFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		[BelongsTo(Column = "[:LocalFieldNativeName:]", Lazy = [:DatabaseName:]CarConfig.LazyBelongs)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="MultiplicityMany">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:ForeignFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		[HasMany(typeof([:ForeignTableName:]), Inverse = true, Table="[:ForeignTableNativeName:]" ,ColumnKey="[:ForeignFieldNativeName:]", Lazy=[:DatabaseName:]CarConfig.LazyCollections)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+			<Content KeyMode="AutoInrcementPrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNativeName:]", Generator = PrimaryKeyType.Native)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoInrcement">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNativeName:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNativeName:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNativeName:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="PrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNativeName:]", Generator = PrimaryKeyType.Assigned)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NormalField">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNativeName:]", NotNull = true, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNativeName:]", NotNull = false, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNativeName:]", NotNull = false, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+		<PatternContent Name="ReferencedFieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldReferencedKeyType">
+			<Content KeyMode="AutoInrcementPrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoInrcement">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="PrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NormalField">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>		
+		</PatternContent>
+
+		<PatternContent Name="MethodsForeignKeys_OLD" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityMany"></Content>
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public static IList<[:LocalTableNativeName:]> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			var foreign = new [:ForeignTableNativeName:] {[:ForeignFieldName:] = [:LocalFieldName:]};
+			return foreign.[:LocalTableName:];
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey"></Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey"></Content>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

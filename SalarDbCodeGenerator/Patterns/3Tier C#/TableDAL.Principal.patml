@@ -1,0 +1,489 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database DAL</Name>
+	<Description>Data access layer pattern</Description>
+	<Options
+		Group="TableDAL"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="DAL\Principal\DatabaseDAL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:ProviderClassReferenceName:];
+using [:Namespace:].Base;
+using [:Namespace:].Model;
+using [:Namespace:].Common;
+
+namespace [:Namespace:].DAL
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	/// <summary>
+	/// Data access layer for [:TableNativeName:]
+	/// </summary>
+	public partial class [:TableName:]DAL : [:DatabaseName:]DALBase
+	{
+		internal [:TableName:]DAL()
+		{
+
+		}
+		internal [:TableName:]DAL([:DatabaseName:]DbTransaction transaction, IDbConnection connection)
+		{
+			Connection = connection;
+			Transaction = transaction;
+		}
+
+		public List<[:TableName:]Model> GetAll()
+		{
+			List<[:TableName:]Model> result = new List<[:TableName:]Model>();
+
+			using ([:ProviderClassCommand:] cmd = GetNewCommand())
+			{
+				cmd.CommandType = CommandType.StoredProcedure;
+				cmd.CommandText = "[:TableNativeName:]_GetAll";
+
+				IDataReader reader = null;
+				try
+				{
+					reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+					[:TableName:]Model.FieldsOrdinal fields = new [:TableName:]Model.FieldsOrdinal(reader);
+					while (reader.Read())
+					{
+						[:TableName:]Model model = new [:TableName:]Model();
+						model.ReadData(reader, fields);
+						result.Add(model);
+					}
+				}
+				catch (Exception)
+				{
+					throw;
+				}
+				finally
+				{
+					if (reader != null)
+						reader.Close();
+				}
+			}
+			return result;
+		}
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityMany"></Content>
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public List<[:LocalTableName:]Model> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			List<[:LocalTableName:]Model> result = new List<[:LocalTableName:]Model>();
+
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:LocalTableNativeName:]_GetBy[:LocalFieldNativeName:]";
+					
+					cmd.Parameters.AddWithValue("@[:LocalFieldNativeName:]", [:LocalFieldName:]);
+
+					IDataReader reader = null;
+					try
+					{
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						[:LocalTableName:]Model.FieldsOrdinal fields = new [:LocalTableName:]Model.FieldsOrdinal(reader);
+						while (reader.Read())
+						{
+							[:LocalTableName:]Model model = new [:LocalTableName:]Model();
+							model.ReadData(reader, fields);
+							result.Add(model);
+						}
+					}
+					catch (Exception)
+					{
+						throw;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}		
+		}]]>
+			</Content>
+		</PatternContent>
+
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public List<[:TableName:]Model> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			List<[:TableName:]Model> result = new List<[:TableName:]Model>();
+
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_GetBy[:IndexKeyNativeName:]";
+					
+					cmd.Parameters.AddWithValue("@[:IndexKeyNativeName:]", [:IndexKeyName:]);
+
+					IDataReader reader = null;
+					try
+					{
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						[:TableName:]Model.FieldsOrdinal fields = new [:TableName:]Model.FieldsOrdinal(reader);
+						while (reader.Read())
+						{
+							[:TableName:]Model model = new [:TableName:]Model();
+							model.ReadData(reader, fields);
+							result.Add(model);
+						}
+					}
+					catch (Exception)
+					{
+						throw;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}		
+		}
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public [:TableName:]Model GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_GetBy[:IndexKeyNativeName:]";
+	
+					IDataReader reader = null;
+					try
+					{
+						cmd.Parameters.AddWithValue("@[:IndexKeyNativeName:]", [:IndexKeyName:]);
+	
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						if (reader.Read())
+						{
+							[:TableName:]Model result = new [:TableName:]Model();
+							result.ReadData(reader);
+							return result;
+						}
+						else
+							return null;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_DeleteBy[:IndexKeyNativeName:]";
+	
+					cmd.Parameters.AddWithValue("@[:IndexKeyNativeName:]", [:IndexKeyName:]);
+	
+					[:DatabaseName:]DbProvider.ExecuteNonQuery(cmd);
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+		public [:AutoIncrementDotNetType:] Insert([:TableName:]Model model)
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_Insert";
+
+					[#InsertParameters#]
+
+					[#InsertMethod#]
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}]]>
+			</Content>
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		public [:TableName:]Model GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]";
+	
+					IDataReader reader = null;
+					try
+					{
+						cmd.Parameters.AddWithValue("@[:PrimaryKeyNativeName:]", [:PrimaryKeyName:]);
+	
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						if (reader.Read())
+						{
+							[:TableName:]Model result = new [:TableName:]Model();
+							result.ReadData(reader);
+							return result;
+						}
+						else
+							return null;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public bool GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:], [:TableName:]Model result)
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]";
+
+					IDataReader reader = null;
+					try
+					{
+						cmd.Parameters.AddWithValue("@[:PrimaryKeyNativeName:]", [:PrimaryKeyName:]);
+
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						if (reader.Read())
+						{
+							result.ReadData(reader);
+							return true;
+						}
+						else
+							return false;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public void Update([:TableName:]Model model)
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_Update";
+	
+					[#UpdateParameters#]
+					
+					[:DatabaseName:]DbProvider.ExecuteNonQuery(cmd);
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public [:AutoIncrementDotNetType:] Insert([:TableName:]Model model)
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_Insert";
+	
+					[#InsertParameters#]
+
+					[#InsertMethod#]
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public void Delete([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:TableNativeName:]_DeleteBy[:PrimaryKeyNativeName:]";
+	
+					cmd.Parameters.AddWithValue("@[:PrimaryKeyNativeName:]", [:PrimaryKeyName:]);
+	
+					[:DatabaseName:]DbProvider.ExecuteNonQuery(cmd);
+				}
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}]]>
+			</Content>
+
+			<PatternContent Name="InsertParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="AutoIncNativeNullable"></Content>
+				<Content KeyMode="AutoIncNullableType"></Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);]]>
+				</Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[
+					if(model.[:FieldName:]!=null)
+						cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);
+]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[
+					if(model.[:FieldName:].HasValue)
+						cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:].Value);
+]]>
+				</Content>
+			</PatternContent>
+
+			<PatternContent Name="UpdateParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<Content KeyMode="AutoInrcementPrimaryKey">
+					<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);]]>
+				</Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="AutoIncNativeNullable"></Content>
+				<Content KeyMode="AutoIncNullableType"></Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);]]>
+				</Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[
+					if(model.[:FieldName:]!=null)
+						cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:]);
+]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[
+					if(model.[:FieldName:].HasValue)
+						cmd.Parameters.AddWithValue("@[:FieldNativeName:]", model.[:FieldName:].Value);
+]]>
+				</Content>
+			</PatternContent>
+
+			<PatternContent Name="InsertMethod" AppliesTo="Table" ContentKeyMode="TableAutoIncrement">
+				<Content KeyMode="NoAutoIncrement" description="There is no auto increment field in table.">
+					<![CDATA[
+					[:DatabaseName:]DbProvider.ExecuteNonQuery(cmd);]]>
+				</Content>
+				<Content KeyMode="OneAutoIncrement" description="There is one increment field in table.">
+					<![CDATA[
+					Object result = null;
+					result = [:DatabaseName:]DbProvider.ExecuteScalar(cmd);
+					if (result == null || Convert.IsDBNull(result))
+						throw new Exception("Can not get inserted auto number from db.");
+					else
+						return Convert.To[:AutoIncrementDotNetType:](result);]]>
+				</Content>
+				<Content KeyMode="MoreAutoIncrement" description="There is more increment field in table.">
+					<![CDATA[
+					[:DatabaseName:]DbProvider.ExecuteNonQuery(cmd);]]>
+				</Content>
+			</PatternContent>
+		</PatternContent>
+	</PatternContent>
+
+</pattern>

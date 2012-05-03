@@ -1,0 +1,393 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>SQLServer StoredProcedures</Name>
+	<Description>Table stored procedures</Description>
+	<Options
+		Group="StoredProcedures"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="StoredProcedures\SQLServerSpScripts.sql"
+		Language="C#"
+		/>
+	<BaseContent>
+		[#TablesAndViewsContent#]
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_GetALL') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_GetALL
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_GetALL
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting all rows from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_GetALL
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNativeName:]
+GO
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="Table" ContentKeyMode="TableForeignKey">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:LocalTableNativeName:]_GetBy[:LocalFieldNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:LocalTableNativeName:]_GetBy[:LocalFieldNativeName:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:LocalTableNativeName:]_GetBy[:LocalFieldNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting rows by specified foreign key name from [:LocalTableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:LocalTableNativeName:]_GetBy[:LocalFieldNativeName:]
+	(
+	@[:LocalFieldNativeName:] [:LocalFieldDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:LocalTableNativeName:] WHERE [[:LocalFieldNativeName:]]=@[:LocalFieldNativeName:]
+GO
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting a row by specified primary key from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+	(
+	@[:IndexKeyNativeName:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNativeName:] WHERE [[:IndexKeyNativeName:]]=@[:IndexKeyNativeName:]
+GO
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting a row by specified primary key from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_GetBy[:IndexKeyNativeName:]
+	(
+	@[:IndexKeyNativeName:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNativeName:] WHERE [[:IndexKeyNativeName:]]=@[:IndexKeyNativeName:]
+GO
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_DeleteBy[:IndexKeyNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_DeleteBy[:IndexKeyNativeName:]
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_DeleteBy[:IndexKeyNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for deleting a specific row from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_DeleteBy[:IndexKeyNativeName:]
+	(
+	@[:IndexKeyNativeName:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	DELETE FROM [:TableNativeName:] WHERE [[:IndexKeyNativeName:]]=@[:IndexKeyNativeName:]
+GO
+]]>
+			</Content>
+		</PatternContent>
+
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_Insert') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_Insert
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_Insert
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for inserting values to [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_Insert
+(
+	[#InsertParameters#]
+)
+AS
+	SET NOCOUNT ON
+
+	INSERT INTO [:TableNativeName:]
+			([#InsertColumnsName#])
+	VALUES	([#InsertColumnsValue#])
+    
+[#InsertAutoAutoIncrementResultNoPrimaryKey#]
+GO
+]]>
+			</Content>
+
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_Insert') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_Insert
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_Insert
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for inserting values to [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_Insert
+(
+	[#InsertParameters#]
+)
+AS
+	SET NOCOUNT ON
+
+	INSERT INTO [:TableNativeName:]
+			([#InsertColumnsName#])
+	VALUES	([#InsertColumnsValue#])
+    
+[#InsertAutoAutoIncrementResult#]
+GO
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_DeleteBy[:PrimaryKeyNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_DeleteBy[:PrimaryKeyNativeName:]
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_DeleteBy[:PrimaryKeyNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for deleting a specific row from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_DeleteBy[:PrimaryKeyNativeName:]
+	(
+	@[:PrimaryKeyNativeName:] [:PrimaryKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	DELETE FROM [:TableNativeName:] WHERE [[:PrimaryKeyNativeName:]]=@[:PrimaryKeyNativeName:]
+GO
+
+
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting a row by specified primary key from [:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_GetBy[:PrimaryKeyNativeName:]
+	(
+	@[:PrimaryKeyNativeName:] [:PrimaryKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNativeName:] WHERE [[:PrimaryKeyNativeName:]]=@[:PrimaryKeyNativeName:]
+GO
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNativeName:]_Update') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNativeName:]_Update
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNativeName:]_Update
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for updating 	[:TableNativeName:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNativeName:]_Update
+(
+	[#UpdateParameters#]
+)
+AS
+	SET NOCOUNT ON
+
+	UPDATE [:TableNativeName:] SET 
+[#SetParameters#]
+	WHERE [[:PrimaryKeyNativeName:]]=@[:PrimaryKeyNativeName:]
+GO
+]]>
+			</Content>
+
+			<PatternContent Name="InsertParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[,]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="AutoIncNativeNullable"></Content>
+				<Content KeyMode="AutoIncNullableType"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:]]]>
+				</Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:]]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:] = NULL]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:] = NULL]]>
+				</Content>
+			</PatternContent>
+			<PatternContent Name="UpdateParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[,]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:]]]>
+				</Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:]]]>
+				</Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:]]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:] = NULL]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[
+	@[:FieldNativeName:] [:FieldDbTypeSize:] = NULL]]>
+				</Content>
+			</PatternContent>
+			<PatternContent Name="InsertAutoAutoIncrementResult" AppliesTo="Table" ContentKeyMode="TableAutoIncrement">
+				<Content KeyMode="NoAutoIncrement"></Content>
+				<Content KeyMode="OneAutoIncrement">
+					<![CDATA[
+	SELECT  Scope_Identity() AS [[:PrimaryKeyNativeName:]];]]>
+				</Content>
+				<Content KeyMode="MoreAutoIncrement"></Content>
+			</PatternContent>
+			<PatternContent Name="InsertAutoAutoIncrementResultNoPrimaryKey" AppliesTo="Table" ContentKeyMode="TableAutoIncrement">
+				<Content KeyMode="NoAutoIncrement"></Content>
+				<Content KeyMode="OneAutoIncrement">
+					<![CDATA[
+	SELECT  Scope_Identity();]]>
+				</Content>
+				<Content KeyMode="MoreAutoIncrement"></Content>
+			</PatternContent>
+			<PatternContent Name="InsertColumnsName" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[,]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[[[:FieldNativeName:]] ]]>
+				</Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[[[:FieldNativeName:]] ]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[[[:FieldNativeName:]] ]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[[[:FieldNativeName:]] ]]>
+				</Content>
+			</PatternContent>
+			<PatternContent Name="InsertColumnsValue" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[,]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[@[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[@[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[@[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[@[:FieldNativeName:] ]]>
+				</Content>
+			</PatternContent>
+			<PatternContent Name="SetParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[,]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[
+		[[:FieldNativeName:]] = @[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NormalField">
+					<![CDATA[
+		[[:FieldNativeName:]] = @[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NativeNullable">
+					<![CDATA[
+		[[:FieldNativeName:]] = @[:FieldNativeName:] ]]>
+				</Content>
+				<Content KeyMode="NullableType">
+					<![CDATA[
+		[[:FieldNativeName:]] = @[:FieldNativeName:] ]]>
+				</Content>
+			</PatternContent>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

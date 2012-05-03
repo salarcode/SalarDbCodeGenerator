@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database BLL</Name>
+	<Description>Business logic layer pattern</Description>
+	<Options
+		Group="TableBLL"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="BLL\Principal\DatabaseBLL.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:Namespace:].Base
+Imports [:Namespace:].Model
+Imports [:Namespace:].DAL
+
+Namespace BLL
+[#TablesAndViewsContent#]
+End Namespace
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	''' <summary>
+	''' Business logic for [:TableNativeName:]
+	''' </summary>
+	Partial Public Class [:TableName:]BLL
+		Inherits BLLBase
+
+		Public Function GetAll() As List(Of [:TableName:]Model)
+			Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+				Return dal.GetAll
+			End Using
+		End Function
+
+	[#UpdatableTable#]
+	End Class
+]]>
+		</Content>
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey" description="Updatable table methods">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+[#BLLInsertMethod#]
+]]>
+			</Content>
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+	Public Function GetBy[:PrimaryKeyNativeName:](ByVal [:PrimaryKeyName:] As [:PrimaryKeyDotNetType:]) As [:TableName:]Model
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			Return dal.GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:])
+		End Using
+	End Function
+
+	Public Sub Update(ByVal model As [:TableName:]Model)
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			dal.Update(model)
+		End Using
+	End Sub
+
+[#BLLInsertMethod#]
+
+	Public Sub Delete(ByVal [:PrimaryKeyName:] As [:PrimaryKeyDotNetType:])
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			dal.Delete([:PrimaryKeyName:])
+		End Using
+	End Sub
+]]>
+			</Content>
+			
+			<PatternContent Name="BLLInsertMethod" AppliesTo="Table" ContentKeyMode="TableAutoIncrement" description="">
+				<Content KeyMode="NoAutoIncrement" description="There is no auto increment field in table.">
+					<![CDATA[
+	Public Sub Insert(ByVal model As [:TableName:]Model)
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			dal.Insert(model)
+		End Using
+	End Sub
+]]>
+				</Content>
+				<Content KeyMode="OneAutoIncrement" description="There is one increment field in table.">
+					<![CDATA[
+	Public Function Insert(ByVal model As [:TableName:]Model) As [:AutoIncrementDotNetType:]
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			return dal.Insert(model)
+		End Using
+	End Function
+]]>
+				</Content>
+				<Content KeyMode="MoreAutoIncrement" description="There is more increment field in table.">
+					<![CDATA[
+	Public Sub Insert(ByVal model As [:TableName:]Model)
+		Using dal As [:TableName:]DAL = New [:TableName:]DAL(MyBase.Transaction, MyBase.Connection)
+			dal.Insert(model)
+		End Using
+	End Sub
+]]>
+				</Content>
+			</PatternContent>
+		</PatternContent>
+	</PatternContent>
+	
+</pattern>

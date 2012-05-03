@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database BLL</Name>
+	<Description>Business logic layer pattern</Description>
+	<Options
+		Group="TableBLL"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="BLL\Principal\DatabaseBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using [:Namespace:].Base;
+using [:Namespace:].Model;
+using [:Namespace:].DAL;
+
+namespace [:Namespace:].BLL
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	/// <summary>
+	/// Business logic for [:TableNativeName:]
+	/// </summary>
+	public partial class [:TableName:]BLL : [:DatabaseName:]BLLBase
+	{
+		public List<[:TableName:]Model> GetAll()
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetAll();
+			}
+		}
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public List<[:LocalTableName:]Model> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			using ([:LocalTableName:]DAL dal = new [:LocalTableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:LocalFieldNativeName:]([:LocalFieldName:]);
+			}
+		}
+		
+		public [:ForeignTableName:]Model Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+			}
+		}]]>
+			</Content>
+			<Content KeyMode="MultiplicityMany">
+				<![CDATA[
+		public List<[:ForeignTableName:]Model> Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public List<[:TableName:]Model> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public [:TableName:]Model GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+			}
+		}
+
+		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction,Connection))
+			{
+				dal.DeleteBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+		public [:AutoIncrementDotNetType:] Insert([:TableName:]Model model)
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				[#BLLInsertMethod#]
+			}
+		}]]>
+			</Content>
+
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		public [:TableName:]Model GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:]);
+			}
+		}
+
+		public bool GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:], [:TableName:]Model result)
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:], result);
+			}
+		}
+
+		public void Update([:TableName:]Model model)
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				dal.Update(model);
+			}
+		}
+
+		public [:AutoIncrementDotNetType:] Insert([:TableName:]Model model)
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
+			{
+				[#BLLInsertMethod#]
+			}
+		}
+
+		public void Delete([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction,Connection))
+			{
+				dal.Delete([:PrimaryKeyName:]);
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="BLLInsertMethod" AppliesTo="Table" ContentKeyMode="TableAutoIncrement">
+			<Content KeyMode="NoAutoIncrement">
+				<![CDATA[
+				dal.Insert(model);]]>
+			</Content>
+
+			<Content KeyMode="OneAutoIncrement">
+				<![CDATA[
+				return dal.Insert(model);]]>
+			</Content>
+
+			<Content KeyMode="MoreAutoIncrement">
+				<![CDATA[
+				dal.Insert(model);]]>
+			</Content>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

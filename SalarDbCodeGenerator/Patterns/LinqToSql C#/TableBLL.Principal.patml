@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Principal BLL</Name>
+	<Description>Busines logic layer for tables pattern</Description>
+	<Options
+		Group="TableBLL"
+		AppliesTo="Tables_All"
+		Overwrite="True"
+		FilePath="BLL\Principal\DatabaseTablesBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].BLL
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="Tables_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	/// <summary>
+	/// Business logic for [:TableNativeName:]
+	/// </summary>
+	public partial class [:TableName:]BLL : TableBaseBLL<[:TableName:]Entity>
+	{
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityMany"></Content>
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public IQueryable<[:LocalTableName:]Entity> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			return GetAll().Where(item => item.[:LocalFieldName:] == [:LocalFieldName:]);
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public IQueryable<[:TableName:]Entity> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return GetAll().Where(item => item.[:IndexKeyNativeName:] == [:IndexKeyName:]);
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public [:TableName:]Entity GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return GetAll().Where(item => item.[:IndexKeyNativeName:] == [:IndexKeyName:]).FirstOrDefault();
+		}
+
+		public bool DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			[:TableName:]Entity item = GetBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+			if (item == null)
+				return false;
+			Delete(item);
+			return true;
+		}]]>
+			</Content>
+		</PatternContent>
+
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey"></Content>
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		public [:TableName:]Entity GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			return GetAll().Where(item => item.[:PrimaryKeyName:] == [:PrimaryKeyName:]).FirstOrDefault();
+		}
+
+		public bool DeleteBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			[:TableName:]Entity item = GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:]);
+			if (item == null)
+				return false;
+			Delete(item);
+			return true;
+		}]]>
+			</Content>
+		</PatternContent>
+	</PatternContent>
+</pattern>

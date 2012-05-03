@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].DataAnnotations;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	[DataContract]
+	[MetadataType(typeof([:TableName:]Meta))]
+	[Table("[:TableNativeName:]")]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
+	{
+		static [:TableName:]()
+		{
+			// Console, WPF, regular asp.net, don't respect the MetadataType attribute and
+			// the user has to register the provider himself.
+			TypeDescriptor.AddProviderTransparent(
+				new AssociatedMetadataTypeTypeDescriptionProvider(typeof([:TableName:]), typeof([:TableName:]Meta)), typeof([:TableName:]));
+		}
+[#FieldsProperties#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:LocalFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[ForeignKey("[:LocalFieldName:]")]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="MultiplicityMany">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:ForeignFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[ForeignKey("[:ForeignFieldName:]")]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+			<Content KeyMode="AutoInrcementPrimaryKey">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Column("[:FieldNativeName:]", Order = [:FieldOrdinalValue:])]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="AutoInrcement">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNativeNullable">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNullableType">
+				<![CDATA[
+		private [:FieldDotNetType:]? _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="PrimaryKey">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Key]
+		[Column("[:FieldNativeName:]", Order = [:FieldOrdinalValue:])]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="NormalField">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="NativeNullable">
+				<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+			<Content KeyMode="NullableType">
+				<![CDATA[
+		private [:FieldDotNetType:]? _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Column("[:FieldNativeName:]")]
+		public [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+			</Content>
+		</PatternContent>
+
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey"></Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey"></Content>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

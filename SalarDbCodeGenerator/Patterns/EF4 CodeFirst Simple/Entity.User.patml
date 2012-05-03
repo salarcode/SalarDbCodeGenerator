@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>User Entity Objects</Name>
+	<Description>User entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_Each"
+		Overwrite="False"
+		FilePath="Entities\UserEntities\[:TableName:]Entity.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+	/// <summary>
+	/// User custom methods for [:TableNativeName:]
+	/// </summary>
+	partial class [:TableName:]
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</pattern>

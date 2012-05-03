@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>AppConfig</Name>
+	<Description>Application config file</Description>
+	<Options
+		Group="ProjectFile"
+		AppliesTo="GeneralOnce"
+		Overwrite="False"
+		FilePath="app.config"
+		Language="XML"
+		/>
+	<BaseContent>
+		<![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<connectionStrings>
+		<add name="ConnectionString" connectionString="[:ConnectionString:]"/>
+	</connectionStrings>
+</configuration>
+]]>
+	</BaseContent>
+</pattern>
