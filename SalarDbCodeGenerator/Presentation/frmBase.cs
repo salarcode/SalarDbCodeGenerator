@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace SalarSoft.DbCodeGenerator.Presentation
+namespace SalarDbCodeGenerator.Presentation
 {
 	public partial class frmBase : Form
 	{
@@ -25,7 +25,7 @@ namespace SalarSoft.DbCodeGenerator.Presentation
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 262);
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-			this.Icon = global::SalarSoft.DbCodeGenerator.Properties.Resources.AppIcon;
+			this.Icon = global::SalarDbCodeGenerator.Properties.Resources.AppIcon;
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "frmBase";

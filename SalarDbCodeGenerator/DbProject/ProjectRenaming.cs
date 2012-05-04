@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	public class ProjectRenaming
 	{

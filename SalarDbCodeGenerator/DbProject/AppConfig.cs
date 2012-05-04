@@ -13,7 +13,7 @@ using Microsoft.Win32;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	public static class AppConfig
 	{

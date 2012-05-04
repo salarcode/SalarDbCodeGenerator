@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-namespace SalarSoft.DbCodeGenerator.Presentation
+namespace SalarDbCodeGenerator.Presentation
 {
 	public partial class frmAbout : frmBase
 	{
@@ -41,7 +41,7 @@ namespace SalarSoft.DbCodeGenerator.Presentation
 
 		private void frmAbout_Load(object sender, EventArgs e)
 		{
-			lblVersion.Text = SalarSoft.DbCodeGenerator.DbProject.AppConfig.AppVersionFull;
+			lblVersion.Text = SalarDbCodeGenerator.DbProject.AppConfig.AppVersionFull;
 		}
 
 		private void lnkUpdate_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

@@ -10,7 +10,7 @@ using System.Text;
 // Copytight(c) 2012, All rights reserved
 // 2010-03-09
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema
+namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 {
 	public static class PatternConsts
 	{

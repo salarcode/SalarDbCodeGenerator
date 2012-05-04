@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
 using System.Collections.Specialized;
 
-namespace SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 {
 	public abstract class ExSchemaEngine
 	{

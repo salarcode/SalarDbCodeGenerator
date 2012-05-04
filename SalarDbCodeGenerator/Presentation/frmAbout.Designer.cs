@@ -1,4 +1,4 @@
-﻿namespace SalarSoft.DbCodeGenerator.Presentation
+﻿namespace SalarDbCodeGenerator.Presentation
 {
 	partial class frmAbout
 	{

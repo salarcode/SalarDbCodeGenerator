@@ -2,7 +2,7 @@
 <PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Name>NH-CastleActiveRecord C#</Name>
 	<Description>This pattern generates full ActiveRecord models</Description>
-	<Author>SalarSoft</Author>
+	<Author>Salar Khalilzadeh</Author>
 	<LastUpdate>2010/11/25</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>

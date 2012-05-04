@@ -6,8 +6,8 @@ using System.Data;
 using System.Data.Common;
 using System.Text.RegularExpressions;
 using Oracle.DataAccess.Client;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
-using SalarSoft.DbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.DbProject;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -16,7 +16,7 @@ using SalarSoft.DbCodeGenerator.DbProject;
 // Copytight(c) 2012, All rights reserved
 // 2010-11-21
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 {
 	public class OracleSchemaEngine : ExSchemaEngine
 	{

@@ -9,12 +9,12 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using Oracle.DataAccess.Client;
-using SalarSoft.DbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.DbProject;
 using System.IO;
 using System.Data.SQLite;
-using SalarSoft.DbCodeGenerator.Properties;
+using SalarDbCodeGenerator.Properties;
 
-namespace SalarSoft.DbCodeGenerator.Presentation
+namespace SalarDbCodeGenerator.Presentation
 {
 	public partial class frmProjectDetails : frmBase
 	{

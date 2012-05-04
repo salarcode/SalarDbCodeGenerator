@@ -10,7 +10,7 @@ using System.Text;
 // Copytight(c) 2012, All rights reserved
 // 2010-5-25
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.DbSchema
+namespace SalarDbCodeGenerator.CodeGen.DbSchema
 {
 	public class SchemaDatabase
 	{

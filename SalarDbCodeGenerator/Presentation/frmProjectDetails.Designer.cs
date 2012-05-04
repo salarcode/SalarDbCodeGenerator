@@ -1,4 +1,4 @@
-﻿namespace SalarSoft.DbCodeGenerator.Presentation
+﻿namespace SalarDbCodeGenerator.Presentation
 {
 	partial class frmProjectDetails
 	{
@@ -145,8 +145,8 @@
 			// 
 			// dlgOpenPattern
 			// 
-			this.dlgOpenPattern.DefaultExt = "SalarSoft DbPattern (*.dbpat)|*.dbpat";
-			this.dlgOpenPattern.Filter = "SalarSoft DbPattern (*.dbpat)|*.dbpat";
+			this.dlgOpenPattern.DefaultExt = "SalarCodeGen DbPattern (*.dbpat)|*.dbpat";
+			this.dlgOpenPattern.Filter = "SalarCodeGen DbPattern (*.dbpat)|*.dbpat";
 			this.dlgOpenPattern.Title = "Change the Pattern";
 			// 
 			// dlgOpenSQLite
@@ -357,7 +357,7 @@
 			// 
 			// btnDelIgnoredSuffixes
 			// 
-			this.btnDelIgnoredSuffixes.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Delete16;
+			this.btnDelIgnoredSuffixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Delete16;
 			this.btnDelIgnoredSuffixes.Location = new System.Drawing.Point(211, 153);
 			this.btnDelIgnoredSuffixes.Name = "btnDelIgnoredSuffixes";
 			this.btnDelIgnoredSuffixes.Size = new System.Drawing.Size(40, 23);
@@ -367,7 +367,7 @@
 			// 
 			// btnAddIgnoredSuffixes
 			// 
-			this.btnAddIgnoredSuffixes.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Add16;
+			this.btnAddIgnoredSuffixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Add16;
 			this.btnAddIgnoredSuffixes.Location = new System.Drawing.Point(165, 153);
 			this.btnAddIgnoredSuffixes.Name = "btnAddIgnoredSuffixes";
 			this.btnAddIgnoredSuffixes.Size = new System.Drawing.Size(40, 23);
@@ -377,7 +377,7 @@
 			// 
 			// btnDelIgnoredPrefixes
 			// 
-			this.btnDelIgnoredPrefixes.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Delete16;
+			this.btnDelIgnoredPrefixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Delete16;
 			this.btnDelIgnoredPrefixes.Location = new System.Drawing.Point(57, 153);
 			this.btnDelIgnoredPrefixes.Name = "btnDelIgnoredPrefixes";
 			this.btnDelIgnoredPrefixes.Size = new System.Drawing.Size(40, 23);
@@ -387,7 +387,7 @@
 			// 
 			// btnAddIgnoredPrefixes
 			// 
-			this.btnAddIgnoredPrefixes.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Add16;
+			this.btnAddIgnoredPrefixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Add16;
 			this.btnAddIgnoredPrefixes.Location = new System.Drawing.Point(11, 153);
 			this.btnAddIgnoredPrefixes.Name = "btnAddIgnoredPrefixes";
 			this.btnAddIgnoredPrefixes.Size = new System.Drawing.Size(40, 23);
@@ -1105,7 +1105,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnSlider.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
 			this.btnSlider.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-			this.btnSlider.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.ToLeft10;
+			this.btnSlider.Image = global::SalarDbCodeGenerator.Properties.Resources.ToLeft10;
 			this.btnSlider.Location = new System.Drawing.Point(0, 203);
 			this.btnSlider.Name = "btnSlider";
 			this.btnSlider.Size = new System.Drawing.Size(10, 135);

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("SalarSoft N-Tier dotNET DbCodeGenerator")]
+[assembly: AssemblyTitle("SalarDbCodeGenerator")]
 [assembly: AssemblyDescription("Database rational code generator for .NET Framework based on pattern projects.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("SalarSoft DbCodeGenerator")]
+[assembly: AssemblyProduct("SalarDbCodeGenerator")]
 [assembly: AssemblyCopyright("Copyright © 2009-2012 All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(SalarSoft.DbCodeGenerator.DbProject.AppConfig.AppVersionFull)]
+[assembly: AssemblyVersion(SalarDbCodeGenerator.DbProject.AppConfig.AppVersionFull)]

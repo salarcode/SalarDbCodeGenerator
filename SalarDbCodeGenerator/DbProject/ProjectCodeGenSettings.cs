@@ -10,7 +10,7 @@ using System;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	[Serializable]
 	public class ProjectCodeGenSettings
@@ -40,7 +40,7 @@ namespace SalarSoft.DbCodeGenerator.DbProject
 		#region public methods
 		public ProjectCodeGenSettings()
 		{
-			DefaultNamespace = "SalarSoft.CodeGen";
+			DefaultNamespace = "SalarDb.CodeGen";
 			GenerateCustomizablePartial = true;
 			GenerateColumnsDescription = true;
 			GenerateTablesForeignKeys = true;
@@ -53,7 +53,7 @@ namespace SalarSoft.DbCodeGenerator.DbProject
 			ProjectCodeGenSettings settings = new ProjectCodeGenSettings();
 
 			settings.CodeGenPatternFile = AppConfig.AppVarApplicationPath + @"\DbProject\3Tier C#\3TierPattern.dbpat";
-			settings.DefaultNamespace = "SalarSoft.CodeGen";
+			settings.DefaultNamespace = "SalarDb.CodeGen";
 
 			return settings;
 		}

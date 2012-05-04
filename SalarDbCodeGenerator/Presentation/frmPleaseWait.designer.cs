@@ -1,4 +1,4 @@
-﻿namespace SalarSoft.DbCodeGenerator
+﻿namespace SalarDbCodeGenerator
 {
     partial class frmPleaseWait
     {

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace SalarSoft.DbCodeGenerator
+namespace SalarDbCodeGenerator
 {
 	public partial class frmPleaseWait : Form
 	{

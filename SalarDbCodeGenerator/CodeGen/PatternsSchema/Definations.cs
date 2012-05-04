@@ -10,7 +10,7 @@ using System.Text;
 // Copytight(c) 2012, All rights reserved
 // 2010-8-10
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema
+namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 {
 	public enum PatternFileAppliesTo
 	{

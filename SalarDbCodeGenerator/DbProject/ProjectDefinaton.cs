@@ -2,8 +2,8 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema;
-using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
+using SalarDbCodeGenerator.CodeGen.PatternsSchema;
+using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -12,7 +12,7 @@ using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
 // Copytight(c) 2012, All rights reserved
 // 2011-10-10
 // ====================================
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	[Serializable]
 	public class ProjectDefinaton : ICloneable

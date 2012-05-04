@@ -12,7 +12,7 @@ using System.Windows.Forms;
 // Copytight(c) 2012, All rights reserved
 // 2010-1-1
 // ====================================
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	public static class Common
 	{

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.ComponentModel;
-using SalarSoft.DbCodeGenerator.CodeGen.Generator;
-using SalarSoft.DbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.CodeGen.Generator;
+using SalarDbCodeGenerator.DbProject;
 
-namespace SalarSoft.DbCodeGenerator
+namespace SalarDbCodeGenerator
 {
 	static class Program
 	{

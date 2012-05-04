@@ -13,7 +13,7 @@ using System.IO;
 // Copytight(c) 2012, All rights reserved
 // 2010-06-09
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema
+namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 {
 	/// <summary>
 	/// Patterns project

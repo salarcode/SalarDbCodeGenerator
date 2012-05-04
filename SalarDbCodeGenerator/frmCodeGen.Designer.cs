@@ -1,4 +1,4 @@
-﻿namespace SalarSoft.DbCodeGenerator
+﻿namespace SalarDbCodeGenerator
 {
 	partial class frmCodeGen
 	{
@@ -353,7 +353,7 @@
 			// 
 			// btnRefetchDatabase
 			// 
-			this.btnRefetchDatabase.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.DbRefetch16;
+			this.btnRefetchDatabase.Image = global::SalarDbCodeGenerator.Properties.Resources.DbRefetch16;
 			this.btnRefetchDatabase.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnRefetchDatabase.Location = new System.Drawing.Point(9, 8);
 			this.btnRefetchDatabase.Name = "btnRefetchDatabase";
@@ -450,7 +450,7 @@
 			// 
 			// btnRefrshGenFiles
 			// 
-			this.btnRefrshGenFiles.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Refresh16;
+			this.btnRefrshGenFiles.Image = global::SalarDbCodeGenerator.Properties.Resources.Refresh16;
 			this.btnRefrshGenFiles.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
 			this.btnRefrshGenFiles.Location = new System.Drawing.Point(9, 8);
 			this.btnRefrshGenFiles.Name = "btnRefrshGenFiles";
@@ -617,7 +617,7 @@
 			// 
 			// btnNewProject
 			// 
-			this.btnNewProject.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.New16;
+			this.btnNewProject.Image = global::SalarDbCodeGenerator.Properties.Resources.New16;
 			this.btnNewProject.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnNewProject.Name = "btnNewProject";
 			this.btnNewProject.Size = new System.Drawing.Size(91, 22);
@@ -627,7 +627,7 @@
 			// btnOpenProject
 			// 
 			this.btnOpenProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnOpenProject.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Open16;
+			this.btnOpenProject.Image = global::SalarDbCodeGenerator.Properties.Resources.Open16;
 			this.btnOpenProject.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnOpenProject.Name = "btnOpenProject";
 			this.btnOpenProject.Size = new System.Drawing.Size(23, 22);
@@ -642,7 +642,7 @@
 			// btnSaveProject
 			// 
 			this.btnSaveProject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnSaveProject.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Save16;
+			this.btnSaveProject.Image = global::SalarDbCodeGenerator.Properties.Resources.Save16;
 			this.btnSaveProject.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnSaveProject.Name = "btnSaveProject";
 			this.btnSaveProject.Size = new System.Drawing.Size(23, 22);
@@ -652,7 +652,7 @@
 			// btnSaveAs
 			// 
 			this.btnSaveAs.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-			this.btnSaveAs.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.SaveAs16;
+			this.btnSaveAs.Image = global::SalarDbCodeGenerator.Properties.Resources.SaveAs16;
 			this.btnSaveAs.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnSaveAs.Name = "btnSaveAs";
 			this.btnSaveAs.Size = new System.Drawing.Size(23, 22);
@@ -666,7 +666,7 @@
 			// 
 			// btnProjectOptions
 			// 
-			this.btnProjectOptions.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Settings16;
+			this.btnProjectOptions.Image = global::SalarDbCodeGenerator.Properties.Resources.Settings16;
 			this.btnProjectOptions.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnProjectOptions.Name = "btnProjectOptions";
 			this.btnProjectOptions.Size = new System.Drawing.Size(69, 22);
@@ -680,7 +680,7 @@
 			// 
 			// btnStartGeneration
 			// 
-			this.btnStartGeneration.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Generate16;
+			this.btnStartGeneration.Image = global::SalarDbCodeGenerator.Properties.Resources.Generate16;
 			this.btnStartGeneration.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.btnStartGeneration.Name = "btnStartGeneration";
 			this.btnStartGeneration.Size = new System.Drawing.Size(74, 22);
@@ -717,7 +717,7 @@
 			// 
 			// mnuNew
 			// 
-			this.mnuNew.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.New16;
+			this.mnuNew.Image = global::SalarDbCodeGenerator.Properties.Resources.New16;
 			this.mnuNew.Name = "mnuNew";
 			this.mnuNew.Size = new System.Drawing.Size(143, 22);
 			this.mnuNew.Text = "New Project";
@@ -725,7 +725,7 @@
 			// 
 			// mnuOpen
 			// 
-			this.mnuOpen.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Open16;
+			this.mnuOpen.Image = global::SalarDbCodeGenerator.Properties.Resources.Open16;
 			this.mnuOpen.Name = "mnuOpen";
 			this.mnuOpen.Size = new System.Drawing.Size(143, 22);
 			this.mnuOpen.Text = "Open Project";
@@ -758,7 +758,7 @@
 			// 
 			// mnuSave
 			// 
-			this.mnuSave.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Save16;
+			this.mnuSave.Image = global::SalarDbCodeGenerator.Properties.Resources.Save16;
 			this.mnuSave.Name = "mnuSave";
 			this.mnuSave.Size = new System.Drawing.Size(143, 22);
 			this.mnuSave.Text = "Save";
@@ -766,7 +766,7 @@
 			// 
 			// mnuSaveAs
 			// 
-			this.mnuSaveAs.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.SaveAs16;
+			this.mnuSaveAs.Image = global::SalarDbCodeGenerator.Properties.Resources.SaveAs16;
 			this.mnuSaveAs.Name = "mnuSaveAs";
 			this.mnuSaveAs.Size = new System.Drawing.Size(143, 22);
 			this.mnuSaveAs.Text = "Save as...";
@@ -779,7 +779,7 @@
 			// 
 			// mnuExit
 			// 
-			this.mnuExit.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Exit16;
+			this.mnuExit.Image = global::SalarDbCodeGenerator.Properties.Resources.Exit16;
 			this.mnuExit.Name = "mnuExit";
 			this.mnuExit.ShortcutKeyDisplayString = "";
 			this.mnuExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
@@ -801,7 +801,7 @@
 			// 
 			// mnuOptions
 			// 
-			this.mnuOptions.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Settings16;
+			this.mnuOptions.Image = global::SalarDbCodeGenerator.Properties.Resources.Settings16;
 			this.mnuOptions.Name = "mnuOptions";
 			this.mnuOptions.Size = new System.Drawing.Size(165, 22);
 			this.mnuOptions.Text = "Project Settings";
@@ -814,7 +814,7 @@
 			// 
 			// mnuRefetchDatabase
 			// 
-			this.mnuRefetchDatabase.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.DbRefetch16;
+			this.mnuRefetchDatabase.Image = global::SalarDbCodeGenerator.Properties.Resources.DbRefetch16;
 			this.mnuRefetchDatabase.Name = "mnuRefetchDatabase";
 			this.mnuRefetchDatabase.Size = new System.Drawing.Size(165, 22);
 			this.mnuRefetchDatabase.Text = "Refetch Database";
@@ -827,7 +827,7 @@
 			// 
 			// mnuStartGenerate
 			// 
-			this.mnuStartGenerate.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.Generate16;
+			this.mnuStartGenerate.Image = global::SalarDbCodeGenerator.Properties.Resources.Generate16;
 			this.mnuStartGenerate.Name = "mnuStartGenerate";
 			this.mnuStartGenerate.Size = new System.Drawing.Size(165, 22);
 			this.mnuStartGenerate.Text = "Start Generate";
@@ -843,7 +843,7 @@
 			// 
 			// mnuAbout
 			// 
-			this.mnuAbout.Image = global::SalarSoft.DbCodeGenerator.Properties.Resources.About16;
+			this.mnuAbout.Image = global::SalarDbCodeGenerator.Properties.Resources.About16;
 			this.mnuAbout.Name = "mnuAbout";
 			this.mnuAbout.Size = new System.Drawing.Size(107, 22);
 			this.mnuAbout.Text = "&About";
@@ -851,20 +851,20 @@
 			// 
 			// dlgOpenPattern
 			// 
-			this.dlgOpenPattern.DefaultExt = "SalarSoft DbPattern (*.dbpat)|*.dbpat";
-			this.dlgOpenPattern.Filter = "SalarSoft DbPattern (*.dbpat)|*.dbpat";
+			this.dlgOpenPattern.DefaultExt = "SalarCodeGen Pattern (*.dbpat)|*.dbpat";
+			this.dlgOpenPattern.Filter = "SalarCodeGen DbPattern (*.dbpat)|*.dbpat";
 			this.dlgOpenPattern.Title = "Change the Pattern";
 			// 
 			// dlgOpenProject
 			// 
-			this.dlgOpenProject.DefaultExt = "SalarSoft DbProject (*.dbgen)|*.dbgen";
-			this.dlgOpenProject.Filter = "SalarSoft DbProject (*.dbgen)|*.dbgen";
+			this.dlgOpenProject.DefaultExt = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
+			this.dlgOpenProject.Filter = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
 			this.dlgOpenProject.Title = "Open Project";
 			// 
 			// dlgSaveProject
 			// 
-			this.dlgSaveProject.DefaultExt = "SalarSoft DbProject (*.dbgen)|*.dbgen";
-			this.dlgSaveProject.Filter = "SalarSoft DbProject (*.dbgen)|*.dbgen";
+			this.dlgSaveProject.DefaultExt = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
+			this.dlgSaveProject.Filter = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
 			this.dlgSaveProject.Title = "Save Project";
 			// 
 			// txtCodeEditor

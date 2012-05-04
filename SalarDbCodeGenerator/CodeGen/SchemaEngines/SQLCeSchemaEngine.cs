@@ -5,10 +5,10 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlServerCe;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
-using SalarSoft.DbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.DbProject;
 
-namespace SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 {
 	public class SQLCeSchemaEngine : ExSchemaEngine
 	{

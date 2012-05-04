@@ -6,7 +6,7 @@ using System.Text;
 using System.Collections.Specialized;
 using System.Data.Common;
 using System.Data.SqlClient;
-using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
+using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 using System.Data.SQLite;
 using Oracle.DataAccess.Client;
 
@@ -18,7 +18,7 @@ using Oracle.DataAccess.Client;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator.DbProject
+namespace SalarDbCodeGenerator.DbProject
 {
 	[Serializable]
 	public class ProjectDbSettions
@@ -54,7 +54,7 @@ namespace SalarSoft.DbCodeGenerator.DbProject
 		#region public methods
 		public ProjectDbSettions()
 		{
-			DatabaseProvider = DbCodeGenerator.DatabaseProvider.SQLServer;
+			DatabaseProvider = DatabaseProvider.SQLServer;
 			DatabaseName = "Master";
 			ServerName = "(local)";
 			UseSqlAuthentication = false;

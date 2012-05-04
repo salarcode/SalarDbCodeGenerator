@@ -2,7 +2,7 @@
 <PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Name>3Tier C#</Name>
 	<Description>Default pattern. This pattern generates 3-tier object relational database model.</Description>
-	<Author>SalarSoft</Author>
+	<Author>Salar Khalilzadeh</Author>
 	<LastUpdate>2010/04/09</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>

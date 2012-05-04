@@ -10,7 +10,7 @@ using System.Text;
 // Copytight(c) 2012, All rights reserved
 // 2011-12-10
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.Generator
+namespace SalarDbCodeGenerator.CodeGen.Generator
 {
 	public class ReplaceConsts
 	{

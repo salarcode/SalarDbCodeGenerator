@@ -2,11 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
-using SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema;
-using SalarSoft.DbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.CodeGen.PatternsSchema;
+using SalarDbCodeGenerator.DbProject;
 using System.Collections.Generic;
-using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
+using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -15,7 +15,7 @@ using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
 // Copytight(c) 2012, All rights reserved
 // 2012-2-13
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.Generator
+namespace SalarDbCodeGenerator.CodeGen.Generator
 {
 	public class GeneratorEngine
 	{

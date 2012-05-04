@@ -11,7 +11,7 @@ using System.Xml.Linq;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema
+namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 {
 	/// <summary>
 	/// The pattern content in pattern file

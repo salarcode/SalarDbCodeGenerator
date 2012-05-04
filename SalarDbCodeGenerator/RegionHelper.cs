@@ -10,7 +10,7 @@ using System.Text;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator
+namespace SalarDbCodeGenerator
 {
 	class RegionHelper
 	{

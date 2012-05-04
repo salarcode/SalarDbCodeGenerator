@@ -4,9 +4,9 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
 
-namespace SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 {
 	public class SQLiteSchemaEngine : ExSchemaEngine
 	{

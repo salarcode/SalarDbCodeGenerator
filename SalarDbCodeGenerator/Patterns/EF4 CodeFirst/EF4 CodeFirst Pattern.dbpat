@@ -2,7 +2,7 @@
 <PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 	<Name>EntityFramework 4.2 CodeFirst</Name>
 	<Description>Code-First objects for Entity Framework 4.1/4.2</Description>
-	<Author>SalarSoft</Author>
+	<Author>Salar Khalilzadeh</Author>
 	<LastUpdate>2012/01/29</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>

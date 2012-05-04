@@ -5,14 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
-using SalarSoft.DbCodeGenerator.CodeGen.Generator;
-using SalarSoft.DbCodeGenerator.CodeGen.PatternsSchema;
-using SalarSoft.DbCodeGenerator.DbProject;
-using SalarSoft.DbCodeGenerator.Presentation;
+using SalarDbCodeGenerator.CodeGen.SchemaEngines;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.CodeGen.Generator;
+using SalarDbCodeGenerator.CodeGen.PatternsSchema;
+using SalarDbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.Presentation;
 
-namespace SalarSoft.DbCodeGenerator
+namespace SalarDbCodeGenerator
 {
 	public partial class frmCodeGen : Form
 	{
@@ -93,7 +93,7 @@ namespace SalarSoft.DbCodeGenerator
 		public frmCodeGen()
 		{
 			InitializeComponent();
-			this.Icon = global::SalarSoft.DbCodeGenerator.Properties.Resources.AppIcon;
+			this.Icon = global::SalarDbCodeGenerator.Properties.Resources.AppIcon;
 		}
 
 		#region local variables
@@ -166,7 +166,6 @@ namespace SalarSoft.DbCodeGenerator
 
 		void ProccessCommandLine()
 		{
-			// C:\Users\SalarSoft\Desktop\SampleDbTest\SampleDbProj.dbgen
 			if (Program.ProgramArgs != null && Program.ProgramArgs.Length > 0)
 			{
 				if (File.Exists(Program.ProgramArgs[0]))
@@ -877,7 +876,7 @@ namespace SalarSoft.DbCodeGenerator
 		}
 		private void frmCodeGen_Shown(object sender, EventArgs e)
 		{
-			this.Text += " " + SalarSoft.DbCodeGenerator.DbProject.AppConfig.AppVersionFull;
+			this.Text += " " + SalarDbCodeGenerator.DbProject.AppConfig.AppVersionFull;
 			_canFireEvents = true;
 
 			try

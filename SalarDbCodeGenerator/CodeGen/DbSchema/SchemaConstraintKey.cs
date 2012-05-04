@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SalarSoft.DbCodeGenerator.CodeGen.DbSchema
+namespace SalarDbCodeGenerator.CodeGen.DbSchema
 {
 	/// <summary>
 	/// Constraint key details for table

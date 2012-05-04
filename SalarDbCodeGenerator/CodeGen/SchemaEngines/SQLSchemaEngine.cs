@@ -4,7 +4,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
-using SalarSoft.DbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.CodeGen.DbSchema;
 using System.Text.RegularExpressions;
 
 // ====================================
@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 // Copytight(c) 2012, All rights reserved
 // 2009-9-30
 // ====================================
-namespace SalarSoft.DbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 {
 	public class SQLSchemaEngine : ExSchemaEngine
 	{
