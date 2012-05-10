@@ -4,6 +4,7 @@ using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
+using System.Linq;
 using SalarDbCodeGenerator.CodeGen.DbSchema;
 
 namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
@@ -194,7 +195,10 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					// it is time to read foreign keys!
 					// foreign keys are requested?
 					if (ReadTablesForeignKeys)
+					{
 						ApplyTablesForeignKeys(result);
+						ApplyDetectedOneToOneRelation(result);
+					}
 
 				}
 			}
@@ -204,6 +208,57 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 			}
 			return result;
 		}
+
+		/// <summary>
+		/// Detecting one-to-one relation
+		/// </summary>
+		private void ApplyDetectedOneToOneRelation(List<SchemaTable> tables)
+		{
+			foreach (var table in tables)
+				foreach (var fkey in table.ForeignKeys)
+				{
+					// already ont-to-?
+					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
+						continue;
+
+					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
+						continue;
+					bool localIsUnique = false;
+					bool foreignIsUnique = false;
+
+					if (fkey.ForeignColumn.PrimaryKey)
+						foreignIsUnique = true;
+					else
+					{
+						var fkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.ForeignColumnName);
+						if (fkeyC != null)
+						{
+							if (fkeyC.IsUnique)
+								foreignIsUnique = true;
+						}
+					}
+
+					if (fkey.LocalColumn.PrimaryKey)
+						localIsUnique = true;
+					else
+					{
+						var lkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.LocalColumnName);
+						if (lkeyC != null)
+						{
+							if (lkeyC.IsUnique)
+								localIsUnique = true;
+						}
+					}
+
+					// both are unique??
+					if (localIsUnique && foreignIsUnique)
+					{
+						// this is one-to-one
+						fkey.Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One;
+					}
+				}
+		}
+
 
 		/// <summary>
 		/// Reads views schema from database

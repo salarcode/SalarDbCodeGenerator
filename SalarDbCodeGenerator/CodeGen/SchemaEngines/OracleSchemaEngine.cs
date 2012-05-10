@@ -297,6 +297,8 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				// Normalize the constraints keys
 				NormalizeTablesConstraintKeys(result, dbVersion);
 
+				if (ReadTablesForeignKeys)
+					ApplyDetectedOneToOneRelation(result);
 			}
 			return result;
 		}
@@ -665,6 +667,57 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				}
 			}
 		}
+
+		/// <summary>
+		/// Detecting one-to-one relation
+		/// </summary>
+		private void ApplyDetectedOneToOneRelation(List<SchemaTable> tables)
+		{
+			foreach (var table in tables)
+				foreach (var fkey in table.ForeignKeys)
+				{
+					// already ont-to-?
+					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
+						continue;
+
+					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
+						continue;
+					bool localIsUnique = false;
+					bool foreignIsUnique = false;
+
+					if (fkey.ForeignColumn.PrimaryKey)
+						foreignIsUnique = true;
+					else
+					{
+						var fkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.ForeignColumnName);
+						if (fkeyC != null)
+						{
+							if (fkeyC.IsUnique)
+								foreignIsUnique = true;
+						}
+					}
+
+					if (fkey.LocalColumn.PrimaryKey)
+						localIsUnique = true;
+					else
+					{
+						var lkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.LocalColumnName);
+						if (lkeyC != null)
+						{
+							if (lkeyC.IsUnique)
+								localIsUnique = true;
+						}
+					}
+
+					// both are unique??
+					if (localIsUnique && foreignIsUnique)
+					{
+						// this is one-to-one
+						fkey.Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One;
+					}
+				}
+		}
+
 
 		/// <summary>
 		/// Removes duplicate table constraints, PK > UK > IX

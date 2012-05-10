@@ -104,6 +104,11 @@ namespace [:Namespace:]
 			return ObjectStateManager.ChangeObjectState(entity, entityState);
 		}
 
+		/// <summary>
+		/// Custom model creating
+		/// </summary>
+		partial void CustomModelCreating(DbModelBuilder modelBuilder);
+
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			// Tell Code First to ignore PluralizingTableName convention
@@ -116,6 +121,8 @@ namespace [:Namespace:]
 			// detecting changes of model so that database can be recreated. This feature is turned on
 			// by default, which i have disabled it here.
 			modelBuilder.Conventions.Remove<IncludeMetadataConvention>();
+
+			CustomModelCreating(modelBuilder);
 
 			base.OnModelCreating(modelBuilder);
 		}

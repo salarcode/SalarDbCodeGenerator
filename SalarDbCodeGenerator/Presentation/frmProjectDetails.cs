@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlServerCe;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -700,6 +701,20 @@ namespace SalarDbCodeGenerator.Presentation
 			{
 				PleaseWait.Abort();
 				MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
+
+		private void lnkOracleConnStr_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+		{
+			try
+			{
+				Process.Start(new ProcessStartInfo("http://www.connectionstrings.com/oracle#p12")
+								{
+									UseShellExecute = true,
+								});
+			}
+			catch (Exception)
+			{
 			}
 		}
 	}

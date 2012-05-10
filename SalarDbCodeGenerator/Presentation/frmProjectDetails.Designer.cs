@@ -126,6 +126,7 @@
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.btnSlider = new System.Windows.Forms.Button();
 			this.dlgOpenSqlCe = new System.Windows.Forms.OpenFileDialog();
+			this.lnkOracleConnStr = new System.Windows.Forms.LinkLabel();
 			this.groupBox4.SuspendLayout();
 			this.gpGenOptions.SuspendLayout();
 			this.groupBox3.SuspendLayout();
@@ -861,6 +862,7 @@
 			// 
 			// tabOracle
 			// 
+			this.tabOracle.Controls.Add(this.lnkOracleConnStr);
 			this.tabOracle.Controls.Add(this.chkOrclUserRoleSYSDBA);
 			this.tabOracle.Controls.Add(this.btnOrclTestConnection);
 			this.tabOracle.Controls.Add(this.label18);
@@ -1119,6 +1121,17 @@
 			this.dlgOpenSqlCe.Filter = "SqlCE 4 Database (*.sdf;*.*)|*.sdf;*.*";
 			this.dlgOpenSqlCe.Title = "Select SqlCE 4 database";
 			// 
+			// lnkOracleConnStr
+			// 
+			this.lnkOracleConnStr.AutoSize = true;
+			this.lnkOracleConnStr.Location = new System.Drawing.Point(308, 9);
+			this.lnkOracleConnStr.Name = "lnkOracleConnStr";
+			this.lnkOracleConnStr.Size = new System.Drawing.Size(13, 13);
+			this.lnkOracleConnStr.TabIndex = 15;
+			this.lnkOracleConnStr.TabStop = true;
+			this.lnkOracleConnStr.Text = "?";
+			this.lnkOracleConnStr.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkOracleConnStr_LinkClicked);
+			// 
 			// frmProjectDetails
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1256,5 +1269,6 @@
 		private System.Windows.Forms.Label label25;
 		private System.Windows.Forms.TextBox txtSqlCePassword;
 		private System.Windows.Forms.OpenFileDialog dlgOpenSqlCe;
+		private System.Windows.Forms.LinkLabel lnkOracleConnStr;
 	}
 }

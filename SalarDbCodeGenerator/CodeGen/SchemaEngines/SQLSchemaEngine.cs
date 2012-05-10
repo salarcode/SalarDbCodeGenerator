@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
@@ -211,9 +212,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				// Normalize the constraints keys
 				NormalizeTablesConstraintKeys(result, sqlVersion);
 
+				if (ReadTablesForeignKeys)
+					ApplyDetectedOneToOneRelation(result);
+
 			}
 			return result;
 		}
+
 
 		/// <summary>
 		/// Reads views schema from database
@@ -394,6 +399,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						}
 
 						if (keysData.Rows.Count > 0)
+						{
 							foreach (DataRow keysDataRow in keysData.Rows)
 							{
 								var foreignKeyTableName = keysDataRow["FKTable"].ToString();
@@ -408,13 +414,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 								{
 									// foreign key many end
 									var manyMultiplicityKey_Local = new SchemaForeignKey()
-									{
-										ForeignKeyName = keysDataRow["ForeignKey"].ToString(),
-										LocalColumnName = keysDataRow["PKColumnName"].ToString(),
-										ForeignColumnName = keysDataRow["FKColumnName"].ToString(),
-										ForeignTableName = keysDataRow["FKTable"].ToString(),
-										Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.Many
-									};
+																		{
+																			ForeignKeyName = keysDataRow["ForeignKey"].ToString(),
+																			LocalColumnName = keysDataRow["PKColumnName"].ToString(),
+																			ForeignColumnName = keysDataRow["FKColumnName"].ToString(),
+																			ForeignTableName = keysDataRow["FKTable"].ToString(),
+																			Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.Many
+																		};
 
 									// check if it is already there
 									if (primaryKeyTable.ForeignKeys.Exists(x => x.ForeignKeyName == manyMultiplicityKey_Local.ForeignKeyName))
@@ -457,13 +463,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 								{
 									// foreign key many end
 									var oneMultiplicityKey_Foreign = new SchemaForeignKey()
-									{
-										ForeignKeyName = keysDataRow["ForeignKey"].ToString(),
-										LocalColumnName = keysDataRow["FKColumnName"].ToString(),
-										ForeignColumnName = keysDataRow["PKColumnName"].ToString(),
-										ForeignTableName = keysDataRow["PKTable"].ToString(),
-										Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One
-									};
+																		{
+																			ForeignKeyName = keysDataRow["ForeignKey"].ToString(),
+																			LocalColumnName = keysDataRow["FKColumnName"].ToString(),
+																			ForeignColumnName = keysDataRow["PKColumnName"].ToString(),
+																			ForeignTableName = keysDataRow["PKTable"].ToString(),
+																			Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One
+																		};
 
 									// check if it is already there
 									if (foreignKeyTable.ForeignKeys.Exists(x => x.ForeignKeyName == oneMultiplicityKey_Foreign.ForeignKeyName))
@@ -500,8 +506,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 										oneMultiplicityKey_Foreign.ForeignColumn = null;
 									}
 								}
-
 							}// all foreign keys
+
+							// look for one-to-one situation!
+
+
+
+						}
 					}
 				}
 			}
@@ -598,6 +609,56 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					}
 				}
 			}
+		}
+
+		/// <summary>
+		/// Detecting one-to-one relation
+		/// </summary>
+		private void ApplyDetectedOneToOneRelation(List<SchemaTable> tables)
+		{
+			foreach (var table in tables)
+				foreach (var fkey in table.ForeignKeys)
+				{
+					// already ont-to-?
+					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
+						continue;
+
+					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
+						continue;
+					bool localIsUnique = false;
+					bool foreignIsUnique = false;
+
+					if (fkey.ForeignColumn.PrimaryKey)
+						foreignIsUnique = true;
+					else
+					{
+						var fkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.ForeignColumnName);
+						if (fkeyC != null)
+						{
+							if (fkeyC.IsUnique)
+								foreignIsUnique = true;
+						}
+					}
+
+					if (fkey.LocalColumn.PrimaryKey)
+						localIsUnique = true;
+					else
+					{
+						var lkeyC = table.ConstraintKeys.FirstOrDefault(x => x.KeyColumnName == fkey.LocalColumnName);
+						if (lkeyC != null)
+						{
+							if (lkeyC.IsUnique)
+								localIsUnique = true;
+						}
+					}
+
+					// both are unique??
+					if (localIsUnique && foreignIsUnique)
+					{
+						// this is one-to-one
+						fkey.Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One;
+					}
+				}
 		}
 
 		/// <summary>
