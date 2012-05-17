@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.ComponentModel.DataAnnotations;
+using [:Namespace:].Base;
+ 
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	public partial class [:TableName:] : BaseModel
+	{
+[#FieldsProperties#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+			<Content KeyMode="AutoInrcementPrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoInrcement">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="PrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NormalField">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

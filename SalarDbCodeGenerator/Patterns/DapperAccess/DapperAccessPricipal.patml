@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Entity DapperAccess Object</Name>
+	<Description>Entity DapperAccess objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="Entities\Principal\DapperAccessPricipal.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+ 
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	public partial class [:TableName:]Dap : BaseDap
+	{
+		public [:TableName:]Dap()
+		{
+		}
+
+		public [:TableName:]Dap(IDbConnection connection)
+		{
+			Connection = connection;
+		}
+
+		public [:TableName:]Dap(IDbTransaction transaction)
+		{
+			Transaction = transaction;
+			Connection = transaction.Connection;
+		}
+
+		public [:TableName:]Dap(BaseDap dapProvider)
+		{
+			Transaction = dapProvider.Transaction;
+			Connection = dapProvider.Connection;
+		}
+
+		public List<[:TableName:]> GetTop(int count)
+		{
+			return Query<[:TableName:]>(string.Format("SELECT TOP {0} * FROM {1}", count, SqlTableName)).ToList();
+		}
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+[#SqlCommands#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		public List<[:LocalTableName:]> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:LocalFieldNativeName:]=[:ProviderSPParamPrefix:][:LocalFieldNativeName:]", new { [:LocalFieldNativeName:] = [:LocalFieldName:] }).ToList();
+ 		}
+		
+		public [:ForeignTableName:] Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+			}
+		}]]>
+			</Content>
+			<Content KeyMode="MultiplicityMany">
+				<![CDATA[
+		public List<[:ForeignTableName:]> Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+			}
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public List<[:TableName:]> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNativeName:]=[:ProviderSPParamPrefix:][:IndexKeyNativeName:]", new { [:IndexKeyNativeName:] = [:IndexKeyName:] }).ToList();
+ 		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
+			<Content KeyMode="NormalKey">
+				<![CDATA[
+		public [:TableName:]Model GetBy[:IndexKeyNativeName:]Index([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNativeName:]=[:ProviderSPParamPrefix:][:IndexKeyNativeName:]", new { [:IndexKeyNativeName:] = [:IndexKeyName:] }).ToList();
+		}
+
+		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			Execute(SqlDeleteCommand, new { [:IndexKeyNativeName:] = [:IndexKeyName:] });
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable"></Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+		public void Insert([:TableName:] model)
+		{
+			Execute(SqlInsertCommand, model);
+		}
+
+		public void Insert(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlInsertCommand, models);
+		}]]>
+			</Content>
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		public [:TableName:] GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:PrimaryKeyNativeName:]=[:ProviderSPParamPrefix:][:PrimaryKeyNativeName:]", new { [:PrimaryKeyNativeName:] = [:PrimaryKeyName:] }).FirstOrDefault();
+		}
+
+		public void Insert([:TableName:] model)
+		{
+			Execute(SqlInsertCommand, model);
+		}
+
+		public void Insert(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlInsertCommand, models);
+		}
+
+		public void Delete([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			Execute(SqlDeleteCommand, new { [:PrimaryKeyNativeName:] = [:PrimaryKeyName:] });
+		}
+
+		public void Update([:TableName:] model)
+		{
+			Execute(SqlUpdateCommand, model);
+		}
+
+		public void Update(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlUpdateCommand, models);
+		}]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="SqlCommands" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
+			<Content KeyMode="ReadOnlyTable">
+				<![CDATA[
+		protected const string SqlTableName = "[:TableNativeName:]";
+		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;]]>
+			</Content>
+			<Content KeyMode="NoPrimaryKey">
+				<![CDATA[
+		protected const string SqlTableName = "[:TableNativeName:]";
+		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		protected const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " [#InsertParameters#] ";
+		]]>
+			</Content>
+			<Content KeyMode="WithPrimaryKey">
+				<![CDATA[
+		protected const string SqlTableName = "[:TableNativeName:]";
+		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		protected const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " ([#InsertParametersName#]) VALUES ([#InsertParametersValue#]) ";
+		protected const string SqlUpdateCommand = "UPDATE " + SqlTableName + " SET [#UpdateParameters#] WHERE [#PrimaryKeyParameters#]";
+		protected const string SqlDeleteCommand = "DELETE FROM " + SqlTableName + " WHERE [#PrimaryKeyParameters#]";
+		]]>
+			</Content>
+
+			<PatternContent Name="InsertParametersName" AppliesTo="Columns" ContentKeyMode="OneReplacement">
+				<ItemsSeperator>
+					<![CDATA[ , ]]>
+				</ItemsSeperator>
+				<Content KeyMode="TheReplacement"><![CDATA[[:FieldNativeName:]]]></Content>
+			</PatternContent>
+
+			<PatternContent Name="InsertParametersValue" AppliesTo="Columns" ContentKeyMode="OneReplacement">
+				<ItemsSeperator>
+					<![CDATA[ , ]]>
+				</ItemsSeperator>
+				<Content KeyMode="TheReplacement"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+			</PatternContent>
+
+			<PatternContent Name="UpdateParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[ , ]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNativeNullable"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNullableType"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]>
+				</Content>
+				<Content KeyMode="NormalField"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="NativeNullable"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="NullableType"><![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+			</PatternContent>
+
+			<PatternContent Name="PrimaryKeyParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+				<ItemsSeperator>
+					<![CDATA[ AND ]]>
+				</ItemsSeperator>
+				<Content KeyMode="AutoInrcementPrimaryKey">
+					<![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]>
+				</Content>
+				<Content KeyMode="AutoInrcement"></Content>
+				<Content KeyMode="AutoIncNativeNullable"></Content>
+				<Content KeyMode="AutoIncNullableType"></Content>
+				<Content KeyMode="PrimaryKey">
+					<![CDATA[[:FieldNativeName:]=[:ProviderSPParamPrefix:][:FieldNativeName:]]]>
+				</Content>
+				<Content KeyMode="NormalField"></Content>
+				<Content KeyMode="NativeNullable"></Content>
+				<Content KeyMode="NullableType"></Content>
+			</PatternContent>
+		</PatternContent>
+	</PatternContent>
+</pattern>
