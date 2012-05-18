@@ -190,18 +190,32 @@ namespace [:Namespace:].Entities
 		]]>
 			</Content>
 
-			<PatternContent Name="InsertParametersName" AppliesTo="Columns" ContentKeyMode="OneReplacement">
+			<PatternContent Name="InsertParametersName" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
 				<ItemsSeperator>
 					<![CDATA[ , ]]>
 				</ItemsSeperator>
-				<Content KeyMode="TheReplacement"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNativeNullable"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNullableType"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="PrimaryKey"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="NormalField"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="NativeNullable"><![CDATA[[:FieldNativeName:]]]></Content>
+				<Content KeyMode="NullableType"><![CDATA[[:FieldNativeName:]]]></Content>
 			</PatternContent>
 
-			<PatternContent Name="InsertParametersValue" AppliesTo="Columns" ContentKeyMode="OneReplacement">
+			<PatternContent Name="InsertParametersValue" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
 				<ItemsSeperator>
 					<![CDATA[ , ]]>
 				</ItemsSeperator>
-				<Content KeyMode="TheReplacement"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoInrcementPrimaryKey"></Content>
+				<Content KeyMode="AutoInrcement"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="AutoIncNullableType"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="PrimaryKey"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="NormalField"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="NativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
+				<Content KeyMode="NullableType"><![CDATA[[:ProviderSPParamPrefix:][:FieldNativeName:]]]></Content>
 			</PatternContent>
 
 			<PatternContent Name="UpdateParameters" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
