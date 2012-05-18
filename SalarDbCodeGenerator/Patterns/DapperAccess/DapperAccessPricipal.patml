@@ -170,23 +170,23 @@ namespace [:Namespace:].Entities
 		<PatternContent Name="SqlCommands" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
 			<Content KeyMode="ReadOnlyTable">
 				<![CDATA[
-		protected const string SqlTableName = "[:TableNativeName:]";
-		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;]]>
+		public const string SqlTableName = "[:TableNativeName:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;]]>
 			</Content>
 			<Content KeyMode="NoPrimaryKey">
 				<![CDATA[
-		protected const string SqlTableName = "[:TableNativeName:]";
-		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
-		protected const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " [#InsertParameters#] ";
+		public const string SqlTableName = "[:TableNativeName:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " [#InsertParameters#] ";
 		]]>
 			</Content>
 			<Content KeyMode="WithPrimaryKey">
 				<![CDATA[
-		protected const string SqlTableName = "[:TableNativeName:]";
-		protected const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
-		protected const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " ([#InsertParametersName#]) VALUES ([#InsertParametersValue#]) ";
-		protected const string SqlUpdateCommand = "UPDATE " + SqlTableName + " SET [#UpdateParameters#] WHERE [#PrimaryKeyParameters#]";
-		protected const string SqlDeleteCommand = "DELETE FROM " + SqlTableName + " WHERE [#PrimaryKeyParameters#]";
+		public const string SqlTableName = "[:TableNativeName:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " ([#InsertParametersName#]) VALUES ([#InsertParametersValue#]) ";
+		public const string SqlUpdateCommand = "UPDATE " + SqlTableName + " SET [#UpdateParameters#] WHERE [#PrimaryKeyParameters#]";
+		public const string SqlDeleteCommand = "DELETE FROM " + SqlTableName + " WHERE [#PrimaryKeyParameters#]";
 		]]>
 			</Content>
 
