@@ -107,9 +107,9 @@ namespace [:Namespace:].Entities
 		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
 			<Content KeyMode="NormalKey">
 				<![CDATA[
-		public [:TableName:]Model GetBy[:IndexKeyNativeName:]Index([:IndexKeyDotNetType:] [:IndexKeyName:])
+		public [:TableName:] GetBy[:IndexKeyNativeName:]Index([:IndexKeyDotNetType:] [:IndexKeyName:])
 		{
-			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNativeName:]=[:ProviderSPParamPrefix:][:IndexKeyNativeName:]", new { [:IndexKeyNativeName:] = [:IndexKeyName:] }).ToList();
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNativeName:]=[:ProviderSPParamPrefix:][:IndexKeyNativeName:]", new { [:IndexKeyNativeName:] = [:IndexKeyName:] }).FirstOrDefault();
 		}
 
 		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
