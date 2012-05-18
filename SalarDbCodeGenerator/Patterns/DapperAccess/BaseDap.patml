@@ -48,12 +48,14 @@ namespace [:Namespace:].Base
 
 		public IDbTransaction BeginTransaction()
 		{
-			return _connection.BeginTransaction();
+			_transaction = _connection.BeginTransaction();
+			return _transaction;
 		}
 
 		public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
 		{
-			return _connection.BeginTransaction(isolationLevel);
+			_transaction = _connection.BeginTransaction(isolationLevel);
+			return _transaction;
 		}
 
 		/// <summary>
