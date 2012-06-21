@@ -6,6 +6,7 @@ using System.Text;
 using System.Collections.Specialized;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Xml.Serialization;
 using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 using System.Data.SQLite;
 using Oracle.DataAccess.Client;
@@ -25,7 +26,8 @@ namespace SalarDbCodeGenerator.DbProject
 	{
 		public struct SelectedTablesType
 		{
-			public string Name;
+ 			public string Name;
+
 			public bool Selected;
 		}
 		#region properties

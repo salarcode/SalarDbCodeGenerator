@@ -34,12 +34,6 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		private OracleConnection _dbConnection;
 		#endregion
 
-		#region field variables
-		#endregion
-
-		#region properties
-		#endregion
-
 		#region public methods
 		public OracleSchemaEngine(DbConnection dbConnection)
 		{
@@ -676,7 +670,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
-					// already ont-to-?
+					// already one-to-(?)
 					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
 						continue;
 
@@ -923,7 +917,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		}
 
 		/// <summary>
-		/// Detecting sql server version
+		/// Detecting oracle version
 		/// </summary>
 		private OracleServerVersions DetectVersion(DbConnection conn)
 		{

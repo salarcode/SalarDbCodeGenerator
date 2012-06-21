@@ -46,12 +46,6 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		private SqlConnection _dbConnection;
 		#endregion
 
-		#region field variables
-		#endregion
-
-		#region properties
-		#endregion
-
 		#region public methods
 		public SQLSchemaEngine(DbConnection dbConnection)
 		{

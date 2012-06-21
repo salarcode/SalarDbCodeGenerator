@@ -8,13 +8,13 @@ using System.Text;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2011-12-10
+// 2012-05-24
 // ====================================
 namespace SalarDbCodeGenerator.CodeGen.Generator
 {
 	public class ReplaceConsts
 	{
-		public const string NewLine = "\r\n";
+		public const string NewLine = "\n";
 		public const string PatternContentReplacer = "[#{0}#]";
 		public const string PatternContentInnerContents = "[:InnerContent:]";
 		public const string ConnectionString = "[:ConnectionString:]";

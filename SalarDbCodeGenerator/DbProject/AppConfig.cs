@@ -11,7 +11,7 @@ using Microsoft.Win32;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
+// 2012-05-24
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {
@@ -20,7 +20,6 @@ namespace SalarDbCodeGenerator.DbProject
 		public const string AppVersionMain = "1.1";
 		public const string AppVersionFull = "1.1.2012.0518";
 		public const string AppGeneratorSign = "Salar dotNET DbCodeGenerator";
-		public readonly static string NewLine = Environment.NewLine;
 
 		public const string AppVarApplicationPath = "%APP%";
 		public const string AppVarProjectPath = "%PROJECT%";

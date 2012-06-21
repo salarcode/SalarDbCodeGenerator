@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -16,13 +17,6 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
     [Serializable]
     public class PatternFile
     {
-        #region local variables
-        #endregion
-
-        #region field variables
-        #endregion
-
-
         #region properties
         /// <summary>
         /// Pattern name
@@ -62,6 +56,7 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
         /// <summary>
         /// All tables/views should apply to one file?
         /// </summary>
+        [XmlIgnore]
         public bool AppliesToAllToOne
         {
             get
@@ -80,7 +75,6 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
         /// Pattern content
         /// </summary>
         public string BaseContent { get; set; }
-
 
         /// <summary>
         /// Pertial contents
@@ -148,9 +142,6 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
         }
 
 
-        #endregion
-
-        #region protected methods
         #endregion
 
         #region private methods

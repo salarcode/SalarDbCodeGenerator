@@ -682,7 +682,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 
 				if (!string.IsNullOrEmpty(foreignContent))
 					// add it to the result
-					result += AppConfig.NewLine + foreignContent;
+					result += ReplaceConsts.NewLine + foreignContent;
 			}
 
 			// the result
@@ -816,7 +816,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 				indexContent = ReplaceExIgnoreCase(indexContent, ReplaceConsts.IndexKeyNativeName, indexKey.KeyColumn.FieldName);
 
 				// add it to the result
-				result += AppConfig.NewLine + indexContent;
+				result += ReplaceConsts.NewLine + indexContent;
 			}
 
 			return result;

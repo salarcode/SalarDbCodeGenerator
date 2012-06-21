@@ -15,9 +15,6 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		private SQLiteConnection _dbConnection;
 		#endregion
 
-		#region properties
-		#endregion
-
 		#region public methods
 		public SQLiteSchemaEngine(DbConnection dbConnection)
 		{

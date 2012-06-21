@@ -52,9 +52,6 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		private List<SqlCeDataTypes> _sqlCeDataTypes;
 		#endregion
 
-		#region properties
-		#endregion
-
 		#region public methods
 		public SQLCeSchemaEngine(DbConnection dbConnection)
 		{
@@ -230,8 +227,8 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						List<SchemaColumn> columns = ReadColumns(tableName);
 
 						// read columns description
-						//if (ReadColumnsDescription)
-						//	ApplyColumnsDescription(tableName, columns);
+						if (ReadColumnsDescription)
+							ApplyColumnsDescription(tableName, columns);
 
 						// new table
 						SchemaTable dbTable = new SchemaTable(tableName, columns);
@@ -352,7 +349,55 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// </summary>
 		private void ApplyColumnsDescription(string tableName, List<SchemaColumn> columns)
 		{
-			throw new NotSupportedException("SqlCE doesn't have description field for columns.");
+			// there is no column!
+			if (columns.Count == 0)
+				return;
+
+			// command format
+			string descriptionSql = "SELECT * FROM __ExtendedProperties where ParentName=N'{0}' ";
+
+			try
+			{
+				using (var adapter = new SqlCeDataAdapter(String.Format(descriptionSql, tableName), (SqlCeConnection)_dbConnection))
+				{
+					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+
+					// description data table
+					using (var descriptionData = new DataTable())
+					{
+						// Jjust to avoid stupid "Failed to enable constraints" error!
+						using (var tempDs = new DataSet())
+						{
+							// Avoiding stupid "Failed to enable constraints" error!
+							tempDs.EnforceConstraints = false;
+							tempDs.Tables.Add(descriptionData);
+
+							// Get from db
+							adapter.Fill(descriptionData);
+						}
+
+						// if something found
+						if (descriptionData.Rows.Count > 0)
+							// find description if there is any
+							foreach (var column in columns)
+							{
+								// filter row to find the column
+								descriptionData.DefaultView.RowFilter = " ObjectName='" + column.FieldName + "' ";
+								if (descriptionData.DefaultView.Count > 0)
+								{
+									// description found!
+									column.UserDescription = descriptionData.DefaultView[0].Row["Value"].ToString();
+								}
+							}
+					}
+				}
+			}
+			catch
+			{
+				// Seems this database doesn't have __ExtendedProperties table
+				// don't stop here!
+				// TODO: inform user
+			}
 		}
 
 		/// <summary>
