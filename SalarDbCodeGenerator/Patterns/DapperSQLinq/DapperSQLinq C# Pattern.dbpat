@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<Name>DapperAccess C#</Name>
-	<Description>Default pattern. This pattern generates 3-tier object relational database model.</Description>
+	<Name>DapperAccess+SQLinq C#</Name>
+	<Description></Description>
 	<Author>Salar Khalilzadeh</Author>
-	<LastUpdate>2012/05/15</LastUpdate>
+	<LastUpdate>2012/06/26</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>
 	<SupportedDatabases>All</SupportedDatabases>
@@ -99,6 +99,9 @@
 		</PatternsListType>
 		<PatternsListType>
 			<Path>DapperSqlMapper.patml</Path>
+		</PatternsListType>
+		<PatternsListType>
+			<Path>DapperDynamicParameters.patml</Path>
 		</PatternsListType>
 		<PatternsListType>
 			<Path>DapperEntityPrincipal.patml</Path>

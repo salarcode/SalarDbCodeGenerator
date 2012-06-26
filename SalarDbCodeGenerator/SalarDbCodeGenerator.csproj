@@ -287,6 +287,39 @@
     <None Include="Patterns\DapperAccess\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Patterns\DapperSQLinq\AppConfig.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\BaseDap.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\BaseModel.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperDynamicParameters.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperAccessPricipal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperAccessUser.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperEntityPrincipal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperEntityUser.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperSQLinq C# Pattern.dbpat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\DapperSqlMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperSQLinq\VS2010ClassProject.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Patterns\EF4 CodeFirst MVVM\AppConfig.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
