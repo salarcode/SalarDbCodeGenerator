@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pattern>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViews_All"
+		Overwrite="True"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].DataAnnotations;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Content KeyMode="TheReplacement">
+			<![CDATA[
+	[DataContract]
+	[MetadataType(typeof([:TableName:]Meta))]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
+	{
+		static [:TableName:]()
+		{
+			// Console, WPF, regular asp.net, don't respect the MetadataType attribute
+			TypeDescriptor.AddProviderTransparent(
+				new AssociatedMetadataTypeTypeDescriptionProvider(typeof([:TableName:]), typeof([:TableName:]Meta)), typeof([:TableName:]));
+		}
+[#FieldsProperties#]
+[#ForeignKeys#]
+	}
+]]>
+		</Content>
+
+		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
+			<Content KeyMode="MultiplicityOne">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:LocalFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="MultiplicityMany">
+				<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNativeName:] - [:ForeignFieldNativeName:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNativeName:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+
+		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
+			<Content KeyMode="AutoInrcementPrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoInrcement">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="AutoIncNullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="PrimaryKey">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NormalField">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NativeNullable">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+			</Content>
+			<Content KeyMode="NullableType">
+				<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+			</Content>
+		</PatternContent>
+
+	</PatternContent>
+</pattern>

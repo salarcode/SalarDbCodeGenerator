@@ -83,6 +83,16 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 		FieldKeyReadType,
 
 		/// <summary>
+		/// None, Integer, Decimal
+		/// </summary>
+		FieldNumericType,
+
+		/// <summary>
+		/// None, String
+		/// </summary>
+		FieldStringType,
+
+		/// <summary>
 		/// NoAutoIncrement, OneAutoIncrement, MoreAutoIncrement
 		/// </summary>
 		TableAutoIncrement,

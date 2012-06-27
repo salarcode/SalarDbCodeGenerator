@@ -566,6 +566,36 @@
     <None Include="Patterns\NHibernate ActiveRecord\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Patterns\NHibernate MapByCode\AppConfig.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\BaseEntity.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\DbMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\DbMapper.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\DbSession.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\Entity.DataAnnotations.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\Entity.Principal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\Entity.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\NHibernate MapByCode.dbpat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode\VS2010ClassProject.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -8,7 +8,7 @@ using System.Text;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2010-03-09
+// 2012-06-24
 // ====================================
 namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 {
@@ -59,6 +59,15 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 			public const string FieldKeyReadType_Nullable_Convert = "Nullable_Convert";
 			public const string FieldKeyReadType_Nullable_Cast = "Nullable_Cast";
 
+			// FieldNumericType
+			public const string FieldNumericType_None = "NumericType_None";
+			public const string FieldNumericType_Integer = "NumericType_Integer";
+			public const string FieldNumericType_Decimal = "NumericType_Decimal";
+
+			// FieldStringType
+			public const string FieldStringType_None = "StringType_None";
+			public const string FieldStringType_String = "StringType_String";
+
 			// TableAutoIncrement
 			public const string TableAutoIncrement_NoAutoIncrement = "NoAutoIncrement";
 			public const string TableAutoIncrement_OneAutoIncrement = "OneAutoIncrement";
@@ -71,12 +80,12 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 		}
 		public static class PtternGroups
 		{
-			public const string Base = "Base";
-			public const string Common = "Common";
-			public const string TableBLL = "TableBLL";
-			public const string TableDAL = "TableDAL";
-			public const string TableModel = "TableModel";
-			public const string StoredProcedure = "StoredProcedures";
+			//public const string Base = "Base";
+			//public const string Common = "Common";
+			//public const string TableBLL = "TableBLL";
+			//public const string TableDAL = "TableDAL";
+			//public const string TableModel = "TableModel";
+			//public const string StoredProcedure = "StoredProcedures";
 			public const string ProjectFile = "ProjectFile";
 
 		}

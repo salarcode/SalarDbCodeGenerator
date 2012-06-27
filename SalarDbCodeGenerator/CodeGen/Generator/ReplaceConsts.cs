@@ -67,6 +67,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 		public const string IndexKeyDotNetType = "[:IndexKeyDotNetType:]";
 		public const string IndexKeyName = "[:IndexKeyName:]";
 		public const string IndexKeyNativeName = "[:IndexKeyNativeName:]";
+		public const string IndexName = "[:IndexName:]";
 
 		// Project
 		public const string ProjectItemPath = "[:ProjectItemPath:]";

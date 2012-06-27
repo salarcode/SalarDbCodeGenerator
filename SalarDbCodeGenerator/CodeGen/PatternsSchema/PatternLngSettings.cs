@@ -27,8 +27,13 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 		public bool KeywordsCaseSensitive { get; set; }
 		public List<string> LanguageKeywords { get; set; }
 
+		public List<string> ReferenceDataTypes { get; set; }
+		public List<string> NullableDataTypes { get; set; }
+
 		public PatternLngSettings()
 		{
+			ReferenceDataTypes = new List<string>();
+			NullableDataTypes = new List<string>();
 			LanguageKeywords = new List<string>();
 			LanguageKeywordsSuppress = "{0}_{1}";
 			VoidDataType = "void";

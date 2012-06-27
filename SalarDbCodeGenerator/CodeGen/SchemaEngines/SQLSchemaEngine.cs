@@ -427,6 +427,8 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 									// to the list
 									primaryKeyTable.ForeignKeys.Add(manyMultiplicityKey_Local);
 
+
+
 									// apply local column
 									SchemaColumn localColumn = primaryKeyTable.FindColumn(manyMultiplicityKey_Local.LocalColumnName);
 									manyMultiplicityKey_Local.LocalColumn = localColumn;

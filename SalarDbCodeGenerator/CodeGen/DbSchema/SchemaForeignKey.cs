@@ -63,7 +63,6 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 			set
 			{
 				_foreignTableName = value;
-				ForeignTableNameAsField = value;
 			}
 		}
 

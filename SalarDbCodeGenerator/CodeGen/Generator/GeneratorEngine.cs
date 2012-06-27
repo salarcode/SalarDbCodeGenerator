@@ -56,7 +56,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 			SchemaTable[] schemaViews = _database.SchemaViews.ToArray();
 
 			// all the pattern files
-			_patternProject.PatternFiles.AsParallel().ForAll(patFile =>
+			_patternProject.PatternFiles.ForEach(patFile =>
 			{
 				PatternFile patternFile = new PatternFile();
 
@@ -459,19 +459,21 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 		/// <summary>
 		/// Applies project settings to fields name
 		/// </summary>
-		private string NaturalizeNames_ForeignTableName(SchemaTable localTable, string localRenameTableName, string name, bool renamed)
+		private string NaturalizeNames_ForeignTableName(SchemaTable localTable, string localRenameTableName, string name, bool renamed, bool isInLocalTable)
 		{
 			// suppress pattern
 			string replacement = _patternProject.LanguageSettings.LanguageKeywordsSuppress;
 
 			// replacement is required!
 			bool replacementRequired = false;
+			int allowed = 0;
+			//allowed = renamed ? 1 : 0;
 
 			// member names can not be same as their enclosing type
 			if (localTable.TableName == name || localRenameTableName == name)
+			{
 				replacementRequired = true;
-
-			int allowed = renamed ? 0 : 1;
+			}
 
 			// changed!
 			if (!replacementRequired && localTable.ForeignKeys.Count(x => x.ForeignTableNameAsField == name) > allowed)
@@ -483,7 +485,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 				// the field name is a keyword!
 				string newName = string.Format(replacement, name, "");
 				int count = 0;
-				do
+ 				do
 				{
 					if (count > 0)
 					{
@@ -491,7 +493,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 					}
 
 					count++;
-				} while (localTable.ForeignKeys.Count(x => x.ForeignTableNameAsField == newName) > 0);
+				} while (localTable.ForeignKeys.Any(x => x.ForeignTableNameAsField == newName));
 
 				return newName;
 			}
@@ -720,13 +722,17 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 			// foreign table name
 			string dotNetForeignTableName = NaturalizeNames_TableViewName(foreignKey.ForeignTable);
 
-			bool renamed = false;
-			if (dotNetForeignTableName != foreignKey.ForeignTable.TableName)
-				renamed = true;
+			// is table name renamed
+			bool renamed = dotNetForeignTableName != foreignKey.ForeignTable.TableName;
 
-			string dotNetForeignTableNameAsField = NaturalizeNames_ForeignTableName(table, dotNetLocalTableName, dotNetForeignTableName, renamed);
+			string dotNetForeignTableNameAsField;
+			if (String.IsNullOrEmpty(foreignKey.ForeignTableNameAsField))
+			{
+				dotNetForeignTableNameAsField = NaturalizeNames_ForeignTableName(table, dotNetLocalTableName, dotNetForeignTableName, renamed, false);
+				foreignKey.ForeignTableNameAsField = dotNetForeignTableNameAsField;
+			}
+			dotNetForeignTableNameAsField = foreignKey.ForeignTableNameAsField;
 			foreignKey.ForeignTableName = dotNetForeignTableName;
-			foreignKey.ForeignTableNameAsField = dotNetForeignTableNameAsField;
 
 			// foreign table
 			content = ReplaceExIgnoreCase(content, ReplaceConsts.ForeignTableName, dotNetForeignTableName);
@@ -814,6 +820,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 				indexContent = ReplaceExIgnoreCase(indexContent, ReplaceConsts.IndexKeyDotNetType, NaturalizeNames_DotNetType(indexKey.KeyColumn.DotNetTypeClean));
 				indexContent = ReplaceExIgnoreCase(indexContent, ReplaceConsts.IndexKeyName, dotNetFieldName);
 				indexContent = ReplaceExIgnoreCase(indexContent, ReplaceConsts.IndexKeyNativeName, indexKey.KeyColumn.FieldName);
+				indexContent = ReplaceExIgnoreCase(indexContent, ReplaceConsts.IndexName, indexKey.KeyName);
 
 				// add it to the result
 				result += ReplaceConsts.NewLine + indexContent;
@@ -919,6 +926,15 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 
 				switch (pattern.AppliesTo)
 				{
+					case PatternContentAppliesTo.General:
+						// general part
+						appliedContent = PatternContentAppliesTo_ProjectFileGeneral(pattern);
+
+						// replace the content
+						baseContent = baseContent.Replace(replacementName, appliedContent);
+
+						break;
+
 					case PatternContentAppliesTo.TablesAndViews_All:
 						appliedContent = "";
 						index = 0;
