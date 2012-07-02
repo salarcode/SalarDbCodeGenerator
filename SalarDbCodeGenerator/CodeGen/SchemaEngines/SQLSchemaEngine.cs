@@ -299,10 +299,18 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						};
 
 						// Columns which needs additional fetch
-						FillColumnAdditionalInfo(column, columnsDbTypeTable, tableName, columnName);
+						var succeed = FillColumnAdditionalInfo(column, columnsDbTypeTable, tableName, columnName);
 
-						// Add to result
-						result.Add(column);
+						// if additional info readin is failed, don't add it to the list
+						if (succeed)
+						{
+							// Add to result
+							result.Add(column);
+						}
+						else
+						{
+							// TODO: inform the user
+						}
 					}
 				}
 			}
@@ -312,15 +320,31 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Column additional information
 		/// </summary>
-		private void FillColumnAdditionalInfo(SchemaColumn toSetColumn, DataTable columnsDbTypeTable, string tableName, string columnName)
+		private bool FillColumnAdditionalInfo(SchemaColumn toSetColumn, DataTable columnsDbTypeTable, string tableName, string columnName)
 		{
 			DataRow[] addInfo = columnsDbTypeTable.Select(String.Format("TABLE_NAME='{0}' AND COLUMN_NAME='{1}'",
 											  tableName,
 											  columnName));
 			if (addInfo.Length == 0)
 			{
+				// can't find because of invalid name?? try this
+				for (int i = 0; i < columnsDbTypeTable.Rows.Count; i++)
+				{
+					var row = columnsDbTypeTable.Rows[i];
+					if (row["TABLE_NAME"].ToString() == tableName &&
+						row["COLUMN_NAME"].ToString() == columnName)
+					{
+						addInfo = new DataRow[] { row };
+						break;
+					}
+				}
+			}
+
+			if (addInfo.Length == 0)
+			{
 				// sometimes when a column has invalid name for string format this happends!
-				return;
+				// Still no chance
+				return false;
 			}
 
 			object tempInfo = null;
@@ -357,6 +381,8 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 			if (tempInfo != null && tempInfo != DBNull.Value)
 				toSetColumn.NumericPrecision = Convert.ToInt32(tempInfo);
 			else toSetColumn.NumericPrecision = -1;
+
+			return true;
 		}
 
 		/// <summary>
@@ -742,7 +768,6 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads columns description from SQLServer
 		/// </summary>
-		/// <param name="columns"></param>
 		private void ApplyColumnsDescription(string tableName, List<SchemaColumn> columns)
 		{
 			// there is no column!
@@ -750,19 +775,19 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				return;
 
 			// command format
-			string descriptionSql = "SELECT * FROM ::fn_listextendedproperty('MS_Description', 'user', 'dbo', 'table', N'{0}', 'column', NULL) AS func ";
+			const string descriptionSql = "SELECT * FROM ::fn_listextendedproperty('MS_Description', 'user', 'dbo', 'table', N'{0}', 'column', NULL) AS func ";
 
 			try
 			{
-				using (SqlDataAdapter adapter = new SqlDataAdapter(String.Format(descriptionSql, tableName), (SqlConnection)_dbConnection))
+				using (var adapter = new SqlDataAdapter(String.Format(descriptionSql, tableName), (SqlConnection)_dbConnection))
 				{
 					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
 					// description data table
-					using (DataTable descriptionData = new DataTable())
+					using (var descriptionData = new DataTable())
 					{
 						// Jjust to avoid stupid "Failed to enable constraints" error!
-						using (DataSet tempDs = new DataSet())
+						using (var tempDs = new DataSet())
 						{
 							// Avoiding stupid "Failed to enable constraints" error!
 							tempDs.EnforceConstraints = false;

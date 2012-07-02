@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
+using System.Data.SQLite;
 using System.Data.SqlServerCe;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 using Oracle.DataAccess.Client;
 using SalarDbCodeGenerator.DbProject;
-using System.IO;
-using System.Data.SQLite;
 using SalarDbCodeGenerator.Properties;
 
 namespace SalarDbCodeGenerator.Presentation
@@ -435,8 +435,9 @@ namespace SalarDbCodeGenerator.Presentation
 			}
 		}
 
-		bool TestOracleConnection(string connStr)
+		bool TestOracleConnection(string connStr, out string message)
 		{
+			message = "";
 			try
 			{
 				using (var conn = new OracleConnection(connStr))
@@ -445,8 +446,9 @@ namespace SalarDbCodeGenerator.Presentation
 				}
 				return true;
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
+				message = Common.GetExceptionTechMessage(ex, null);
 				return false;
 			}
 		}
@@ -634,7 +636,8 @@ namespace SalarDbCodeGenerator.Presentation
 
 
 			PleaseWait.ShowPleaseWait("Testing connection to Oracle database", true, false);
-			if (TestOracleConnection(connStr))
+			string message;
+			if (TestOracleConnection(connStr, out message))
 			{
 				PleaseWait.Abort();
 				MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -642,7 +645,7 @@ namespace SalarDbCodeGenerator.Presentation
 			else
 			{
 				PleaseWait.Abort();
-				MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show("Connection test failed!\n" + message, "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 
 		}

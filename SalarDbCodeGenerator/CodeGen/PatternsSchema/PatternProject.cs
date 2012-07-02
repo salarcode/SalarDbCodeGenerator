@@ -86,5 +86,17 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 	public struct PatternsListType
 	{
 		public string Path { get; set; }
+		
+		[XmlAttribute]
+		public PatternsListItemAction Action { get; set; }
+		[XmlAttribute]
+		public string ActionCopyPath { get; set; }
 	}
+
+	public enum PatternsListItemAction
+	{
+		Generate,
+		Copy
+	}
+
 }

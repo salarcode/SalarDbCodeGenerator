@@ -262,8 +262,12 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					// View columns
 					List<SchemaColumn> columns = ReadColumns(tableName);
 
+					// read columns description
+					if (ReadColumnsDescription)
+						ApplyColumnsDescription(tableName, columns);
+					
 					// new table
-					SchemaTable dbTable = new SchemaTable(tableName, columns);
+					var dbTable = new SchemaTable(tableName, columns);
 
 					// table schema
 					dbTable.TableSchemaName = row["OWNER"].ToString();
@@ -798,10 +802,58 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads columns description from SQLServer
 		/// </summary>
-		/// <param name="columns"></param>
 		private void ApplyColumnsDescription(string tableName, List<SchemaColumn> columns)
 		{
-			throw new NotSupportedException("Oracle doesn't have description field for columns.");
+			//throw new NotSupportedException("Oracle doesn't have description field for columns.");
+			// there is no column!
+			if (columns.Count == 0)
+				return;
+
+			// command format
+			const string descriptionSql = "SELECT comments, column_name FROM user_col_comments WHERE table_name = '{0}'";
+
+			try
+			{
+				using (var adapter = new OracleDataAdapter(String.Format(descriptionSql, tableName), (OracleConnection)_dbConnection))
+				{
+					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+
+					// description data table
+					using (var descriptionData = new DataTable())
+					{
+						// Jjust to avoid stupid "Failed to enable constraints" error!
+						using (var tempDs = new DataSet())
+						{
+							// Avoiding stupid "Failed to enable constraints" error!
+							tempDs.EnforceConstraints = false;
+							tempDs.Tables.Add(descriptionData);
+
+							// Get from db
+							adapter.Fill(descriptionData);
+						}
+
+						// if something found
+						if (descriptionData.Rows.Count > 0)
+							// find description if there is any
+							foreach (var column in columns)
+							{
+								// filter row to find the column
+								descriptionData.DefaultView.RowFilter = " column_name='" + column.FieldName + "' ";
+								if (descriptionData.DefaultView.Count > 0)
+								{
+									// description found!
+									column.UserDescription = descriptionData.DefaultView[0].Row["comments"].ToString();
+								}
+							}
+					}
+				}
+			}
+			catch
+			{
+				// Seems this version of SQL Server doesn't support this query!
+				// don't stop here!
+				// TODO: inform user
+			}
 		}
 
 		/// <summary>

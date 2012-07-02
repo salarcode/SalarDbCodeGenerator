@@ -163,5 +163,20 @@ namespace SalarDbCodeGenerator.DbProject
 			return result.ToString();
 		}
 
+		public static string GetExceptionTechMessage(Exception ex, string seperator = null)
+		{
+			if (string.IsNullOrEmpty(seperator))
+				seperator = "\r\n";
+			string result = ex.GetType().Name + " -> " + ex.Message;
+			Exception inner = ex.InnerException;
+
+			while (inner != null)
+			{
+				result += seperator + inner.GetType().Name + " -> " + inner.Message;
+				inner = inner.InnerException;
+			}
+			return result;
+		}
+
 	}
 }

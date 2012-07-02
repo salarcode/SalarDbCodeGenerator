@@ -29,8 +29,9 @@ namespace SalarDbCodeGenerator
 			//frm.ShowDialog();
 			//////RenamingTest();
 			//return;
+			Application.ThreadException += Application_ThreadException_Debug;
 #else
-			Application.ThreadException += Application_ThreadException;
+			Application.ThreadException += Application_ThreadException_Release;
 #endif
 			PleaseWait.ShowPleaseWait("Initializing Systems", true, false);
 			Application.Run(new frmCodeGen());
@@ -40,22 +41,27 @@ namespace SalarDbCodeGenerator
 		private static void RenamingTest()
 		{
 			ProjectRenaming ren = new ProjectRenaming();
-			ren.RemoveUnderline.Enabled = false ;
+			ren.RemoveUnderline.Enabled = false;
 			ren.UnderlineWordDelimiter = true;
 			ren.CaseChange.Enabled = true;
 			ren.CaseChangeMode = ProjectRenaming.CaseChangeType.Capitalize;
 
 			var test = "This_WAS__a_testMan!";
-			var result = GeneratorEngine.NaturalizeNames_RenamingOptions(test, ren,true,true);
+			var result = GeneratorEngine.NaturalizeNames_RenamingOptions(test, ren, true, true);
 
 			MessageBox.Show("Source is: " + test + "\nResult is:   " + result, "Renaming");
 		}
 #endif
 
-		static void Application_ThreadException(object sender, System.Threading.ThreadExceptionEventArgs e)
+		static void Application_ThreadException_Debug(object sender, System.Threading.ThreadExceptionEventArgs e)
 		{
 			PleaseWait.Abort();
-			MessageBox.Show("Error, something went wrong!\n" + e.Exception.Message, "Unhandled error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+			MessageBox.Show("Error, something went wrong!\n" + e.Exception.ToString(), "Unhandled error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
+		}
+		static void Application_ThreadException_Release(object sender, System.Threading.ThreadExceptionEventArgs e)
+		{
+			PleaseWait.Abort();
+			MessageBox.Show("Error, something went wrong!\n" + Common.GetExceptionTechMessage(e.Exception), "Unhandled error", MessageBoxButtons.OK, MessageBoxIcon.Stop);
 		}
 	}
 }

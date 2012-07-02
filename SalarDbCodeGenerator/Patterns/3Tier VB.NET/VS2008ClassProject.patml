@@ -6,7 +6,7 @@
 		Group="ProjectFile"
 		AppliesTo="ProjectFile"
 		Overwrite="False"
-		FilePath="[:ProjectName:].vbproj"
+		FilePath="[:ProjectName:]-VS2008.vbproj"
 		Language="XML"
 		/>
 	<BaseContent>

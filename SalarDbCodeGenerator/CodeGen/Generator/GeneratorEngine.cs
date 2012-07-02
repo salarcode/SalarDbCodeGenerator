@@ -58,7 +58,10 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 			// all the pattern files
 			_patternProject.PatternFiles.ForEach(patFile =>
 			{
-				PatternFile patternFile = new PatternFile();
+				if (patFile.Action == PatternsListItemAction.Copy)
+					return;
+
+				var patternFile = new PatternFile();
 
 				// load the pattern file
 				patternFile.LoadFromFile(Path.Combine(patternsFolder, patFile.Path));
@@ -113,27 +116,43 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 			});
 
 			_patternProject.PatternFiles.AsParallel().ForAll(patFile =>
-			{
-				PatternFile patternFile = new PatternFile();
-				patternFile.LoadFromFile(Path.Combine(patternsFolder, patFile.Path));
-
-				switch (patternFile.Group)
+			                                                 	{
+			                                                 		var patFilePath = Path.Combine(patternsFolder, patFile.Path);
+				if (patFile.Action == PatternsListItemAction.Copy)
 				{
-					// only for project files
-					case PatternConsts.PtternGroups.ProjectFile:
+					var copyPath = _projectDef.GenerationPath;
+					var copyPathDir = Common.ProjectPathMakeAbsolute(copyPath, _projectDef.ProjectFileName);
+					if(!string.IsNullOrEmpty(patFile.ActionCopyPath))
+					{
+						copyPath = Path.Combine(copyPathDir, patFile.ActionCopyPath);
+					}
 
-						PatternFile common = new PatternFile();
-						common.LoadFromFile(Path.Combine(patternsFolder, patFile.Path));
+					try
+					{
+						Directory.CreateDirectory(copyPathDir);
+						File.Copy(patFilePath, copyPath, true);
+					}
+					catch (Exception)
+					{
+						// TODO: log failed
+					}
+					return;
+				}
 
-						// Check if pattern is selected by user
-						if (!_projectDef.CodeGenSettings.SelectedPatterns.Contains(patternFile.Name))
-						{
-							//continue;
-							return;
-						}
-						else
-							PatternFileAppliesTo_ProjectFileApplier(common);
-						break;
+				var patternFile = new PatternFile();
+				patternFile.LoadFromFile(patFilePath);
+
+				// only for project files
+				if (patternFile.Group == PatternConsts.PtternGroups.ProjectFile)
+				{
+					//PatternFile common = new PatternFile();
+					//common.LoadFromFile(Path.Combine(patternsFolder, patFile.Path));
+
+					// Check if pattern is selected by user
+					if (_projectDef.CodeGenSettings.SelectedPatterns.Contains(patternFile.Name))
+					{
+						PatternFileAppliesTo_ProjectFileApplier(patternFile);
+					}
 				}
 			});
 		}
@@ -485,7 +504,7 @@ namespace SalarDbCodeGenerator.CodeGen.Generator
 				// the field name is a keyword!
 				string newName = string.Format(replacement, name, "");
 				int count = 0;
- 				do
+				do
 				{
 					if (count > 0)
 					{

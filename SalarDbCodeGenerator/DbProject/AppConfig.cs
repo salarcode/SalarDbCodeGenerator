@@ -18,7 +18,7 @@ namespace SalarDbCodeGenerator.DbProject
 	public static class AppConfig
 	{
 		public const string AppVersionMain = "1.1";
-		public const string AppVersionFull = "1.1.2012.0518";
+		public const string AppVersionFull = "1.1.2012.0630";
 		public const string AppGeneratorSign = "Salar dotNET DbCodeGenerator";
 
 		public const string AppVarApplicationPath = "%APP%";
