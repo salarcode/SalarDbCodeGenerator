@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Database Model</Name>
 	<Description>Business model pattern</Description>
 	<Options
 		Group="TableModel"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="Model\Principal\DatabaseModel.vb"
 		Language="VB.NET"
 		/>
@@ -19,12 +19,12 @@ End Namespace
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 	''' <summary>
-	''' Business Model for [:TableNativeName:]
+	''' Business Model for [:TableNameDb:]
 	''' </summary>
 	Partial Public Class [:TableName:]Model
 		Inherits ModelBase
@@ -65,60 +65,60 @@ End Namespace
 #End Region
 	End Class
 ]]>
-		</Content>
-		
-		<PatternContent Name="OrdinalFields" AppliesTo="Columns" ContentKeyMode="OneReplacement">
-			<Content KeyMode="TheReplacement">
-				<![CDATA[
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="OrdinalFields" ConditionKeyMode="FieldsAll">
+				<Condition Key="TheReplacement">
+					<![CDATA[
 			Public [:FieldName:] As Int32]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="OrdinalFieldsReader" AppliesTo="Columns" ContentKeyMode="OneReplacement">
-			<Content KeyMode="TheReplacement">
-				<![CDATA[
-				[:FieldName:] = dataReader.GetOrdinal("[:FieldNativeName:]")]]>
-			</Content>
-		</PatternContent>
+			<PatternContent Name="OrdinalFieldsReader" ConditionKeyMode="FieldsAll">
+				<Condition Key="TheReplacement">
+					<![CDATA[
+				[:FieldName:] = dataReader.GetOrdinal("[:FieldNameDb:]")]]>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="FieldsVariables" AppliesTo="Columns" ContentKeyMode="FieldKeyType" description="Table Fields Variables">
-			<Content KeyMode="AutoInrcementPrimaryKey">
-				<![CDATA[
+			<PatternContent Name="FieldsVariables" ConditionKeyMode="FieldKeyType" description="Table Fields Variables">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="AutoInrcement">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="AutoIncNativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="AutoIncNullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="PrimaryKey">
-				<![CDATA[
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="NormalField">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="NativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
-			</Content>
-			<Content KeyMode="NullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]?]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType" description="Table fields properties">
-			<Content KeyMode="AutoInrcementPrimaryKey">
-				<![CDATA[
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType" description="Table fields properties">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -130,9 +130,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="AutoInrcement">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -144,9 +144,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="AutoIncNativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -158,9 +158,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="AutoIncNullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -172,9 +172,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="PrimaryKey">
-				<![CDATA[
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -186,9 +186,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="NormalField">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -200,9 +200,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="NativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -214,9 +214,9 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-			<Content KeyMode="NullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
 		''' <summary>
 		''' [:FieldDescription:]
 		''' </summary>
@@ -228,96 +228,96 @@ End Namespace
 				Me._[:FieldName:] = value
 			End Set
 		End Property]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="ReadFieldsFromDataReader" AppliesTo="Columns" ContentKeyMode="FieldKeyReadType" description="Reading fields from database">
-			<Content KeyMode="NormalField_Convert">
-				<![CDATA[
-			_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader("[:FieldNativeName:]"))]]>
-			</Content>
-			<Content KeyMode="NormalField_Cast">
-				<![CDATA[
-			_[:FieldName:] = (dataReader("[:FieldNativeName:]"))]]>
-			</Content>
-			<Content KeyMode="Nullable_Convert">
-				<![CDATA[
-			If (dataReader.IsDBNull(dataReader.GetOrdinal("[:FieldNativeName:]")) = false) Then
-				_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader("[:FieldNativeName:]"))
+			<PatternContent Name="ReadFieldsFromDataReader" ConditionKeyMode="FieldKeyReadType" description="Reading fields from database">
+				<Condition Key="NormalField_Convert">
+					<![CDATA[
+			_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader("[:FieldNameDb:]"))]]>
+				</Condition>
+				<Condition Key="NormalField_Cast">
+					<![CDATA[
+			_[:FieldName:] = (dataReader("[:FieldNameDb:]"))]]>
+				</Condition>
+				<Condition Key="Nullable_Convert">
+					<![CDATA[
+			If (dataReader.IsDBNull(dataReader.GetOrdinal("[:FieldNameDb:]")) = false) Then
+				_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader("[:FieldNameDb:]"))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-			<Content KeyMode="Nullable_Cast">
-				<![CDATA[
-			If (dataReader.IsDBNull(dataReader.GetOrdinal("[:FieldNativeName:]")) = false) Then
-				_[:FieldName:] = (dataReader("[:FieldNativeName:]"))
+				</Condition>
+				<Condition Key="Nullable_Cast">
+					<![CDATA[
+			If (dataReader.IsDBNull(dataReader.GetOrdinal("[:FieldNameDb:]")) = false) Then
+				_[:FieldName:] = (dataReader("[:FieldNameDb:]"))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="ReadFieldsFromOrdinalCache" AppliesTo="Columns" ContentKeyMode="FieldKeyReadType">
-			<Content KeyMode="NormalField_Convert">
-				<![CDATA[
+			<PatternContent Name="ReadFieldsFromOrdinalCache" ConditionKeyMode="FieldKeyReadType">
+				<Condition Key="NormalField_Convert">
+					<![CDATA[
 			_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader(fields.[:FieldName:]))]]>
-			</Content>
-			<Content KeyMode="NormalField_Cast">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField_Cast">
+					<![CDATA[
 			_[:FieldName:] = (dataReader(fields.[:FieldName:]))]]>
-			</Content>
-			<Content KeyMode="Nullable_Convert">
-				<![CDATA[
+				</Condition>
+				<Condition Key="Nullable_Convert">
+					<![CDATA[
 			If (dataReader.IsDBNull(fields.[:FieldName:]) = false) Then
 				_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader(fields.[:FieldName:]))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-			<Content KeyMode="Nullable_Cast">
-				<![CDATA[
+				</Condition>
+				<Condition Key="Nullable_Cast">
+					<![CDATA[
 			If (dataReader.IsDBNull(fields.[:FieldName:]) = false) Then
 				_[:FieldName:] = (dataReader(fields.[:FieldName:]))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="ReadFieldsOrdinalFromDataReader" AppliesTo="Columns" ContentKeyMode="FieldKeyReadType" description="Reading fields from database">
-			<Content KeyMode="NormalField_Convert">
-				<![CDATA[
+			<PatternContent Name="ReadFieldsOrdinalFromDataReader" ConditionKeyMode="FieldKeyReadType" description="Reading fields from database">
+				<Condition Key="NormalField_Convert">
+					<![CDATA[
 			_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader([:FieldOrdinalValue:]))]]>
-			</Content>
-			<Content KeyMode="NormalField_Cast">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField_Cast">
+					<![CDATA[
 			_[:FieldName:] = ([:FieldDotNetType:])(dataReader([:FieldOrdinalValue:]))]]>
-			</Content>
-			<Content KeyMode="Nullable_Convert">
-				<![CDATA[
+				</Condition>
+				<Condition Key="Nullable_Convert">
+					<![CDATA[
 			If (dataReader.IsDBNull([:FieldOrdinalValue:]) = false) Then
 				_[:FieldName:] = Convert.To[:FieldDotNetType:](dataReader([:FieldOrdinalValue:]))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-			<Content KeyMode="Nullable_Cast">
-				<![CDATA[
+				</Condition>
+				<Condition Key="Nullable_Cast">
+					<![CDATA[
 			if (dataReader.IsDBNull([:FieldOrdinalValue:]) = false) Then
 				_[:FieldName:] = (dataReader([:FieldOrdinalValue:]))
 			Else
 				_[:FieldName:] = Nothing
 			End If
 	]]>
-			</Content>
-		</PatternContent>
-
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
 	</PatternContent>
 
-</pattern>
+</PatternFile>

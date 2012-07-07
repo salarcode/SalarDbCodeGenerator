@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Database BLL</Name>
 	<Description>Business logic layer pattern</Description>
 	<Options
 		Group="TableBLL"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="BLL\Principal\DatabaseBLL.cs"
 		Language="C#"
 		/>
@@ -24,12 +24,12 @@ namespace [:Namespace:].BLL
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 	/// <summary>
-	/// Business logic for [:TableNativeName:]
+	/// Business logic for [:TableNameDb:]
 	/// </summary>
 	public partial class [:TableName:]BLL : [:DatabaseName:]BLLBase
 	{
@@ -46,77 +46,78 @@ namespace [:Namespace:].BLL
 [#UniqueConstraintKeys#]
 	}
 ]]>
-		</Content>
-
-		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
-			<Content KeyMode="MultiplicityOne">
-				<![CDATA[
-		public List<[:LocalTableName:]Model> GetBy[:LocalFieldNativeName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		</Condition>
+		
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		public List<[:LocalTableName:]Model> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
 		{
 			using ([:LocalTableName:]DAL dal = new [:LocalTableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:LocalFieldNativeName:]([:LocalFieldName:]);
+				return dal.GetBy[:LocalFieldName:]([:LocalFieldName:]);
 			}
 		}
 		
-		public [:ForeignTableName:]Model Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		public [:ForeignTableName:]Model Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
 		{
 			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+				return dal.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
 			}
 		}]]>
-			</Content>
-			<Content KeyMode="MultiplicityMany">
-				<![CDATA[
-		public List<[:ForeignTableName:]Model> Get[:ForeignTableName:]By[:ForeignFieldNativeName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		public List<[:ForeignTableName:]Model> Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
 		{
 			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:ForeignFieldNativeName:]([:ForeignFieldName:]);
+				return dal.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
 			}
 		}]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
-			<Content KeyMode="NormalKey">
-				<![CDATA[
-		public List<[:TableName:]Model> GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+		public List<[:TableName:]Model> GetBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+				return dal.GetBy[:IndexKeyName:]([:IndexKeyName:]);
 			}
 		}]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
-			<Content KeyMode="NormalKey">
-				<![CDATA[
-		public [:TableName:]Model GetBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+		public [:TableName:]Model GetBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+				return dal.GetBy[:IndexKeyName:]([:IndexKeyName:]);
 			}
 		}
 
-		public void DeleteBy[:IndexKeyNativeName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		public void DeleteBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction,Connection))
 			{
-				dal.DeleteBy[:IndexKeyNativeName:]([:IndexKeyName:]);
+				dal.DeleteBy[:IndexKeyName:]([:IndexKeyName:]);
 			}
 		}]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="UpdatableTable" AppliesTo="Table" ContentKeyMode="TablePrimaryKey">
-			<Content KeyMode="ReadOnlyTable"></Content>
-			<Content KeyMode="NoPrimaryKey">
-				<![CDATA[
+			<PatternContent Name="UpdatableTable" ConditionKeyMode="TablePrimaryKey">
+				<Condition Key="ReadOnlyTable"></Condition>
+				<Condition Key="NoPrimaryKey">
+					<![CDATA[
 		public [:AutoIncrementDotNetType:] Insert([:TableName:]Model model)
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
@@ -124,23 +125,22 @@ namespace [:Namespace:].BLL
 				[#BLLInsertMethod#]
 			}
 		}]]>
-			</Content>
-
-			<Content KeyMode="WithPrimaryKey">
-				<![CDATA[
-		public [:TableName:]Model GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+				</Condition>
+				<Condition Key="WithPrimaryKey">
+					<![CDATA[
+		public [:TableName:]Model GetBy[:PrimaryKeyName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:]);
+				return dal.GetBy[:PrimaryKeyName:]([:PrimaryKeyName:]);
 			}
 		}
 
-		public bool GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:], [:TableName:]Model result)
+		public bool GetBy[:PrimaryKeyName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:], [:TableName:]Model result)
 		{
 			using ([:TableName:]DAL dal = new [:TableName:]DAL(Transaction, Connection))
 			{
-				return dal.GetBy[:PrimaryKeyNativeName:]([:PrimaryKeyName:], result);
+				return dal.GetBy[:PrimaryKeyName:]([:PrimaryKeyName:], result);
 			}
 		}
 
@@ -167,25 +167,28 @@ namespace [:Namespace:].BLL
 				dal.Delete([:PrimaryKeyName:]);
 			}
 		}]]>
-			</Content>
-		</PatternContent>
-
-		<PatternContent Name="BLLInsertMethod" AppliesTo="Table" ContentKeyMode="TableAutoIncrement">
-			<Content KeyMode="NoAutoIncrement">
-				<![CDATA[
+				</Condition>
+				<ConditionContents>
+					<PatternContent Name="BLLInsertMethod" ConditionKeyMode="TableAutoIncrement">
+						<Condition Key="NoAutoIncrement">
+							<![CDATA[
 				dal.Insert(model);]]>
-			</Content>
+						</Condition>
 
-			<Content KeyMode="OneAutoIncrement">
-				<![CDATA[
+						<Condition Key="OneAutoIncrement">
+							<![CDATA[
 				return dal.Insert(model);]]>
-			</Content>
+						</Condition>
 
-			<Content KeyMode="MoreAutoIncrement">
-				<![CDATA[
+						<Condition Key="MoreAutoIncrement">
+							<![CDATA[
 				dal.Insert(model);]]>
-			</Content>
-		</PatternContent>
+						</Condition>
+					</PatternContent>
 
+				</ConditionContents>
+			</PatternContent>
+
+		</ConditionContents>
 	</PatternContent>
-</pattern>
+</PatternFile>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>ActiveRecord General config</Name>
 	<Description>Nhibernate CastleActiveRecord configurations class</Description>
 	<Options
 		Group="Common"
-		AppliesTo="GeneralOnce"
-		Overwrite="True"
+		AppliesTo="General"
+		Overwrite="true"
 		FilePath="Common\[:DatabaseName:]CarConfig.cs"
 		Language="C#"
 		/>
@@ -30,4 +30,4 @@ namespace [:Namespace:]
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

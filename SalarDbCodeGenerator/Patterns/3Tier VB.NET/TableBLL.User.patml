@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User BLL</Name>
 	<Description>Busines logic layer user custom methods pattern</Description>
 	<Options
 		Group="TableBLL"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="BLL\[:TableName:]BLL.vb"
 		Language="VB.NET"
 		/>
@@ -18,7 +18,7 @@ Imports [:Namespace:].DAL
 Namespace BLL
 
 	REM <summary>
-	REM User custom methods for [:TableNativeName:]
+	REM User custom methods for [:TableNameDb:]
 	REM </summary>
 	Partial Public Class [:TableName:]BLL
 
@@ -27,4 +27,4 @@ Namespace BLL
 End Namespace
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>ViewBaseBLL</Name>
 	<Description>View base pattern</Description>
 	<Options
 		Group="Base"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Base\ViewBaseBLL.cs"
 		Language="C#"
 		/>
@@ -27,4 +27,4 @@ namespace [:Namespace:].Base
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

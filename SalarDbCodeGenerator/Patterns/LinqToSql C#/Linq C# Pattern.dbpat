@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<PatternProject>
 	<Name>LinqToSql C#</Name>
 	<Description>This pattern generates object relational database model based on LinqToSql.</Description>
 	<Author>Salar Khalilzadeh</Author>
-	<LastUpdate>2010/04/09</LastUpdate>
+	<LastUpdate>2012/07/06</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>
 	<SupportedDatabases>MS SQL Server</SupportedDatabases>
-	<SeperateRefOtherColumns>false</SeperateRefOtherColumns>
+	<SeperateReferenceColumns>false</SeperateReferenceColumns>
 	<LanguageSettings>
 		<VoidDataType>void</VoidDataType>
 		<TextFieldIdenticator>text</TextFieldIdenticator>
@@ -80,52 +80,32 @@
 			<string>virtual</string>
 			<string>while</string>
 		</LanguageKeywords>
+		<ExplicitCastDataTypes>
+			<string>Object</string>
+			<string>Guid</string>
+			<string>DateTimeOffset</string>
+			<string>TimeSpan</string>
+		</ExplicitCastDataTypes>
+		<NullableDataTypes>
+			<string>String</string>
+			<string>Object</string>
+		</NullableDataTypes>
+		<LanguageInvalidCharsSuppress>95</LanguageInvalidCharsSuppress>
+		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
 	</LanguageSettings>
-	<PatternFiles>
-		<PatternsListType>
-			<Path>AppConfig.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>BaseEntity.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>BLLBase.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableBaseBLL.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>ViewBaseBLL.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DbConnection.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DbTransaction.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableBLL.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableBLL.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>ViewBLL.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>ViewBLL.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableEntity.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableEntity.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>VS2008ClassProject.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>VS2010ClassProject.patml</Path>
-		</PatternsListType>
-	</PatternFiles>
+	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
+	<PatternFile Action="Generate">BaseEntity.patml</PatternFile>
+	<PatternFile Action="Generate">BLLBase.patml</PatternFile>
+	<PatternFile Action="Generate">TableBaseBLL.patml</PatternFile>
+	<PatternFile Action="Generate">ViewBaseBLL.patml</PatternFile>
+	<PatternFile Action="Generate">DbConnection.patml</PatternFile>
+	<PatternFile Action="Generate">DbTransaction.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.User.patml</PatternFile>
+	<PatternFile Action="Generate">ViewBLL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">ViewBLL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableEntity.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableEntity.User.patml</PatternFile>
+	<PatternFile Action="Generate">VS2008ClassProject.patml</PatternFile>
+	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
 </PatternProject>

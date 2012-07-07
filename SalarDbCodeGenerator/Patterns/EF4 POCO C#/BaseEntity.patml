@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>BaseEntity</Name>
 	<Description>Base entity objects pattern</Description>
 	<Options
 		Group="Base"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Base\[:DatabaseName:]BaseEntity.cs"
 		Language="C#"
 		/>
@@ -54,4 +54,4 @@ namespace [:Namespace:].Base
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

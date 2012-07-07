@@ -2,15 +2,13 @@
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SalarDbCodeGenerator.CodeGen.PatternsSchema;
-using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2011-10-10
+// 2012/07/06
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {

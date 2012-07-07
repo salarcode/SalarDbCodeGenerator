@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User Model</Name>
 	<Description>Business model user custom methods pattern</Description>
 	<Options
 		Group="TableModel"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="Model\[:TableNameCS:]Model.cs"
 		Language="C#"
 		/>
@@ -20,7 +20,7 @@ using [:Namespace:].BLL;
 namespace [:Namespace:].Model
 {
 	/// <summary>
-	/// User custom methods for [:TableNativeName:]
+	/// User custom methods for [:TableNameDb:]
 	/// </summary>
 	partial class [:TableName:]Model
 	{
@@ -29,4 +29,4 @@ namespace [:Namespace:].Model
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

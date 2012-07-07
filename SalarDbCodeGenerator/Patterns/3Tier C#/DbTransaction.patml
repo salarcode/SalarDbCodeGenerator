@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>DbTransaction</Name>
 	<Description>Transactions provider pattern</Description>
 	<Options
 		Group="Common"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Common\DbTransaction.cs"
 		Language="C#"
 		/>
@@ -94,4 +94,4 @@ namespace [:Namespace:].Common
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

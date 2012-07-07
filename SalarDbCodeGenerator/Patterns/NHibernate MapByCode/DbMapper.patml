@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Database Entity Mapper</Name>
 	<Description>Entity objects mapper pattern</Description>
 	<Options
 		Group="Entity Session"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="Entities\[:DatabaseName:]Mapper.cs"
 		Language="C#"
 		/>
@@ -33,63 +33,62 @@ namespace [:Namespace:].Entities
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="MapToModelContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
-		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="MapToModelContent" ConditionKeyMode="TablesAndViewsAll">
+		<Condition>
 			<![CDATA[
-			// Default mappings for [:TableNativeName:]
+			// Default mappings for [:TableNameDb:]
 			mapper.Class<[:TableName:]>(
 				mp =>
 				{
-					mp.Table("[:TableNativeName:]");
+					mp.Table("[:TableNameDb:]");
 [#FieldsProperties#]
 [#IndexConstraintKeys#]
 [#UniqueConstraintKeys#]
 [#ForeignKeys#]
 				});
 ]]>
-		</Content>
-
-		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
-			<Content KeyMode="MultiplicityOne">
-				<![CDATA[
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
 					mp.ManyToOne<[:ForeignTableName:]>(
 						x => x.[:ForeignTableNameAsField:],
 						map =>
 						{
-							map.Column("[:LocalFieldNativeName:]");
+							map.Column("[:LocalFieldNameDb:]");
 							map.Class(typeof([:ForeignTableName:]));
-							map.ForeignKey("[:ForeignFieldNativeName:]");
+							map.ForeignKey("[:ForeignFieldNameDb:]");
 							map.Lazy(LazyRelation.Proxy);
 							map.Access(Accessor.Property);
 						});]]>
-			</Content>
-			<Content KeyMode="MultiplicityMany">
-				<![CDATA[
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
 					mp.Bag(
 						x => x.[:ForeignTableNameAsField:],
-						map => map.Key(m => m.Column("[:ForeignFieldNativeName:]")),
+						map => map.Key(m => m.Column("[:ForeignFieldNameDb:]")),
 						r => r.OneToMany(
 							m =>
 								{
 									m.NotFound(NotFoundMode.Exception); // or NotFoundMode.Ignore
 									m.Class(typeof([:ForeignTableName:]));
 								}));]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
-			<Content KeyMode="NormalKey">
-				<![CDATA[
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
 					mp.Property(
 						x => x.[:IndexKeyName:],
 						map => map.Index("[:IndexName:]"));]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
-			<Content KeyMode="NormalKey">
-				<![CDATA[
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
 					mp.Property(
 						x => x.[:IndexKeyName:],
 						map =>
@@ -97,92 +96,91 @@ namespace [:Namespace:].Entities
 								map.Unique(true);
 								map.UniqueKey("[:IndexName:]");
 							});]]>
-			</Content>
-		</PatternContent>
-		
-		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
-			<Content KeyMode="AutoInrcementPrimaryKey">
-				<![CDATA[
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
 					mp.Id(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.Generator(Generators.Native);
 						});]]>
-			</Content>
-			<Content KeyMode="AutoInrcement">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
 					mp.Id(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.Generator(Generators.Native);
 						});]]>
-			</Content>
-			<Content KeyMode="AutoIncNativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
 					mp.Id(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.Generator(Generators.Native);
 						});]]>
-			</Content>
-			<Content KeyMode="AutoIncNullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
 					mp.Id(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.Generator(Generators.Native);
 						});]]>
-			</Content>
-			<Content KeyMode="PrimaryKey">
-				<![CDATA[
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
 					mp.Id(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.Generator(Generators.Assigned);
 						});]]>
-			</Content>
-			<Content KeyMode="NormalField">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
 					mp.Property(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.NotNullable(true);
 						});]]>
-			</Content>
-			<Content KeyMode="NativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
 					mp.Property(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.NotNullable(false);
 						});]]>
-			</Content>
-			<Content KeyMode="NullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
 					mp.Property(
 						x => x.[:FieldName:],
 						map =>
 						{
-							map.Column("[:FieldNativeName:]");
+							map.Column("[:FieldNameDb:]");
 							map.NotNullable(false);
 						});]]>
-			</Content>
-		</PatternContent>
-
-
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
 	</PatternContent>
-</pattern>
+</PatternFile>

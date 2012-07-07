@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<PatternProject>
 	<Name>NH-CastleActiveRecord for WCF C#</Name>
 	<Description>This pattern generates full ActiveRecord models</Description>
 	<Author>Salar Khalilzadeh</Author>
-	<LastUpdate>2010/11/25</LastUpdate>
+	<LastUpdate>2012/07/06</LastUpdate>
 	<Language>C#</Language>
 	<FileExtension>.cs</FileExtension>
 	<SupportedDatabases>All NHibernate Supported DBs</SupportedDatabases>
-	<SeperateRefOtherColumns>true</SeperateRefOtherColumns>
+	<SeperateReferenceColumns>true</SeperateReferenceColumns>
 	<LanguageSettings>
 		<VoidDataType>void</VoidDataType>
 		<TextFieldIdenticator>text</TextFieldIdenticator>
@@ -80,28 +80,24 @@
 			<string>virtual</string>
 			<string>while</string>
 		</LanguageKeywords>
+		<ExplicitCastDataTypes>
+			<string>Object</string>
+			<string>Guid</string>
+			<string>DateTimeOffset</string>
+			<string>TimeSpan</string>
+		</ExplicitCastDataTypes>
+		<NullableDataTypes>
+			<string>String</string>
+			<string>Object</string>
+		</NullableDataTypes>
+		<LanguageInvalidCharsSuppress>95</LanguageInvalidCharsSuppress>
+		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
 	</LanguageSettings>
-	<PatternFiles>
-		<PatternsListType>
-			<Path>ActiveRecord.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>ActiveRecordConfig.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>Entity.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>Entity.User.patml</Path>
-		</PatternsListType>		
-		<PatternsListType>
-			<Path>BaseEntity.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>VS2010ClassProject.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>AppConfig.patml</Path>
-		</PatternsListType>
-	</PatternFiles>
+	<PatternFile Action="Generate">ActiveRecord.patml</PatternFile>
+	<PatternFile Action="Generate">ActiveRecordConfig.patml</PatternFile>
+	<PatternFile Action="Generate">Entity.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">Entity.User.patml</PatternFile>
+	<PatternFile Action="Generate">BaseEntity.patml</PatternFile>
+	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
+	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
 </PatternProject>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User Model</Name>
 	<Description>Business model user custom methods pattern</Description>
 	<Options
 		Group="TableModel"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="Model\[:TableName:]Model.vb"
 		Language="VB.NET"
 		/>
@@ -16,7 +16,7 @@ Imports [:Namespace:].Base
 Namespace Model
 
 	REM <summary>
-	REM User custom methods for [:TableNativeName:]
+	REM User custom methods for [:TableNameDb:]
 	REM </summary>
 	Partial Public Class [:TableName:]Model
 
@@ -24,4 +24,4 @@ Namespace Model
 End Namespace
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

@@ -1,12 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User Entity Objects</Name>
 	<Description>User entity objects pattern</Description>
 	<Options
 		Group="Database Model"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
-		FilePath="Entities\[:TableNativeName:].cs"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="Entities\[:TableName:].cs"
 		Language="C#"
 		/>
 	<BaseContent>
@@ -22,13 +22,13 @@ using [:Namespace:].Base;
 namespace [:Namespace:].Entities
 {
 	/// <summary>
-	/// User custom methods for [:TableNativeName:]
+	/// User custom methods for [:TableNameDb:]
 	/// </summary>
-	partial class [:TableNativeName:]
+	partial class [:TableName:]
 	{
 
 	}
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

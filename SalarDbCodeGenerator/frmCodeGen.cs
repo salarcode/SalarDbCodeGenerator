@@ -1,17 +1,25 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Serialization;
-using SalarDbCodeGenerator.CodeGen.SchemaEngines;
-using SalarDbCodeGenerator.CodeGen.DbSchema;
-using SalarDbCodeGenerator.CodeGen.Generator;
-using SalarDbCodeGenerator.CodeGen.PatternsSchema;
 using SalarDbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.GeneratorEngine;
 using SalarDbCodeGenerator.Presentation;
+using SalarDbCodeGenerator.Schema.Database;
+using SalarDbCodeGenerator.Schema.DbSchemaReaders;
+using SalarDbCodeGenerator.Schema.Patterns;
 
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
 namespace SalarDbCodeGenerator
 {
 	public partial class frmCodeGen : Form
@@ -324,19 +332,31 @@ namespace SalarDbCodeGenerator
 				// Clean up
 				lstPatterns.Groups.Clear();
 				lstPatterns.Items.Clear();
+				var actionCopyGroupName = "Copy Action";
 
 				// Load patterns
 				List<PatternFile> patternsList = LoadPatternsInfo(_patternProject.PatternFiles);
+				var patternCopyActionList =
+					_patternProject.PatternFiles.Where(x => x.Action == PatternsListItemAction.Copy).ToList();
 
 				// Groups
 				List<string> listGroups = new List<string>();
 				foreach (var item in patternsList)
 				{
-					if (!listGroups.Contains(item.Group))
+					if (!listGroups.Contains(item.Options.Group))
 					{
-						ListViewGroup group = new ListViewGroup(item.Group, item.Group);
+						ListViewGroup group = new ListViewGroup(item.Options.Group, item.Options.Group);
 						lstPatterns.Groups.Add(group);
-						listGroups.Add(item.Group);
+						listGroups.Add(item.Options.Group);
+					}
+				}
+				if (patternCopyActionList.Count>0)
+				{
+					if (!listGroups.Contains(actionCopyGroupName))
+					{
+						var group = new ListViewGroup(actionCopyGroupName, actionCopyGroupName);
+						lstPatterns.Groups.Add(group);
+						listGroups.Add(actionCopyGroupName);
 					}
 				}
 
@@ -365,10 +385,36 @@ namespace SalarDbCodeGenerator
 						}
 					}
 					listItem.Text = item.Name;
-					listItem.ToolTipText = item.Description + "\n" + item.ToSumuaryString();
-					listItem.Group = lstPatterns.Groups[item.Group];
+					listItem.ToolTipText = item.Description + "\n" + item.ToSummaryString();
+					listItem.Group = lstPatterns.Groups[item.Options.Group];
 					lstPatterns.Items.Add(listItem);
 				}
+
+				foreach (var file in patternCopyActionList)
+				{
+					var listItem = new ListViewItem();
+					var fileName = Path.GetFileName(file.Path);
+					if (applyAllAsSelected)
+					{
+						listItem.Checked = true;
+						selPatterns.Add(fileName);
+					}
+					else
+					{
+						if (selPatterns.Contains(fileName))
+							listItem.Checked = true;
+						else
+						{
+							listItem.Checked = false;
+						}
+					}
+					listItem.Text = fileName;
+					listItem.ToolTipText = "Copy to: " + file.ActionCopyPath;
+					listItem.Group = lstPatterns.Groups[actionCopyGroupName];
+					lstPatterns.Items.Add(listItem);
+				}
+
+
 			}
 			finally
 			{
@@ -509,7 +555,7 @@ namespace SalarDbCodeGenerator
 
 		#endregion
 
-		private List<PatternFile> LoadPatternsInfo(List<PatternsListType> patternsList)
+		private List<PatternFile> LoadPatternsInfo(List<PatternProject.PatternFile> patternsList)
 		{
 			List<PatternFile> result = new List<PatternFile>();
 			string patternsFolder = Path.GetDirectoryName(
@@ -517,9 +563,11 @@ namespace SalarDbCodeGenerator
 
 			foreach (var pattern in patternsList)
 			{
-				PatternFile patternFile = new PatternFile();
-				patternFile.LoadFromFile(Path.Combine(patternsFolder, pattern.Path), true);
-				result.Add(patternFile);
+				if (pattern.Action == PatternsListItemAction.Generate)
+				{
+					PatternFile patternFile = PatternFile.ReadFromFile(Path.Combine(patternsFolder, pattern.Path));
+					result.Add(patternFile);
+				}
 			}
 			return result;
 		}
@@ -823,12 +871,12 @@ namespace SalarDbCodeGenerator
 				conn.Open();
 
 				// Reading database
-				PleaseWait.WaitingState = "Reading database info";
+				PleaseWait.WaitingState = "Reading database schema";
 
 				// 1 ==========================
 				// Database schema reader
 				ExSchemaEngine schemaEngine = _projectDefinaton.DbSettions.GetSchemaEngine(conn);
-				SchemaDatabase schemaDatabase = new SchemaDatabase();
+				var schemaDatabase = new DbDatabase();
 				schemaDatabase.Provider = _projectDefinaton.DbSettions.DatabaseProvider;
 
 				// shcema engine options
@@ -839,21 +887,24 @@ namespace SalarDbCodeGenerator
 				schemaEngine.ReadTablesForeignKeys = _projectDefinaton.CodeGenSettings.GenerateTablesForeignKeys;
 				schemaEngine.ReadConstraintKeys = _projectDefinaton.CodeGenSettings.GenerateConstraintKeys;
 
-
 				// read database schema
 				schemaEngine.FillSchema(schemaDatabase);
 
-				PleaseWait.WaitingState = "Generating output files";
+				PleaseWait.WaitingState = "Analyzing database schema";
+				// 2 ======================
+				var alanyzer = new SchemaAnalyzer(_projectDefinaton, _patternProject, schemaDatabase);
+				alanyzer.AnalyzeAndRename();
 
-				// 2 ==========================
+				PleaseWait.WaitingState = "Generating output files";
+				// 3 ==========================
 				// Start the generator
-				GeneratorEngine engine = new GeneratorEngine(_projectDefinaton, _patternProject, schemaDatabase, schemaEngine);
+				var engine = new Generator(_projectDefinaton, _patternProject, schemaDatabase, schemaEngine);
 				engine.Generate();
 
 				// Update last generation
 				_projectDefinaton.LastGeneration = DateTime.Now;
 
-				// 3 ==========================
+				// 4 ==========================
 				// Reaload the form
 				Refresh_Form();
 

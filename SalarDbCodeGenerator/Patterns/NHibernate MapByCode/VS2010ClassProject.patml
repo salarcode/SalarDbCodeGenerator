@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>VS2010 ClassProject</Name>
 	<Description>Visual Studio 2010 Class Project</Description>
 	<Options
 		Group="ProjectFile"
 		AppliesTo="ProjectFile"
-		Overwrite="False"
+		Overwrite="false"
 		FilePath="[:ProjectName:].csproj"
 		Language="XML"
 		/>
@@ -46,8 +46,12 @@
 	<ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="NHibernate" />
-    <Reference Include="Iesi.Collections" />
+    <Reference Include="NHibernate">
+      <HintPath>References\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>References\Iesi.Collections.dll</HintPath>
+    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -80,16 +84,16 @@
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="ProjectItems" AppliesTo="Columns" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectItems" ConditionKeyMode="ProjectFiles">
+		<Condition>
 			<![CDATA[
 		<Compile Include="[:ProjectItemPath:]"></Compile>]]>
-		</Content>
+		</Condition>
 	</PatternContent>
 
-	<PatternContent Name="ProjectAppConfig" AppliesTo="Table" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectAppConfig" ConditionKeyMode="General">
+		<Condition>
 			<![CDATA[		<None Include="app.config" />]]>
-		</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

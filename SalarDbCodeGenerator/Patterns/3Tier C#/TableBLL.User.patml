@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User BLL</Name>
 	<Description>Busines logic layer user custom methods pattern</Description>
 	<Options
 		Group="TableBLL"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="BLL\[:TableNameCS:]BLL.cs"
 		Language="C#"
 		/>
@@ -20,7 +20,7 @@ using [:Namespace:].DAL;
 namespace [:Namespace:].BLL
 {
 	/// <summary>
-	/// User custom methods for [:TableNativeName:]
+	/// User custom methods for [:TableNameDb:]
 	/// </summary>
 	partial class [:TableName:]BLL
 	{
@@ -29,4 +29,4 @@ namespace [:Namespace:].BLL
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

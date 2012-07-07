@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>ActiveRecord Initializer</Name>
 	<Description>Nhibernate CastleActiveRecord initializer</Description>
 	<Options
 		Group="Common"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="Common\[:DatabaseName:]ActiveRecord.cs"
 		Language="C#"
 		/>
@@ -35,12 +35,12 @@ namespace [:Namespace:]
 }
 ]]>
 	</BaseContent>
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
 		<ItemsSeperator>, </ItemsSeperator>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 				typeof([:TableName:])]]>
-		</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

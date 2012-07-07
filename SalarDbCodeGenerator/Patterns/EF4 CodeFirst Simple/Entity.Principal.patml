@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Database Entity Objects</Name>
 	<Description>Entity objects pattern</Description>
 	<Options
 		Group="Database Model"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="Entities\Principal\EntityObjects.cs"
 		Language="C#"
 		/>
@@ -25,12 +25,12 @@ namespace [:Namespace:].Entities
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 	[DataContract]
-	[Table("[:TableNativeName:]")]
+	[Table("[:TableNameDb:]")]
 	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
 	{
 [#FieldsProperties#]
@@ -39,40 +39,41 @@ namespace [:Namespace:].Entities
 [#UniqueConstraintKeys#]
 	}
 ]]>
-		</Content>
+		</Condition>
 
-		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
-			<Content KeyMode="MultiplicityOne">
-				<![CDATA[
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
 		/// <summary>
-		/// [:ForeignTableNativeName:] - [:LocalFieldNativeName:]
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNativeName:]")]
+		[DisplayName("[:ForeignTableNameDb:]")]
 		[XmlIgnore]
 		[SoapIgnore]
 		[Browsable(false)]
 		[ForeignKey("[:LocalFieldName:]")]
 		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="MultiplicityMany">
-				<![CDATA[
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
 		/// <summary>
-		/// [:ForeignTableNativeName:] - [:ForeignFieldNativeName:]
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNativeName:]")]
+		[DisplayName("[:ForeignTableNameDb:]")]
 		[XmlIgnore]
 		[SoapIgnore]
 		[Browsable(false)]
 		[ForeignKey("[:ForeignFieldName:]")]
 		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
 ]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
-			<Content KeyMode="AutoInrcementPrimaryKey">
-				<![CDATA[
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
@@ -80,101 +81,100 @@ namespace [:Namespace:].Entities
 		[DataMember]
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Column("[:FieldNativeName:]", Order = [:FieldOrdinalValue:])]
+		[Column("[:FieldNameDb:]", Order = [:FieldOrdinalValue:])]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="AutoInrcement">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="AutoIncNativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="AutoIncNullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="PrimaryKey">
-				<![CDATA[
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
 		[Key]
-		[Column("[:FieldNativeName:]", Order = [:FieldOrdinalValue:])]
+		[Column("[:FieldNameDb:]", Order = [:FieldOrdinalValue:])]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="NormalField">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="NativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="NullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[Column("[:FieldNativeName:]")]
+		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey"></Condition>
+			</PatternContent>
 
-		<PatternContent Name="IndexConstraintKeys" AppliesTo="Table" ContentKeyMode="TableIndexConstraint">
-			<Content KeyMode="NormalKey"></Content>
-		</PatternContent>
-
-		<PatternContent Name="UniqueConstraintKeys" AppliesTo="Table" ContentKeyMode="TableUniqueConstraint">
-			<Content KeyMode="NormalKey"></Content>
-		</PatternContent>
-
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey"></Condition>
+			</PatternContent>
+		</ConditionContents>
 	</PatternContent>
-</pattern>
+</PatternFile>

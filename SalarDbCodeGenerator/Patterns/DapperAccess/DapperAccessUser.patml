@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User Entity DapperAccess Object</Name>
 	<Description>User entity DapperAccess objects pattern</Description>
 	<Options
 		Group="Database Model"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="Entities\UserDap\[:TableName:]UserDap.cs"
 		Language="C#"
 		/>
@@ -31,4 +31,4 @@ namespace [:Namespace:].Entities
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

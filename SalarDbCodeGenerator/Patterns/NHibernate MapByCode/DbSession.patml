@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>EntityObjectContext</Name>
 	<Description>Entity context object</Description>
 	<Options
 		Group="Entity Session"
-		AppliesTo="Tables_All"
-		Overwrite="True"
+		AppliesTo="TablesAll"
+		Overwrite="true"
 		FilePath="Entities\[:DatabaseName:]Session.cs"
 		Language="C#"
 		/>
@@ -127,18 +127,16 @@ namespace [:Namespace:].Entities
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
-		<BaseContent>[:InnerContent:]</BaseContent>
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<ItemsSeperator>,</ItemsSeperator>
-		<Content KeyMode="TheReplacement">
+		<Condition>
 			<![CDATA[
 						typeof([:TableName:])]]>
-		</Content>
+		</Condition>
 	</PatternContent>
 
-	<PatternContent Name="DataBaseIntegration" AppliesTo="General" ContentKeyMode="DatabaseProvider">
-		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="SQLServer">
+	<PatternContent Name="DataBaseIntegration" ConditionKeyMode="DatabaseProvider">
+		<Condition Key="SQLServer">
 			<![CDATA[
 			configure.DataBaseIntegration(
 				db =>
@@ -155,8 +153,8 @@ namespace [:Namespace:].Entities
 						//db.LogFormattedSql = true;
 						//db.LogSqlInConsole = true;
 					});]]>
-		</Content>
-		<Content KeyMode="Oracle">
+		</Condition>
+		<Condition Key="Oracle">
 			<![CDATA[
 			configure.DataBaseIntegration(
 				db =>
@@ -173,8 +171,8 @@ namespace [:Namespace:].Entities
 						//db.LogFormattedSql = true;
 						//db.LogSqlInConsole = true;
 					});]]>
-		</Content>
-		<Content KeyMode="SQLite">
+		</Condition>
+		<Condition Key="SQLite">
 			<![CDATA[
 			configure.DataBaseIntegration(
 				db =>
@@ -191,8 +189,8 @@ namespace [:Namespace:].Entities
 						//db.LogFormattedSql = true;
 						//db.LogSqlInConsole = true;
 					});]]>
-	</Content>
-		<Content KeyMode="SqlCe4">
+		</Condition>
+		<Condition Key="SqlCe4">
 			<![CDATA[
 			configure.DataBaseIntegration(
 				db =>
@@ -209,6 +207,6 @@ namespace [:Namespace:].Entities
 						//db.LogFormattedSql = true;
 						//db.LogSqlInConsole = true;
 					});]]>
-	</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

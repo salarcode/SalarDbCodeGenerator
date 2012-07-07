@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>VS2010 ClassProject</Name>
 	<Description>Visual Studio 2010 Class Project</Description>
 	<Options
 		Group="ProjectFile"
 		AppliesTo="ProjectFile"
-		Overwrite="False"
+		Overwrite="false"
 		FilePath="[:ProjectName:].csproj"
 		Language="XML"
 		/>
@@ -45,10 +45,15 @@
 	<ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="NHibernate" />
-    <Reference Include="NHibernate.ByteCode.Castle" />
-    <Reference Include="Castle.ActiveRecord.Linq" />
-    <Reference Include="Castle.ActiveRecord" />
+    <Reference Include="NHibernate">
+      <HintPath>References\NHibernate.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate.ByteCode.Castle">
+      <HintPath>References\NHibernate.ByteCode.Castle.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.ActiveRecord">
+      <HintPath>References\Castle.ActiveRecord.dll</HintPath>
+    </Reference>
     <Reference Include="System.configuration" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
@@ -80,16 +85,16 @@
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="ProjectItems" AppliesTo="Columns" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectItems" ConditionKeyMode="ProjectFiles">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 		<Compile Include="[:ProjectItemPath:]"></Compile>]]>
-		</Content>
+		</Condition>
 	</PatternContent>
 
-	<PatternContent Name="ProjectAppConfig" AppliesTo="Table" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectAppConfig" ConditionKeyMode="General">
+		<Condition Key="TheReplacement">
 			<![CDATA[		<None Include="app.config" />]]>
-		</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

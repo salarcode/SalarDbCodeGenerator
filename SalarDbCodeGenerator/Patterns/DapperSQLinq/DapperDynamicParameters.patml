@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>DapperDynamicParameters</Name>
 	<Description></Description>
 	<Options
 		Group="Engine"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Dapper\DapperAccessPricipal.cs"
 		Language="C#"
 		/>
@@ -41,4 +41,4 @@ namespace Dapper
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

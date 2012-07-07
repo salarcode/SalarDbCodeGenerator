@@ -14,6 +14,7 @@ using System.Windows.Forms;
 using Oracle.DataAccess.Client;
 using SalarDbCodeGenerator.DbProject;
 using SalarDbCodeGenerator.Properties;
+using SalarDbCodeGenerator.Schema.DbSchemaReaders;
 
 namespace SalarDbCodeGenerator.Presentation
 {

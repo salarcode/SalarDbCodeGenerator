@@ -1,23 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlServerCe;
-using System.Linq;
-using System.Text;
 using System.Collections.Specialized;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Xml.Serialization;
-using SalarDbCodeGenerator.CodeGen.SchemaEngines;
 using System.Data.SQLite;
+using System.Data.SqlServerCe;
+using System.Xml.Serialization;
 using Oracle.DataAccess.Client;
-
+using SalarDbCodeGenerator.Schema.DbSchemaReaders;
 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
+// 2012/07/06
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {
@@ -26,8 +23,9 @@ namespace SalarDbCodeGenerator.DbProject
 	{
 		public struct SelectedTablesType
 		{
+			[XmlText]
  			public string Name;
-
+			[XmlAttribute]
 			public bool Selected;
 		}
 		#region properties
@@ -49,7 +47,9 @@ namespace SalarDbCodeGenerator.DbProject
 		public StringCollection IgnoredPrefixes { get; set; }
 		public StringCollection IgnoredSuffixes { get; set; }
 
+		[XmlElement("Table")]
 		public List<SelectedTablesType> Tables { get; set; }
+		[XmlElement("View")]
 		public List<SelectedTablesType> Views { get; set; }
 		#endregion
 

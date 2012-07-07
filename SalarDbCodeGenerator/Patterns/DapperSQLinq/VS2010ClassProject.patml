@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>VS2010 ClassProject</Name>
 	<Description>Visual Studio 2010 Class Project</Description>
 	<Options
 		Group="ProjectFile"
 		AppliesTo="ProjectFile"
-		Overwrite="False"
+		Overwrite="false"
 		FilePath="[:ProjectName:].csproj"
 		Language="XML"
 		/>
@@ -53,7 +53,9 @@
     <Reference Include="[:ProviderAssemblyReference:]" />
     <Reference Include="System.Runtime.Serialization" />
 		<Reference Include="System.Xml" />
-		<Reference Include="SQLinq" />
+    <Reference Include="SQLinq">
+      <HintPath>References\SQLinq.dll</HintPath>
+    </Reference>
 	</ItemGroup>
 	<ItemGroup>
 [#ProjectItems#]
@@ -73,16 +75,16 @@
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="ProjectItems" AppliesTo="Columns" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectItems" ConditionKeyMode="ProjectFiles">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 		<Compile Include="[:ProjectItemPath:]"></Compile>]]>
-		</Content>
+		</Condition>
 	</PatternContent>
 
-	<PatternContent Name="ProjectAppConfig" AppliesTo="Table" ContentKeyMode="OneReplacement">
-		<Content KeyMode="TheReplacement">
+	<PatternContent Name="ProjectAppConfig" ConditionKeyMode="General">
+		<Condition Key="TheReplacement">
 			<![CDATA[		<None Include="app.config" />]]>
-		</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

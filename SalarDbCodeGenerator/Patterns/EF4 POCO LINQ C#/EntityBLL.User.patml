@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User Entity Objects</Name>
 	<Description>User entity objects pattern</Description>
 	<Options
 		Group="Database Model"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="BLL\[:TableName:]BLL.cs"
 		Language="C#"
 		/>
@@ -27,4 +27,4 @@ namespace [:Namespace:].BLL
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

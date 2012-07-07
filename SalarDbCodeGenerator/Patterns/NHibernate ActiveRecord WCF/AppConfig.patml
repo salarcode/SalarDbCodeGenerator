@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>AppConfig</Name>
 	<Description>Application config file</Description>
 	<Options
 		Group="ProjectFile"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="app.config"
 		Language="XML"
 		/>
@@ -20,10 +20,10 @@
 ]]>
 	</BaseContent>
 	
-	<PatternContent Name="ActiveRecordConfig" AppliesTo="Table" ContentKeyMode="DatabaseProvider">
+	<PatternContent Name="ActiveRecordConfig" ConditionKeyMode="DatabaseProvider">
 		<BaseContent>[:InnerContent:]</BaseContent>
 		<ItemsSeperator>, </ItemsSeperator>
-		<Content KeyMode="SQLServer">
+		<Condition Key="SQLServer">
 			<![CDATA[
 	<activerecord>
 		<config>
@@ -34,8 +34,8 @@
 			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
 		</config>
 	</activerecord>]]>
-		</Content>
-		<Content KeyMode="Oracle">
+		</Condition>
+		<Condition Key="Oracle">
 			<![CDATA[
 	<activerecord>
 		<config>
@@ -46,8 +46,8 @@
 			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
 		</config>
 	</activerecord>]]>
-		</Content>
-		<Content KeyMode="SQLite">
+		</Condition>
+		<Condition Key="SQLite">
 			<![CDATA[
 	<activerecord>
 		<config>
@@ -58,8 +58,8 @@
 			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
 		</config>
 	</activerecord>]]>
-		</Content>
-		<Content KeyMode="SqlCe4">
+		</Condition>
+		<Condition Key="SqlCe4">
 			<![CDATA[
 	<activerecord>
 		<config>
@@ -70,7 +70,7 @@
 			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
 		</config>
 	</activerecord>]]>
-		</Content>
+		</Condition>
 	</PatternContent>
 
-</pattern>
+</PatternFile>

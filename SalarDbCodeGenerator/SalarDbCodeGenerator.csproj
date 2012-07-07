@@ -79,12 +79,18 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+    <Reference Include="EntityFramework, Version=4.3.1.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.TextEditor">
       <HintPath>References\ICSharpCode.TextEditor.dll</HintPath>
+    </Reference>
+    <Reference Include="Iesi.Collections">
+      <HintPath>References\Iesi.Collections.dll</HintPath>
+    </Reference>
+    <Reference Include="NHibernate">
+      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.DataAccess, Version=0.0.0.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <HintPath>References\Oracle.DataAccess.dll</HintPath>
@@ -97,11 +103,15 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Data.SQLite, Version=1.0.65.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=x86">
+    <Reference Include="System.Data.SQLite">
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <HintPath>References\System.Data.SQLite.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data.SQLite.Linq">
+      <HintPath>References\System.Data.SQLite.Linq.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.SqlServerCe, Version=4.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq">
@@ -117,34 +127,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGen\DbSchema\SchemaConstraintKey.cs" />
-    <Compile Include="CodeGen\Generator\GeneratorEngine.cs" />
-    <Compile Include="CodeGen\SchemaEngines\SQLCeSchemaEngine.cs" />
-    <Compile Include="CodeGen\SchemaEngines\OracleSchemaEngine.cs" />
-    <Compile Include="CodeGen\SchemaEngines\ExSchemaEngine.cs" />
-    <Compile Include="CodeGen\SchemaEngines\SQLiteSchemaEngine.cs" />
-    <Compile Include="CodeGen\DbSchema\SchemaColumn.cs" />
-    <Compile Include="CodeGen\DbSchema\SchemaDatabase.cs" />
-    <Compile Include="CodeGen\DbSchema\SchemaForeignKey.cs" />
-    <Compile Include="CodeGen\DbSchema\SchemaTable.cs" />
-    <Compile Include="CodeGen\DbSchema\SchemaView.cs" />
-    <Compile Include="CodeGen\Generator\ReplaceConsts.cs" />
-    <Compile Include="CodeGen\PatternsSchema\Definations.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternReplacement.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternConsts.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternContent.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternProject.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternFile.cs" />
+    <Compile Include="DbProject\ListExtensions.cs" />
+    <Compile Include="GeneratorEngine\Generator.cs" />
+    <Compile Include="GeneratorEngine\ReplaceConsts.cs" />
+    <Compile Include="GeneratorEngine\SchemaAnalyzer.cs" />
+    <Compile Include="Schema\Database\DbTable.cs" />
+    <Compile Include="Schema\Database\DbView.cs" />
+    <Compile Include="Schema\Database\DbColumn.cs" />
+    <Compile Include="Schema\Database\DbConstraintKey.cs" />
+    <Compile Include="Schema\Database\DbForeignKey.cs" />
+    <Compile Include="Schema\Database\DbDatabase.cs" />
+    <Compile Include="Schema\DbSchemaReaders\DbSchemaNames.cs" />
+    <Compile Include="Schema\DbSchemaReaders\ExSchemaEngine.cs" />
+    <Compile Include="Schema\DbSchemaReaders\OracleSchemaEngine.cs" />
+    <Compile Include="Schema\DbSchemaReaders\SQLCeSchemaEngine.cs" />
+    <Compile Include="Schema\DbSchemaReaders\SQLiteSchemaEngine.cs" />
+    <Compile Include="Schema\DbSchemaReaders\SQLSchemaEngine.cs" />
+    <Compile Include="Schema\DotNetSchemaDataInfo.cs" />
+    <Compile Include="Schema\Patterns\PatternContent.cs" />
     <Compile Include="DbProject\ProjectRenaming.cs" />
+    <Compile Include="Schema\Patterns\PatternFile.cs" />
+    <Compile Include="Schema\Patterns\PatternLngSettings.cs" />
+    <Compile Include="Schema\Patterns\PatternProject.cs" />
     <Compile Include="RegionHelper.cs" />
-    <Compile Include="CodeGen\SchemaEngines\SQLSchemaEngine.cs" />
     <Compile Include="DbProject\Common.cs" />
-    <Compile Include="CodeGen\Definations.cs" />
+    <Compile Include="Schema\DbSchemaReaders\Definations.cs" />
     <Compile Include="DbProject\ProjectCodeGenSettings.cs" />
     <Compile Include="DbProject\AppConfig.cs" />
     <Compile Include="DbProject\ProjectDbSettions.cs" />
     <Compile Include="DbProject\ProjectDefinaton.cs" />
-    <Compile Include="CodeGen\PatternsSchema\PatternLngSettings.cs" />
     <Compile Include="DbProject\ShellNotification.cs" />
     <Compile Include="frmCodeGen.cs">
       <SubType>Form</SubType>
@@ -175,6 +186,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Schema\Patterns\ConditionItem.cs" />
+    <Compile Include="Schema\Patterns\Definations.cs" />
+    <Compile Include="Schema\Patterns\SchemaPatternBase.cs" />
     <EmbeddedResource Include="frmCodeGen.resx">
       <DependentUpon>frmCodeGen.cs</DependentUpon>
     </EmbeddedResource>
@@ -201,6 +215,7 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="app.config" />
+    <None Include="packages.config" />
     <None Include="Patterns\3Tier C#\TableOracleStoredProcs.patml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -567,6 +582,63 @@
     <None Include="Patterns\NHibernate ActiveRecord\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\AppConfig.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\BaseEntity.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\DbMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\DbMapper.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\DbSession.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\Entity.DataAnnotations.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\Entity.Principal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\Entity.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\NHibernate MVVM MapByCode.dbpat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode MVVM\VS2010ClassProject.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\AppConfig.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\BaseEntity.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\DbMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\DbMapper.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\DbSession.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\Entity.Principal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\Entity.User.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\NHibernate Simple MapByCode.dbpat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\NHibernate MapByCode Simple\VS2010ClassProject.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Patterns\NHibernate MapByCode\AppConfig.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -614,6 +686,10 @@
     <Content Include="Patterns\NHibernate ActiveRecord\Readme.htm" />
     <Content Include="References\EntityFramework.dll" />
     <Content Include="References\ICSharpCode.TextEditor.dll" />
+    <Content Include="References\Iesi.Collections.dll" />
+    <Content Include="References\NHibernate.dll" />
+    <Content Include="References\SQLinq.dll" />
+    <Content Include="References\System.Data.SQLite.Linq.dll" />
     <Content Include="References\System.Data.SqlServerCe.dll" />
     <Content Include="Resources\ToLeft10.png" />
     <Content Include="Resources\ToRight10.png" />
@@ -691,6 +767,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearStamp.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="False" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PostBuildEvent>
+    if not exist "$(TargetDir)x86" md "$(TargetDir)x86"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\x86\*.*" "$(TargetDir)x86"
+    if not exist "$(TargetDir)amd64" md "$(TargetDir)amd64"
+    xcopy /s /y "$(SolutionDir)packages\Microsoft.SqlServer.Compact.4.0.8854.2\NativeBinaries\amd64\*.*" "$(TargetDir)amd64"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Database Entity Objects</Name>
 	<Description>Entity objects pattern</Description>
 	<Options
 		Group="Database Model"
-		AppliesTo="TablesAndViews_All"
-		Overwrite="True"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
 		FilePath="Entities\Principal\EntityObjects.cs"
 		Language="C#"
 		/>
@@ -27,57 +27,57 @@ namespace [:Namespace:].Entities
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="Tables_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
-	[EdmEntityTypeAttribute(Name = "[:TableNativeName:]")]
-	[Serializable()]
+	[EdmEntityTypeAttribute(Name = "[:TableNameDb:]")]
+	[Serializable]
 	[DataContractAttribute(IsReference = true)]
-	public partial class [:TableNativeName:] : [:DatabaseName:]BaseEntity
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
 	{
 [#FieldsProperties#]
 [#ForeignKeys#]
 	}
 ]]>
-		</Content>
-
-		<PatternContent Name="ForeignKeys" AppliesTo="ForeignKeys" ContentKeyMode="FieldForeignKey">
-			<Content KeyMode="MultiplicityOne">
-				<![CDATA[
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
 		/// <summary>
-		/// [:ForeignTableNativeName:]
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNativeName:]")]
-		[XmlIgnoreAttribute()]
-		[SoapIgnoreAttribute()]
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
 		[BrowsableAttribute(false)]
-		public virtual [:ForeignTableNativeName:] [:ForeignTableNativeName:] { get; set; }
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
 ]]>
-			</Content>
-			<Content KeyMode="MultiplicityMany">
-				<![CDATA[
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
 		/// <summary>
-		/// [:ForeignTableNativeName:]
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNativeName:]")]
-		[XmlIgnoreAttribute()]
-		[SoapIgnoreAttribute()]
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
 		[BrowsableAttribute(false)]
-		public virtual IList<[:ForeignTableNativeName:]> [:ForeignTableNativeName:] { get; set; }
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
 ]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
 
-		<PatternContent Name="FieldsProperties" AppliesTo="Columns" ContentKeyMode="FieldKeyType">
-			<Content KeyMode="AutoInrcementPrimaryKey">
-				<![CDATA[
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -90,15 +90,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="AutoInrcement">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -111,15 +111,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="AutoIncNativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -132,15 +132,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="AutoIncNullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:]? [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -153,15 +153,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:]? _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="PrimaryKey">
-				<![CDATA[
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -174,15 +174,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="NormalField">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -195,15 +195,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="NativeNullable">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -216,15 +216,15 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:] _[:FieldName:];
 ]]>
-			</Content>
-			<Content KeyMode="NullableType">
-				<![CDATA[
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
 		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute()]
+		[DataMemberAttribute]
 		public [:FieldDotNetType:]? [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -237,7 +237,8 @@ namespace [:Namespace:].Entities
 		}
 		private [:FieldDotNetType:]? _[:FieldName:];
 ]]>
-			</Content>
-		</PatternContent>
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
 	</PatternContent>
-</pattern>
+</PatternFile>

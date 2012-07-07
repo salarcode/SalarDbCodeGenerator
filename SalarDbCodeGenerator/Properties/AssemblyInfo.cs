@@ -22,14 +22,4 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c42fbf10-7fd7-4406-9e3f-48f0f0c3e68f")]
 
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion(SalarDbCodeGenerator.DbProject.AppConfig.AppVersionFull)]
+[assembly: AssemblyVersion("2.0.2012.0707")]

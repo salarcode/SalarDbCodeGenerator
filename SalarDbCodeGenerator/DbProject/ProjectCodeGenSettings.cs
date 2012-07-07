@@ -2,13 +2,14 @@
 using System.IO;
 using System.Windows.Forms;
 using System;
+using System.Xml.Serialization;
 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
+// 2012/07/06
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {
@@ -19,6 +20,7 @@ namespace SalarDbCodeGenerator.DbProject
 		public string DefaultNamespace { get; set; }
 		public bool GenerateCustomizablePartial { get; set; }
 		public string CodeGenPatternFile { get; set; }
+
 		public StringCollection SelectedPatterns { get; set; }
 
 		/// <summary>
@@ -52,7 +54,7 @@ namespace SalarDbCodeGenerator.DbProject
 		{
 			ProjectCodeGenSettings settings = new ProjectCodeGenSettings();
 
-			settings.CodeGenPatternFile = AppConfig.AppVarApplicationPath + @"\DbProject\3Tier C#\3TierPattern.dbpat";
+			settings.CodeGenPatternFile = AppConfig.AppVarApplicationPath + @"\Patterns\NHibernate MapByCode\NHibernate MapByCode.dbpat";
 			settings.DefaultNamespace = "SalarDb.CodeGen";
 
 			return settings;

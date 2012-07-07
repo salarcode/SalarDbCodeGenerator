@@ -10,7 +10,7 @@ using System.Windows.Forms;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2010-1-1
+// 2012/07/06
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {
@@ -120,6 +120,14 @@ namespace SalarDbCodeGenerator.DbProject
 				return r;
 			}
 			return defValue;
+		}
+
+		/// <summary>
+		/// Implements fast string replacing algorithm for CS
+		/// </summary>
+		public static string ReplaceExIgnoreCase(string original, string pattern, string replacement)
+		{
+			return Common.ReplaceEx(original, pattern, replacement, StringComparison.CurrentCultureIgnoreCase);
 		}
 
 		/// <summary>

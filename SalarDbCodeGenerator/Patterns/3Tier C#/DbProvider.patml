@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>DbProvider</Name>
 	<Description>Database operations in low level provider pattern</Description>
 	<Options
 		Group="Common"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Common\DbProvider.cs"
 		Language="C#"
 		/>
@@ -201,4 +201,4 @@ namespace [:Namespace:].Common
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

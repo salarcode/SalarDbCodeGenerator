@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User DAL</Name>
 	<Description>Data access layer user custom methods pattern</Description>
 	<Options
 		Group="TableDAL"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="DAL\[:TableName:]DAL.vb"
 		Language="VB.NET"
 		/>
@@ -19,7 +19,7 @@ Imports [:Namespace:].Common
 Namespace DAL
 
 	REM <summary>
-	REM User custom methods for [:TableNativeName:]
+	REM User custom methods for [:TableNameDb:]
 	REM </summary>
 	Partial Public Class [:TableName:]DAL
 
@@ -28,4 +28,4 @@ Namespace DAL
 End Namespace
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

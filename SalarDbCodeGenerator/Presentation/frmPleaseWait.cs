@@ -2,6 +2,13 @@
 using System.Drawing;
 using System.Windows.Forms;
 
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
 namespace SalarDbCodeGenerator
 {
 	public partial class frmPleaseWait : Form
@@ -140,6 +147,10 @@ namespace SalarDbCodeGenerator
 
 		public static void ShowPleaseWait(string waitingState, bool autoClose, bool cancelable)
 		{
+#if DEBUG
+			//return;
+#endif
+
 			if (_waiterThred != null)
 			{
 				_waiterThred.Abort();

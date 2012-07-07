@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>EntityObjectContext</Name>
 	<Description>Entity context object</Description>
 	<Options
 		Group="Entity Context"
-		AppliesTo="Tables_All"
-		Overwrite="True"
+		AppliesTo="TablesAll"
+		Overwrite="true"
 		FilePath="Entities\[:DatabaseName:]Context.cs"
 		Language="C#"
 		/>
@@ -132,11 +132,11 @@ namespace [:Namespace:]
 ]]>
 	</BaseContent>
 
-	<PatternContent Name="TablesAndViewsContent" AppliesTo="TablesAndViews_All" ContentKeyMode="OneReplacement">
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
 		<BaseContent>[:InnerContent:]</BaseContent>
-		<Content KeyMode="TheReplacement">
+		<Condition Key="TheReplacement">
 			<![CDATA[
 		public DbSet<[:TableName:]> [:TableName:] { get; set; }]]>
-		</Content>
+		</Condition>
 	</PatternContent>
-</pattern>
+</PatternFile>

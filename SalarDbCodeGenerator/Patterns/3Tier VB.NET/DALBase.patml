@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>DALBase</Name>
 	<Description>DAL base pattern</Description>
 	<Options
 		Group="Base"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Base\DALBase.vb"
 		Language="VB.NET"
 		/>
@@ -61,4 +61,4 @@ Namespace Base
 	End Namespace
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

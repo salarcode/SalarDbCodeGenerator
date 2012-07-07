@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<PatternProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<PatternProject>
 	<Name>3Tier VB.NET</Name>
 	<Description>This pattern generates 3-tier object relational database model.</Description>
 	<Author>Salar Khalilzadeh</Author>
-	<LastUpdate>2009/03/09</LastUpdate>
+	<LastUpdate>2012/07/06</LastUpdate>
 	<Language>VB.NET</Language>
 	<FileExtension>.vb</FileExtension>
 	<SupportedDatabases>MS SQL Server</SupportedDatabases>
-	<SeperateRefOtherColumns>false</SeperateRefOtherColumns>
+	<SeperateReferenceColumns>false</SeperateReferenceColumns>
 	<LanguageSettings>
 		<VoidDataType>void</VoidDataType>
 		<TextFieldIdenticator>text</TextFieldIdenticator>
@@ -137,6 +137,7 @@
 			<string>RemoveHandler</string>
 			<string>Resume</string>
 			<string>Return</string>
+			<string>Readonly</string>
 			<string>SByte</string>
 			<string>Select</string>
 			<string>Set</string>
@@ -172,58 +173,34 @@
 			<string>WriteOnly</string>
 			<string>Xor</string>
 		</LanguageKeywords>
+		<ExplicitCastDataTypes>
+			<string>Object</string>
+			<string>Guid</string>
+			<string>DateTimeOffset</string>
+			<string>TimeSpan</string>
+		</ExplicitCastDataTypes>
+		<NullableDataTypes>
+			<string>String</string>
+			<string>Object</string>
+		</NullableDataTypes>
+		<LanguageInvalidCharsSuppress>95</LanguageInvalidCharsSuppress>
+		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
 	</LanguageSettings>
-	<PatternFiles>
-		<PatternsListType>
-			<Path>AppConfig.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>BLLBase.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DALBase.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DbConnection.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DbProvider.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>DbTransaction.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>Enumerations.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>ModelBase.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableStoredProcs.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableBLL.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableBLL.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableDAL.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableDAL.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableModel.Principal.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>TableModel.User.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>VS2008ClassProject.patml</Path>
-		</PatternsListType>
-		<PatternsListType>
-			<Path>VS2010ClassProject.patml</Path>
-		</PatternsListType>
-	</PatternFiles>
+	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
+	<PatternFile Action="Generate">BLLBase.patml</PatternFile>
+	<PatternFile Action="Generate">DALBase.patml</PatternFile>
+	<PatternFile Action="Generate">DbConnection.patml</PatternFile>
+	<PatternFile Action="Generate">DbProvider.patml</PatternFile>
+	<PatternFile Action="Generate">DbTransaction.patml</PatternFile>
+	<PatternFile Action="Generate">Enumerations.patml</PatternFile>
+	<PatternFile Action="Generate">ModelBase.patml</PatternFile>
+	<PatternFile Action="Generate">TableStoredProcs.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.User.patml</PatternFile>
+	<PatternFile Action="Generate">VS2008ClassProject.patml</PatternFile>
+	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
 </PatternProject>

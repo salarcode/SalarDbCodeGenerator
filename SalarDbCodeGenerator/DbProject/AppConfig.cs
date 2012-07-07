@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.IO;
 using System.Windows.Forms;
@@ -11,20 +12,28 @@ using Microsoft.Win32;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2012-05-24
+// 2012/07/06
 // ====================================
 namespace SalarDbCodeGenerator.DbProject
 {
 	public static class AppConfig
 	{
-		public const string AppVersionMain = "1.1";
-		public const string AppVersionFull = "1.1.2012.0630";
-		public const string AppGeneratorSign = "Salar dotNET DbCodeGenerator";
+ 		public const string AppGeneratorSign = "Salar dotNET DbCodeGenerator";
 
 		public const string AppVarApplicationPath = "%APP%";
 		public const string AppVarProjectPath = "%PROJECT%";
 
 		public const string PatternProjectExtension = ".dbpat";
+
+		private static string _fullVersion;
+		public static string AppVersionFull
+		{
+			get
+			{
+				return _fullVersion ??
+					(_fullVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString());
+			}
+		}
 
 		public static string DefaultOutputPath
 		{
@@ -34,13 +43,12 @@ namespace SalarDbCodeGenerator.DbProject
 			}
 		}
 
-
 		public static string DefaultPatternFileName
 		{
 			get
 			{
 				return AppConfig.AppVarApplicationPath +
-				       @"\Patterns\3Tier C#\3Tier C# Pattern.dbpat";
+					   @"\Patterns\NHibernate MapByCode\NHibernate MapByCode.dbpat";
 				//return Path.Combine(Path.GetDirectoryName(Application.ExecutablePath),
 				//    @"\Patterns\3Tier C#\3Tier C# Pattern.dbpat");
 			}
@@ -62,7 +70,6 @@ namespace SalarDbCodeGenerator.DbProject
 			}
 		}
 
-
 		public static bool IsFilesAssociated()
 		{
 			const string CodeGenProjectFiles = ".dbgen";
@@ -83,7 +90,6 @@ namespace SalarDbCodeGenerator.DbProject
 			else
 				return true;
 		}
-
 
 		public static void AssociateApplicationFiles()
 		{

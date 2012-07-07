@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>User DAL</Name>
 	<Description>Data access layer user custom methods pattern</Description>
 	<Options
 		Group="TableDAL"
-		AppliesTo="TablesAndViews_Each"
-		Overwrite="False"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
 		FilePath="DAL\[:TableNameCS:]DAL.cs"
 		Language="C#"
 		/>
@@ -21,7 +21,7 @@ using [:Namespace:].Common;
 namespace [:Namespace:].DAL
 {
 	/// <summary>
-	/// User custom methods for [:TableNativeName:]
+	/// User custom methods for [:TableNameDb:]
 	/// </summary>
 	partial class [:TableName:]DAL
 	{
@@ -30,4 +30,4 @@ namespace [:Namespace:].DAL
 }
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>Dapper Engine</Name>
 	<Description>Dapper engine file</Description>
 	<Options
 		Group="Engine"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="Dapper\SqlMapper.cs"
 		Language="C#"
 		/>
@@ -2268,4 +2268,4 @@ string name, object value = null, DbType? dbType = null, ParameterDirection? dir
 
 }]]>
 	</BaseContent>
-</pattern>
+</PatternFile>

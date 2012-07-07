@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<pattern>
+<PatternFile>
 	<Name>AppConfig</Name>
 	<Description>Application config file</Description>
 	<Options
 		Group="ProjectFile"
-		AppliesTo="GeneralOnce"
-		Overwrite="False"
+		AppliesTo="General"
+		Overwrite="false"
 		FilePath="app.config"
 		Language="XML"
 		/>
@@ -18,4 +18,4 @@
 </configuration>
 ]]>
 	</BaseContent>
-</pattern>
+</PatternFile>
