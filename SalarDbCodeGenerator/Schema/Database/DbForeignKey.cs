@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SalarDbCodeGenerator.CodeGen.DbSchema
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
+namespace SalarDbCodeGenerator.Schema.Database
 {
 	/// <summary>
 	/// Foreign key relation details for table
 	/// </summary>
-	public class SchemaForeignKey
+	public class DbForeignKey
 	{
-		public enum ForeignKeyMultiplicity { Many, One }
+		public enum ForeignKeyMultiplicity { ManyToOne, OneToMany, OneToOne,/* ManyToMany*/ }
 		#region properties
-		///// <summary>
-		///// Current table name
-		///// </summary>
-		//internal string ForeignTableName { get; set; }
-
-		/// <summary>
+ 		/// <summary>
 		/// Name of ForeignKey
 		/// </summary>
 		public string ForeignKeyName { get; set; }
@@ -30,7 +32,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 		/// <summary>
 		/// The column which is used as ForeignKey in current table
 		/// </summary>
-		public SchemaColumn LocalColumn { get; set; }
+		public DbColumn LocalColumn { get; set; }
 
 		/// <summary>
 		/// The column which is used as ForeignKey in current table
@@ -40,7 +42,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 		/// <summary>
 		/// Foreign column used for relation
 		/// </summary>
-		public SchemaColumn ForeignColumn { get; set; }
+		public DbColumn ForeignColumn { get; set; }
 
 		/// <summary>
 		/// Foreign column name used for relation
@@ -50,7 +52,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 		/// <summary>
 		/// Foreign table
 		/// </summary>
-		public SchemaTable ForeignTable { get; set; }
+		public DbTable ForeignTable { get; set; }
 
 		private string _foreignTableName;
 
@@ -63,13 +65,14 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 			set
 			{
 				_foreignTableName = value;
+				ForeignTableNameInLocalTable = value;
 			}
 		}
 
 		/// <summary>
-		/// Foreign table name as field
+		/// Foreign table name in local table
 		/// </summary>
-		public string ForeignTableNameAsField { get; set; }
+		public string ForeignTableNameInLocalTable { get; set; }
 
 		public override string ToString()
 		{

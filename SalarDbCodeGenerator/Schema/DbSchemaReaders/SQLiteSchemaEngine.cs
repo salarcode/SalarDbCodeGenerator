@@ -5,9 +5,16 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SQLite;
 using System.Linq;
-using SalarDbCodeGenerator.CodeGen.DbSchema;
+using SalarDbCodeGenerator.Schema.Database;
 
-namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
+namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 {
 	public class SQLiteSchemaEngine : ExSchemaEngine
 	{
@@ -33,7 +40,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads full database schema
 		/// </summary>
-		public override void FillSchema(SchemaDatabase schemaDatabase)
+		public override void FillSchema(DbDatabase schemaDatabase)
 		{
 			if (schemaDatabase == null)
 				throw new ArgumentNullException("schemaDatabase", "Database is not specifed.");
@@ -148,9 +155,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads tables schema from database
 		/// </summary>
-		private List<SchemaTable> ReadTables(List<SchemaView> viewList)
+		private List<DbTable> ReadTables(List<DbView> viewList)
 		{
-			List<SchemaTable> result = new List<SchemaTable>();
+			List<DbTable> result = new List<DbTable>();
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
@@ -173,17 +180,17 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						}
 
 						// View columns
-						List<SchemaColumn> columns = ReadColumns(tableName);
+						List<DbColumn> columns = ReadColumns(tableName);
 
 						// read columns description
 						//if (ReadColumnsDescription)
 						//	ApplyColumnsDescription(tableName, columns);
 
 						// new table
-						SchemaTable dbTable = new SchemaTable(tableName, columns);
+						var dbTable = new DbTable(tableName, columns);
 
 						// table schema
-						dbTable.TableSchemaName = row["TABLE_SCHEMA"].ToString();
+						dbTable.OwnerName = row["TABLE_SCHEMA"].ToString();
 
 						// add to results
 						result.Add(dbTable);
@@ -209,13 +216,14 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Detecting one-to-one relation
 		/// </summary>
-		private void ApplyDetectedOneToOneRelation(List<SchemaTable> tables)
+		private void ApplyDetectedOneToOneRelation(List<DbTable> tables)
 		{
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
 					// already ont-to-?
-					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
+					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany||
+						fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
 						continue;
 
 					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
@@ -251,7 +259,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					if (localIsUnique && foreignIsUnique)
 					{
 						// this is one-to-one
-						fkey.Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One;
+						fkey.Multiplicity = DbForeignKey.ForeignKeyMultiplicity.OneToOne;
 					}
 				}
 		}
@@ -260,9 +268,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads views schema from database
 		/// </summary>
-		private List<SchemaView> ReadViews()
+		private List<DbView> ReadViews()
 		{
-			List<SchemaView> result = new List<SchemaView>();
+			List<DbView> result = new List<DbView>();
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
@@ -275,17 +283,17 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						string viewName = row["TABLE_NAME"].ToString();
 
 						// View columns
-						List<SchemaColumn> columns = ReadColumns(viewName);
+						List<DbColumn> columns = ReadColumns(viewName);
 
 						// read columns description
 						//if (ReadColumnsDescription)
 						//	ApplyColumnsDescription(viewName, columns);
 
 						// new view
-						SchemaView view = new SchemaView(viewName, columns);
+						var view = new DbView(viewName, columns);
 
 						// view schema
-						view.TableSchemaName = row["TABLE_SCHEMA"].ToString();
+						view.OwnerName = row["TABLE_SCHEMA"].ToString();
 
 						// add to results
 						result.Add(view);
@@ -302,9 +310,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Read columns schema from database
 		/// </summary>
-		private List<SchemaColumn> ReadColumns(string tableName)
+		private List<DbColumn> ReadColumns(string tableName)
 		{
-			List<SchemaColumn> result = new List<SchemaColumn>();
+			List<DbColumn> result = new List<DbColumn>();
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
@@ -344,15 +352,16 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						foreach (DataRow dr in columnsSchema.Rows)
 						{
 							string columnName = dr["ColumnName"].ToString();
-							SchemaColumn column = new SchemaColumn(columnName)
+							DbColumn column = new DbColumn(columnName)
 							{
-								DotNetType = dr["DataType"].ToString(),
+								DataTypeDotNet = dr["DataType"].ToString(),
 								Length = Convert.ToInt32(dr["ColumnSize"]),
 								PrimaryKey = Convert.ToBoolean(dr["IsKey"]),
 								AutoIncrement = Convert.ToBoolean(dr["IsAutoIncrement"]),
-								Nullable = Convert.ToBoolean(dr["AllowDBNull"]),
+								AllowNull = Convert.ToBoolean(dr["AllowDBNull"]),
 								ColumnOrdinal = Convert.ToInt32(dr["ColumnOrdinal"]),
 							};
+							column.FieldNameSchema = DbSchemaNames.FieldName_RemoveInvalidChars(column.FieldNameSchema);
 
 							// Columns which needs additional fetch
 							FillColumnAdditionalInfo(column, columnsDbTypeTable, tableName, columnName);
@@ -372,7 +381,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Column additional information
 		/// </summary>
-		private void FillColumnAdditionalInfo(SchemaColumn toSetColumn, DataTable columnsDbTypeTable, string tableName, string columnName)
+		private void FillColumnAdditionalInfo(DbColumn toSetColumn, DataTable columnsDbTypeTable, string tableName, string columnName)
 		{
 			DataRow[] addInfo = columnsDbTypeTable.Select(String.Format("TABLE_NAME='{0}' AND COLUMN_NAME='{1}'",
 											  tableName,
@@ -380,7 +389,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 			object tempInfo = null;
 			DataRow columnInfo = addInfo[0];
 
-			toSetColumn.DbType = columnInfo["DATA_TYPE"].ToString();
+			toSetColumn.DataTypeDb = columnInfo["DATA_TYPE"].ToString();
 			toSetColumn.Owner = columnInfo["TABLE_SCHEMA"].ToString();
 
 			tempInfo = columnInfo["NUMERIC_SCALE"];
@@ -397,7 +406,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads columns description from SQLite
 		/// </summary>
-		private void ApplyColumnsDescription(string tableName, List<SchemaColumn> columns)
+		private void ApplyColumnsDescription(string tableName, List<DbColumn> columns)
 		{
 			throw new NotSupportedException("SQLite doesn't have description field for columns.");
 		}
@@ -405,7 +414,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads specified table foreign keys.
 		/// </summary>
-		private void ApplyTablesForeignKeys(List<SchemaTable> tables)
+		private void ApplyTablesForeignKeys(List<DbTable> tables)
 		{
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
@@ -432,7 +441,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 							DataRow keyRow = keysData.Row;
 
 							// foreign key
-							SchemaForeignKey foreignKey = new SchemaForeignKey()
+							DbForeignKey foreignKey = new DbForeignKey()
 							{
 								ForeignKeyName = keyRow["CONSTRAINT_NAME"].ToString(),
 								LocalColumnName = keyRow["FKEY_FROM_COLUMN"].ToString(),
@@ -444,11 +453,11 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 							table.ForeignKeys.Add(foreignKey);
 
 							// apply local column
-							SchemaColumn localColumn = table.FindColumn(foreignKey.LocalColumnName);
+							DbColumn localColumn = table.FindColumnDb(foreignKey.LocalColumnName);
 							foreignKey.LocalColumn = localColumn;
 							
 							//apply foreign table
-							SchemaTable foreignTable = FindTable(tables, foreignKey.ForeignTableName);
+							DbTable foreignTable = FindTable(tables, foreignKey.ForeignTableName);
 							
 							// referenced key
 							if (!localColumn.PrimaryKey)
@@ -462,7 +471,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 								foreignKey.ForeignTable = foreignTable;
 
 								// apply foreign column
-								SchemaColumn foreignColumn = foreignTable.FindColumn(foreignKey.ForeignColumnName);
+								DbColumn foreignColumn = foreignTable.FindColumnDb(foreignKey.ForeignColumnName);
 								foreignKey.ForeignColumn = foreignColumn;
 							}
 							else
@@ -483,7 +492,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Finds table from list
 		/// </summary>
-		private SchemaTable FindTable(List<SchemaTable> tables, string tableName)
+		private DbTable FindTable(List<DbTable> tables, string tableName)
 		{
 			foreach (var table in tables)
 			{

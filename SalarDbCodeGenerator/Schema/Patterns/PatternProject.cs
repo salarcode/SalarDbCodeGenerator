@@ -5,22 +5,32 @@ using System.Text;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using System.IO;
-
+ 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2010-06-09
+// 2012/07/06
 // ====================================
-namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
+namespace SalarDbCodeGenerator.Schema.Patterns
 {
 	/// <summary>
 	/// Patterns project
 	/// </summary>
 	[Serializable]
-	public class PatternProject
+	public class PatternProject : SchemaPatternBase<PatternProject>
 	{
+		public struct PatternFile
+		{
+			[XmlText]
+			public string Path { get; set; }
+			[XmlAttribute]
+			public PatternsListItemAction Action { get; set; }
+			[XmlAttribute]
+			public string ActionCopyPath { get; set; }
+		}
+		
 		/// <summary>
 		/// Pattern name
 		/// </summary>
@@ -38,9 +48,11 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 		/// <summary>
 		/// Generate referenced columns seperated
 		/// </summary>
-		public bool SeperateRefOtherColumns { get; set; }
+		public bool SeperateReferenceColumns { get; set; }
 		public PatternLngSettings LanguageSettings { get; set; }
-		public List<PatternsListType> PatternFiles { get; set; }
+
+		[XmlElement("PatternFile")]
+		public List<PatternFile> PatternFiles { get; set; }
 
 		/// <summary>
 		/// Pattern project file name
@@ -50,7 +62,7 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 
 		public PatternProject()
 		{
-			PatternFiles = new List<PatternsListType>();
+			PatternFiles = new List<PatternFile>();
 			LanguageSettings = new PatternLngSettings();
 		}
 
@@ -64,34 +76,19 @@ namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
 				patProject.FileExtension == FileExtension;
 		}
 
-		public static PatternProject ReadFromFile(string projectFilename)
+		public static new PatternProject ReadFromFile(string projectFilename)
 		{
 			PatternProject project;
-			XmlSerializer loader = new XmlSerializer(typeof(PatternProject));
-			using (StreamReader reader = new StreamReader(projectFilename))
+			var loader = new XmlSerializer(typeof(PatternProject));
+			using (var reader = new StreamReader(projectFilename))
 				project = (PatternProject)loader.Deserialize(reader);
-
+		
 			project.PatternFileName = projectFilename;
 			return project;
 		}
 
-		public static void SaveToFile(PatternProject patternProject, string projectFilename)
-		{
-			XmlSerializer saver = new XmlSerializer(typeof(PatternProject));
-			using (StreamWriter writer = new StreamWriter(projectFilename))
-				saver.Serialize(writer, patternProject);
-		}
-	}
+ 	}
 
-	public struct PatternsListType
-	{
-		public string Path { get; set; }
-		
-		[XmlAttribute]
-		public PatternsListItemAction Action { get; set; }
-		[XmlAttribute]
-		public string ActionCopyPath { get; set; }
-	}
 
 	public enum PatternsListItemAction
 	{

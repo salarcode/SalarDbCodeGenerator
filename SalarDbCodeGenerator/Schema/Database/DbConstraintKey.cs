@@ -3,12 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace SalarDbCodeGenerator.CodeGen.DbSchema
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
+namespace SalarDbCodeGenerator.Schema.Database
 {
 	/// <summary>
 	/// Constraint key details for table
 	/// </summary>
-	public class SchemaConstraintKey
+	public class DbConstraintKey
 	{
 		#region properties
 		/// <summary>
@@ -24,7 +31,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 		/// <summary>
 		/// The column name used 
 		/// </summary>
-		public SchemaColumn KeyColumn { get; set; }
+		public DbColumn KeyColumn { get; set; }
 
 		/// <summary>
 		/// Is constraint key

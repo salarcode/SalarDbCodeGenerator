@@ -8,73 +8,84 @@ using System.Text;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
+// 2012/07/06
 // ====================================
-namespace SalarDbCodeGenerator.CodeGen.DbSchema
+namespace SalarDbCodeGenerator.Schema.Database
 {
-	public class SchemaTable
+	public class DbTable
 	{
 		public enum TableTypeInfo { Table, View }
-		#region local variables
-		#endregion
 
 		#region field variables
 		private string _tableName;
-		private string _tableNameCaseSensitive;
 		#endregion
 
 		#region properties
 		public bool Enabled { get; set; }
 		public bool ReadOnly { get; set; }
 		public TableTypeInfo TableType { get; set; }
-		public List<SchemaColumn> SchemaColumns { get; private set; }
-		public List<SchemaForeignKey> ForeignKeys { get; private set; }
-		public List<SchemaConstraintKey> ConstraintKeys { get; private set; }
-		public string TableSchemaName { get; set; }
+		public List<DbColumn> SchemaColumns { get; private set; }
+		public List<DbForeignKey> ForeignKeys { get; private set; }
+		public List<DbConstraintKey> ConstraintKeys { get; private set; }
+		public string OwnerName { get; set; }
+		public string TableNameSchema { get; set; }
 		public string TableName
 		{
 			get { return _tableName; }
 			private set
 			{
 				_tableName = value;
+				TableNameSchema = _tableName;
 				TableNameCS = _tableName;
 			}
 		}
+
+		private string _tableNameCs;
 
 		/// <summary>
 		/// TableName Case Sensitive.
 		/// Some databases (e.g Oracle) allow case sensitive table names which results two table with same name.
 		/// </summary>
-		public string TableNameCS { get; set; }
+		public string TableNameCS
+		{
+			get { return _tableNameCs; }
+			set
+			{
+				_tableNameCs = value;
+				TableNameSchemaCS = value;
+			}
+		}
+
+		public string TableNameSchemaCS { get; set; }
 		#endregion
 
 		#region public methods
-		public SchemaTable(string tableName)
+		public DbTable(string tableName)
 		{
 			TableName = tableName;
-			SchemaColumns = new List<SchemaColumn>();
-			ForeignKeys = new List<SchemaForeignKey>();
-			ConstraintKeys = new List<SchemaConstraintKey>();
+			SchemaColumns = new List<DbColumn>();
+			ForeignKeys = new List<DbForeignKey>();
+			ConstraintKeys = new List<DbConstraintKey>();
 			TableType = TableTypeInfo.Table;
 		}
-		public SchemaTable(string tableName, List<SchemaColumn> schemaColumns)
+		public DbTable(string tableName, List<DbColumn> schemaColumns)
 		{
 			TableName = tableName;
 			SchemaColumns = schemaColumns;
-			ForeignKeys = new List<SchemaForeignKey>();
-			ConstraintKeys = new List<SchemaConstraintKey>();
+			ForeignKeys = new List<DbForeignKey>();
+			ConstraintKeys = new List<DbConstraintKey>();
 			TableType = TableTypeInfo.Table;
 		}
-		public SchemaTable(string tableName, List<SchemaColumn> schemaColumns, List<SchemaForeignKey> foreignKeys)
+		public DbTable(string tableName, List<DbColumn> schemaColumns, List<DbForeignKey> foreignKeys)
 		{
 			TableName = tableName;
 			SchemaColumns = schemaColumns;
 			ForeignKeys = foreignKeys;
-			ConstraintKeys = new List<SchemaConstraintKey>();
+			ConstraintKeys = new List<DbConstraintKey>();
 			TableType = TableTypeInfo.Table;
 		}
 
-		public SchemaTable(string tableName, List<SchemaColumn> schemaColumns, List<SchemaForeignKey> foreignKeys, List<SchemaConstraintKey> constraintKeys)
+		public DbTable(string tableName, List<DbColumn> schemaColumns, List<DbForeignKey> foreignKeys, List<DbConstraintKey> constraintKeys)
 		{
 			TableName = tableName;
 			SchemaColumns = schemaColumns;
@@ -125,7 +136,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 		/// <summary>
 		/// Returns number of auto increment columns
 		/// </summary>
-		public SchemaColumn GetFirstAutoIncrementField()
+		public DbColumn GetFirstAutoIncrementField()
 		{
 			foreach (var column in SchemaColumns)
 			{
@@ -135,7 +146,7 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 			return null;
 		}
 
-		public SchemaColumn GetPrimaryKey()
+		public DbColumn GetPrimaryKey()
 		{
 			foreach (var column in SchemaColumns)
 			{
@@ -145,21 +156,32 @@ namespace SalarDbCodeGenerator.CodeGen.DbSchema
 			return null;
 		}
 
-		public SchemaColumn FindColumn(string fieldName)
+		public DbColumn FindColumnDb(string fieldName)
 		{
 			foreach (var column in SchemaColumns)
 			{
-				if (column.FieldName == fieldName)
+				if (column.FieldNameDb == fieldName)
 					return column;
 			}
 			return null;
 		}
-		public List<SchemaColumn> FindColumns(string fieldName)
+
+		public DbColumn FindColumnSchema(string fieldName)
 		{
-			var result = new List<SchemaColumn>();
 			foreach (var column in SchemaColumns)
 			{
-				if (column.FieldName == fieldName)
+				if (column.FieldNameSchema == fieldName)
+					return column;
+			}
+			return null;
+		}
+
+		List<DbColumn> FindColumns__(string fieldName)
+		{
+			var result = new List<DbColumn>();
+			foreach (var column in SchemaColumns)
+			{
+				if (column.FieldNameDb == fieldName)
 					result.Add(column);
 			}
 			return result;

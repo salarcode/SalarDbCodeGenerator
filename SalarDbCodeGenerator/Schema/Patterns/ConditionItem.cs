@@ -3,42 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
-// ====================================
-namespace SalarDbCodeGenerator.CodeGen.PatternsSchema
+ // ====================================
+namespace SalarDbCodeGenerator.Schema.Patterns
 {
 	/// <summary>
 	/// The "Content" key with in "PatternContent" tag
 	/// </summary>
-	public class PatternReplacement
+	public class ConditionItem
 	{
+		public ConditionItem()
+		{
+			Key = string.Empty;
+			ContentText = string.Empty;
+		}
+
 		/// <summary>
 		/// Replacement mode
 		/// </summary>
-		public string KeyMode { get; set; }
+		[XmlAttribute]
+		public string Key { get; set; }
 
 		/// <summary>
 		/// Replacement Content
 		/// </summary>
-		public string Content { get; set; }
+		[XmlText]
+		public string ContentText { get; set; }
 
-		/// <summary>
-		/// Read data from xml
-		/// </summary>
-		internal static PatternReplacement ReadFromXElement(XElement element)
+		public override string ToString()
 		{
-			PatternReplacement result = new PatternReplacement()
-			{
-				KeyMode = element.Attribute("KeyMode").Value,
-				Content = element.Value
-			};
-			return result;
+			return Key;
 		}
+ 
 	}
 }

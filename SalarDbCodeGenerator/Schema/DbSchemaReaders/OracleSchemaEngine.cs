@@ -1,22 +1,22 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
+using System.Linq;
 using System.Text.RegularExpressions;
 using Oracle.DataAccess.Client;
-using SalarDbCodeGenerator.CodeGen.DbSchema;
 using SalarDbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.Schema.Database;
 
 // ====================================
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2010-11-21
+// 2012/07/06
 // ====================================
-namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
+namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 {
 	public class OracleSchemaEngine : ExSchemaEngine
 	{
@@ -52,7 +52,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads full database schema
 		/// </summary>
-		public override void FillSchema(SchemaDatabase schemaDatabase)
+		public override void FillSchema(DbDatabase schemaDatabase)
 		{
 			if (schemaDatabase == null)
 				throw new ArgumentNullException("schemaDatabase", "Database is not specifed.");
@@ -233,9 +233,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads tables schema from database
 		/// </summary>
-		private List<SchemaTable> ReadTables(List<SchemaView> viewList)
+		private List<DbTable> ReadTables(List<DbView> viewList)
 		{
-			List<SchemaTable> result = new List<SchemaTable>();
+			List<DbTable> result = new List<DbTable>();
 
 			string[] restrictions = null;
 			if (!string.IsNullOrWhiteSpace(this.SpecificOwner))
@@ -260,17 +260,17 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					}
 
 					// View columns
-					List<SchemaColumn> columns = ReadColumns(tableName);
+					List<DbColumn> columns = ReadColumns(tableName);
 
 					// read columns description
 					if (ReadColumnsDescription)
 						ApplyColumnsDescription(tableName, columns);
-					
+
 					// new table
-					var dbTable = new SchemaTable(tableName, columns);
+					var dbTable = new DbTable(tableName, columns);
 
 					// table schema
-					dbTable.TableSchemaName = row["OWNER"].ToString();
+					dbTable.OwnerName = row["OWNER"].ToString();
 
 					// add to results
 					result.Add(dbTable);
@@ -304,13 +304,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Only oracle allows case sensitive table names!
 		/// </summary>
-		private void AssignCaseSensitiveTablesName(List<SchemaTable> tables)
+		private void AssignCaseSensitiveTablesName(List<DbTable> tables)
 		{
 			if (tables.Count == 0)
 				return;
 
 			// the copy list
-			var workingTables = new List<SchemaTable>();
+			var workingTables = new List<DbTable>();
 			workingTables.AddRange(tables);
 
 			// suppress pattern
@@ -345,9 +345,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads views schema from database
 		/// </summary>
-		private List<SchemaView> ReadViews()
+		private List<DbView> ReadViews()
 		{
-			List<SchemaView> result = new List<SchemaView>();
+			List<DbView> result = new List<DbView>();
 
 			string[] restrictions = null;
 			if (!string.IsNullOrWhiteSpace(this.SpecificOwner))
@@ -362,13 +362,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					string viewName = row["VIEW_NAME"].ToString();
 
 					// View columns
-					List<SchemaColumn> columns = ReadColumns(viewName);
+					List<DbColumn> columns = ReadColumns(viewName);
 
 					// new view
-					SchemaView view = new SchemaView(viewName, columns);
+					var view = new DbView(viewName, columns);
 
 					// view schema
-					view.TableSchemaName = row["OWNER"].ToString();
+					view.OwnerName = row["OWNER"].ToString();
 
 					// add to results
 					result.Add(view);
@@ -380,9 +380,9 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Read columns schema from database
 		/// </summary>
-		private List<SchemaColumn> ReadColumns(String tableName)
+		private List<DbColumn> ReadColumns(String tableName)
 		{
-			List<SchemaColumn> result = new List<SchemaColumn>();
+			List<DbColumn> result = new List<DbColumn>();
 
 
 			string[] restrictions = null;
@@ -403,15 +403,15 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				foreach (DataRow dr in columnsDbTypeTable.Rows)
 				{
 					string columnName = dr["COLUMN_NAME"].ToString();
-					SchemaColumn column = new SchemaColumn(columnName)
+					DbColumn column = new DbColumn(columnName)
 					{
 						Owner = dr["OWNER"].ToString(),
-						DotNetType = FindMatchingDotNetDataType(dr["DATATYPE"].ToString()),
+						DataTypeDotNet = FindMatchingDotNetDataType(dr["DATATYPE"].ToString()),
 
-						DbType = dr["DATATYPE"].ToString(),
+						DataTypeDb = dr["DATATYPE"].ToString(),
 						Length = Common.TryConvertInt32(dr["LENGTH"].ToString(), 0),
 						ColumnOrdinal = Common.TryConvertInt32(dr["ID"].ToString(), -1),
-						Nullable = dr["Nullable"].ToString().ToUpper() == "Y",
+						AllowNull = dr["Nullable"].ToString().ToUpper() == "Y",
 
 						NumericPrecision = Common.TryConvertInt32(dr["PRECISION"].ToString(), -1),
 						NumericScale = Common.TryConvertInt32(dr["SCALE"].ToString(), -1),
@@ -421,6 +421,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						PrimaryKey = false,
 						UserDescription = ""
 					};
+					column.FieldNameSchema = DbSchemaNames.FieldName_RemoveInvalidChars(column.FieldNameSchema);
 
 					// Columns which needs additional fetch
 					FillColumnAdditionalInfo(column, tableName, columnName);
@@ -435,7 +436,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Column additional information
 		/// </summary>
-		private void FillColumnAdditionalInfo(SchemaColumn toSetColumn, string tableName, string columnName)
+		private void FillColumnAdditionalInfo(DbColumn toSetColumn, string tableName, string columnName)
 		{
 			DataRow[] addInfo = Cache_All_Constraints.Select(string.Format("OWNER='{0}' AND TABLE_NAME='{1}' AND CONSTRAINT_TYPE='{2}' AND COLUMN_NAME='{3}'",
 				SpecificOwner.ToUpper(),
@@ -452,7 +453,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads tables index keys
 		/// </summary>
-		private void ApplyTablesConstraintKeys(List<SchemaTable> tables, OracleServerVersions sqlVersion)
+		private void ApplyTablesConstraintKeys(List<DbTable> tables, OracleServerVersions sqlVersion)
 		{
 			if (Cache_Indexes.Rows.Count == 0)
 				return;
@@ -496,7 +497,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					const string STR_IndexNonUniqueName = "NONUNIQUE";
 
 					// constraint Key
-					var constraintKey = new SchemaConstraintKey()
+					var constraintKey = new DbConstraintKey()
 					{
 						IsUnique = (keyRow["UNIQUENESS"].ToString() == STR_IndexUniqueName),
 						KeyColumnName = columnName,
@@ -507,7 +508,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					table.ConstraintKeys.Add(constraintKey);
 
 					// find key column
-					SchemaColumn keyColumn = table.FindColumn(constraintKey.KeyColumnName);
+					DbColumn keyColumn = table.FindColumnDb(constraintKey.KeyColumnName);
 					constraintKey.KeyColumn = keyColumn;
 				}
 			}
@@ -516,7 +517,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads specified table foreign keys.
 		/// </summary>
-		private void ApplyTablesForeignKeys(List<SchemaTable> tables)
+		private void ApplyTablesForeignKeys(List<DbTable> tables)
 		{
 			if (Cache_ForeignKeys.Rows.Count == 0)
 				return;
@@ -570,13 +571,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				{
 
 					// foreign key many end
-					var oneMultiplicityKey = new SchemaForeignKey()
+					var oneMultiplicityKey = new DbForeignKey()
 					{
 						ForeignKeyName = foreignKeyConstraintName,
 						LocalColumnName = foreignKeyColumnName,
 						ForeignColumnName = primaryKeyColumnName,
 						ForeignTableName = primaryKeyTableName,
-						Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One
+						Multiplicity = DbForeignKey.ForeignKeyMultiplicity.OneToMany
 					};
 
 					// check if it is already there
@@ -591,7 +592,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					foreignKeyTable.ForeignKeys.Add(oneMultiplicityKey);
 
 					// apply local column
-					SchemaColumn localColumn = foreignKeyTable.FindColumn(oneMultiplicityKey.LocalColumnName);
+					DbColumn localColumn = foreignKeyTable.FindColumnDb(oneMultiplicityKey.LocalColumnName);
 					oneMultiplicityKey.LocalColumn = localColumn;
 					if (!localColumn.PrimaryKey)
 					{
@@ -605,7 +606,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						oneMultiplicityKey.ForeignTable = primaryKeyTable;
 
 						// apply foreign column
-						SchemaColumn foreignColumn = primaryKeyTable.FindColumn(oneMultiplicityKey.ForeignColumnName);
+						DbColumn foreignColumn = primaryKeyTable.FindColumnDb(oneMultiplicityKey.ForeignColumnName);
 						oneMultiplicityKey.ForeignColumn = foreignColumn;
 					}
 					else
@@ -619,13 +620,13 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 				{
 
 					// foreign key many end
-					var manyMultiplicityKey = new SchemaForeignKey()
+					var manyMultiplicityKey = new DbForeignKey()
 					{
 						ForeignKeyName = primaryKeyConstraintName,
 						LocalColumnName = primaryKeyColumnName,
 						ForeignColumnName = foreignKeyColumnName,
 						ForeignTableName = foreignKeyTableName,
-						Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.Many
+						Multiplicity = DbForeignKey.ForeignKeyMultiplicity.ManyToOne
 					};
 
 					// check if it is already there
@@ -640,7 +641,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					primaryKeyTable.ForeignKeys.Add(manyMultiplicityKey);
 
 					// apply local column
-					SchemaColumn localColumn = primaryKeyTable.FindColumn(manyMultiplicityKey.LocalColumnName);
+					DbColumn localColumn = primaryKeyTable.FindColumnDb(manyMultiplicityKey.LocalColumnName);
 					manyMultiplicityKey.LocalColumn = localColumn;
 					if (!localColumn.PrimaryKey)
 					{
@@ -654,7 +655,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 						manyMultiplicityKey.ForeignTable = foreignKeyTable;
 
 						// apply foreign column
-						SchemaColumn foreignColumn = foreignKeyTable.FindColumn(manyMultiplicityKey.ForeignColumnName);
+						DbColumn foreignColumn = foreignKeyTable.FindColumnDb(manyMultiplicityKey.ForeignColumnName);
 						manyMultiplicityKey.ForeignColumn = foreignColumn;
 					}
 					else
@@ -669,13 +670,14 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Detecting one-to-one relation
 		/// </summary>
-		private void ApplyDetectedOneToOneRelation(List<SchemaTable> tables)
+		private void ApplyDetectedOneToOneRelation(List<DbTable> tables)
 		{
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
 					// already one-to-(?)
-					if (fkey.Multiplicity == SchemaForeignKey.ForeignKeyMultiplicity.One)
+					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
+						fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
 						continue;
 
 					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
@@ -711,7 +713,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 					if (localIsUnique && foreignIsUnique)
 					{
 						// this is one-to-one
-						fkey.Multiplicity = SchemaForeignKey.ForeignKeyMultiplicity.One;
+						fkey.Multiplicity = DbForeignKey.ForeignKeyMultiplicity.OneToOne;
 					}
 				}
 		}
@@ -720,10 +722,10 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Removes duplicate table constraints, PK > UK > IX
 		/// </summary>
-		private void NormalizeTablesConstraintKeys(List<SchemaTable> result, OracleServerVersions sqlVersion)
+		private void NormalizeTablesConstraintKeys(List<DbTable> result, OracleServerVersions sqlVersion)
 		{
 			// look in tables list
-			foreach (SchemaTable table in result)
+			foreach (DbTable table in result)
 			{
 				if (table.ConstraintKeys.Count == 0)
 				{
@@ -802,7 +804,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Reads columns description from SQLServer
 		/// </summary>
-		private void ApplyColumnsDescription(string tableName, List<SchemaColumn> columns)
+		private void ApplyColumnsDescription(string tableName, List<DbColumn> columns)
 		{
 			//throw new NotSupportedException("Oracle doesn't have description field for columns.");
 			// there is no column!
@@ -838,7 +840,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 							foreach (var column in columns)
 							{
 								// filter row to find the column
-								descriptionData.DefaultView.RowFilter = " column_name='" + column.FieldName + "' ";
+								descriptionData.DefaultView.RowFilter = " column_name='" + column.FieldNameDb + "' ";
 								if (descriptionData.DefaultView.Count > 0)
 								{
 									// description found!
@@ -958,7 +960,7 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// Finds table from list
 		/// </summary>
-		private SchemaTable FindTable(List<SchemaTable> tables, string tableName)
+		private DbTable FindTable(List<DbTable> tables, string tableName)
 		{
 			foreach (var table in tables)
 			{

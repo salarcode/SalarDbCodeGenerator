@@ -8,19 +8,19 @@ using System.Text;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2009-9-30
+// 2012/07/06
 // ====================================
-namespace SalarDbCodeGenerator.CodeGen.DbSchema
+namespace SalarDbCodeGenerator.Schema.Database
 {
-	public class SchemaView : SchemaTable
+	public class DbView : DbTable
 	{
-		public SchemaView(string viewName)
+		public DbView(string viewName)
 			: base(viewName)
 		{
 			ReadOnly = true;
 			TableType = TableTypeInfo.View;
 		}
-		public SchemaView(string viewName, List<SchemaColumn> schemaColumns)
+		public DbView(string viewName, List<DbColumn> schemaColumns)
 			: base(viewName, schemaColumns)
 		{
 			ReadOnly = true;

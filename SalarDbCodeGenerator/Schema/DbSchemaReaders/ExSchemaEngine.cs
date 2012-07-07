@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using SalarDbCodeGenerator.CodeGen.DbSchema;
-using System.Collections.Specialized;
+﻿using System.Collections.Specialized;
+using SalarDbCodeGenerator.Schema.Database;
 
-namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
+// ====================================
+// SalarDbCodeGenerator
+// http://SalarDbCodeGenerator.codeplex.com
+// Programmer: Salar Khalilzadeh <salar2k@gmail.com>
+// Copytight(c) 2012, All rights reserved
+// 2012/07/06
+// ====================================
+namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 {
 	public abstract class ExSchemaEngine
 	{
@@ -28,10 +30,10 @@ namespace SalarDbCodeGenerator.CodeGen.SchemaEngines
 		/// <summary>
 		/// [Oracle only] Only get list from specific owner
 		/// </summary>
-		public string SpecificOwner { get; set; } 
+		public string SpecificOwner { get; set; }
 
 
-		public abstract void FillSchema(SchemaDatabase schemaDatabase);
+		public abstract void FillSchema(DbDatabase schemaDatabase);
 		public abstract void ReadViewsTablesList(out StringCollection tables, out StringCollection views);
 
 		/// <summary>
