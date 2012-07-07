@@ -90,12 +90,16 @@
       <HintPath>References\Iesi.Collections.dll</HintPath>
     </Reference>
     <Reference Include="NHibernate">
-      <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
+      <HintPath>References\NHibernate.dll</HintPath>
     </Reference>
     <Reference Include="Oracle.DataAccess, Version=0.0.0.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
       <HintPath>References\Oracle.DataAccess.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SQLinq, Version=2.0.0.0, Culture=neutral, PublicKeyToken=1c5d57eb9e11fe4b, processorArchitecture=MSIL">
+      <HintPath>References\SQLinq.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />

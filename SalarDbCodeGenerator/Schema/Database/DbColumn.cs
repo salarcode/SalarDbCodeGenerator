@@ -8,13 +8,13 @@ using System.Text;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2012/07/06
+// 2012/07/07
 // ====================================
 namespace SalarDbCodeGenerator.Schema.Database
 {
 	public class DbColumn
 	{
-		public enum ColumnCondesedType
+		public enum ColumnCondensedType
 		{
 			None,
 			String,
@@ -30,7 +30,7 @@ namespace SalarDbCodeGenerator.Schema.Database
 		/// <summary>
 		/// Determined special type of column
 		/// </summary>
-		public ColumnCondesedType DataCondensedType { get; set; }
+		public ColumnCondensedType DataCondensedType { get; set; }
 		public int Length { get; set; }
 		public bool PrimaryKey { get; set; }
 		private bool _allowNull;

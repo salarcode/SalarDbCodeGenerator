@@ -147,9 +147,26 @@ namespace [:Namespace:].Entities
 		public List<[:LocalTableName:]> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
 		{
 			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:LocalFieldNameDb:]=[:ProviderSPParamPrefix:][:LocalFieldName:]", new { [:LocalFieldName:] = [:LocalFieldName:] }).ToList();
- 		}]]>
+ 		}
+		
+		public [:ForeignTableName:] Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
 				</Condition>
-				<Condition Key="MultiplicityMany"></Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		public List<[:ForeignTableName:]> Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">

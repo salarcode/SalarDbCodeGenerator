@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using SalarDbCodeGenerator.Schema.Patterns;
+﻿using SalarDbCodeGenerator.Schema.Database;
 
 namespace SalarDbCodeGenerator.Schema
 {
@@ -10,33 +6,28 @@ namespace SalarDbCodeGenerator.Schema
 	{
 		public const string DotNetArrayIdenticator = "[]";
 
-		public static bool IsStringType(string dotNetDataType)
-		{
-			if (dotNetDataType == "System.String")
-				return true;
-			return false;
-		}
-		public static string DetermineNumericType(string dotNetDataType)
+		public static DbColumn.ColumnCondensedType DetermineColumnCondensedType(string dotNetDataType)
 		{
 			switch (dotNetDataType)
 			{
+				case "System.String":
+					return DbColumn.ColumnCondensedType.String;
 				case "System.Int16":
-					return ConditionKeyModeConsts.FieldNumericType.Integer;
+					return DbColumn.ColumnCondensedType.Integer;
 				case "System.Int32":
-					return ConditionKeyModeConsts.FieldNumericType.Integer;
+					return DbColumn.ColumnCondensedType.Integer;
 				case "System.Int64":
-					return ConditionKeyModeConsts.FieldNumericType.Integer;
+					return DbColumn.ColumnCondensedType.Integer;
 				case "System.Byte":
-					return ConditionKeyModeConsts.FieldNumericType.Integer;
+					return DbColumn.ColumnCondensedType.Integer;
 				case "System.Decimal":
-					return ConditionKeyModeConsts.FieldNumericType.Decimal;
+					return DbColumn.ColumnCondensedType.Decimal;
 				case "System.Single":
-					return ConditionKeyModeConsts.FieldNumericType.Decimal;
+					return DbColumn.ColumnCondensedType.Decimal;
 				case "System.Double":
-					return ConditionKeyModeConsts.FieldNumericType.Decimal;
- 			}
-			return "";
+					return DbColumn.ColumnCondensedType.Decimal;
+			}
+			return DbColumn.ColumnCondensedType.None;
 		}
-
 	}
 }

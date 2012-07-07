@@ -13,7 +13,7 @@ using SalarDbCodeGenerator.Schema.Patterns;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2012/07/06
+// 2012/07/07
 // ====================================
 namespace SalarDbCodeGenerator.GeneratorEngine
 {
@@ -69,7 +69,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				{
 					var dbColumn = dbTable.SchemaColumns[i];
 					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbTable, dbColumn.FieldNameSchema, true);
-					dbColumn.DataCondensedType = NaturalizeNames_DataCondensedType(dbColumn.DataTypeDotNet);
+					dbColumn.DataCondensedType = DotNetSchemaDataInfo.DetermineColumnCondensedType(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeDotNet = NaturalizeNames_DotNetTypeClean(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbTable, dbColumn);
 					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbTable, dbColumn);
@@ -87,7 +87,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				{
 					var dbColumn = dbView.SchemaColumns[i];
 					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbView, dbColumn.FieldNameSchema, true);
-					dbColumn.DataCondensedType = NaturalizeNames_DataCondensedType(dbColumn.DataTypeDotNet);
+					dbColumn.DataCondensedType = DotNetSchemaDataInfo.DetermineColumnCondensedType(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeDotNet = NaturalizeNames_DotNetTypeClean(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbView, dbColumn);
 					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbView, dbColumn);
@@ -95,22 +95,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			}
 		}
 
-		private DbColumn.ColumnCondesedType NaturalizeNames_DataCondensedType(string dataTypeDotNet)
-		{
-			if (DotNetSchemaDataInfo.IsStringType(dataTypeDotNet))
-				return DbColumn.ColumnCondesedType.String;
-
-			switch (DotNetSchemaDataInfo.DetermineNumericType(dataTypeDotNet))
-			{
-				case ConditionKeyModeConsts.FieldNumericType.Integer:
-					return DbColumn.ColumnCondesedType.Integer;
-
-				case ConditionKeyModeConsts.FieldNumericType.Decimal:
-					return DbColumn.ColumnCondesedType.Decimal;
-			}
-			return DbColumn.ColumnCondesedType.None;
-		}
-
+ 
 		private string NaturalizeNames_DotNetTypeClean(string dataTypeDotNet)
 		{
 			string _dotNetType = dataTypeDotNet;

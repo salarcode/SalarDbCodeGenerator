@@ -88,15 +88,10 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		/// </summary>
 		FieldKeyReadType,
 
-		/// <summary>
-		/// None, Integer, Decimal
+ 		/// <summary>
+		/// None, String, Integer, Decimal
 		/// </summary>
-		FieldNumericType,
-
-		/// <summary>
-		/// None, String
-		/// </summary>
-		FieldStringType,
+		FieldCondensedType,
 
 		/// <summary>
 		/// SQLServer, Oracle, SQLite
@@ -204,22 +199,14 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		}
 
 		/// <summary>
-		/// None, Integer, Decimal
-		/// </summary>
-		public static class FieldNumericType
-		{
-			public const string None = "NumericType_None";
-			public const string Integer = "NumericType_Integer";
-			public const string Decimal = "NumericType_Decimal";
-		}
-
-		/// <summary>
 		/// None, String
 		/// </summary>
-		public static class FieldStringType
+		public static class FieldCondensedType
 		{
 			public const string None = "StringType_None";
 			public const string String = "StringType_String";
+			public const string Integer = "NumericType_Integer";
+			public const string Decimal = "NumericType_Decimal";
 		}
 
 		/// <summary>

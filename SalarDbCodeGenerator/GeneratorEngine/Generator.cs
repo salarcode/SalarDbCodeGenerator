@@ -12,7 +12,7 @@ using SalarDbCodeGenerator.Schema.Patterns;
 // http://SalarDbCodeGenerator.codeplex.com
 // Programmer: Salar Khalilzadeh <salar2k@gmail.com>
 // Copytight(c) 2012, All rights reserved
-// 2012/07/06
+// 2012/07/07
 // ====================================
 namespace SalarDbCodeGenerator.GeneratorEngine
 {
@@ -507,8 +507,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 						break;
 
 					case PatternConditionKeyMode.FieldsAll:
-					case PatternConditionKeyMode.FieldStringType:
-					case PatternConditionKeyMode.FieldNumericType:
+					case PatternConditionKeyMode.FieldCondensedType:
 					case PatternConditionKeyMode.FieldKeyReadType:
 					case PatternConditionKeyMode.FieldKeyType:
 					case PatternConditionKeyMode.FieldPrimaryKey:
@@ -1267,42 +1266,31 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 					// Replace the contents
 					return Replacer_ConditionItem_AppliesToColumn(replacer.ContentText, table, column);
 
-				case PatternConditionKeyMode.FieldStringType:
-					ConditionItem replacerStringType;
+				case PatternConditionKeyMode.FieldCondensedType:
+					ConditionItem replacerCondensedType = null;
 
-					if (column.DataCondensedType == DbColumn.ColumnCondesedType.String)
+					switch (column.DataCondensedType)
 					{
-						replacerStringType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldStringType.String);
-					}
-					else
-					{
-						replacerStringType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldStringType.None);
-					}
+						case DbColumn.ColumnCondensedType.None:
+							replacerCondensedType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldCondensedType.None);
+							break;
 
-					// Replace the contents
-					if (replacerStringType != null)
-						return Replacer_ConditionItem_AppliesToColumn(replacerStringType.ContentText, table, column);
-					return string.Empty;
+						case DbColumn.ColumnCondensedType.String:
+							replacerCondensedType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldCondensedType.String);
+							break;
 
-				case PatternConditionKeyMode.FieldNumericType:
-					ConditionItem replacerNumericType;
+						case DbColumn.ColumnCondensedType.Decimal:
+							replacerCondensedType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldCondensedType.Decimal);
+							break;
 
-					if (column.DataCondensedType == DbColumn.ColumnCondesedType.Decimal)
-					{
-						replacerNumericType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldNumericType.Decimal);
-					}
-					else if (column.DataCondensedType == DbColumn.ColumnCondesedType.Integer)
-					{
-						replacerNumericType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldNumericType.Integer);
-					}
-					else
-					{
-						replacerNumericType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldNumericType.None);
+						case DbColumn.ColumnCondensedType.Integer:
+							replacerCondensedType = partialContent.GetReplacement(ConditionKeyModeConsts.FieldCondensedType.Integer);
+							break;
 					}
 
 					// Replace the contents
-					if (replacerNumericType != null)
-						return Replacer_ConditionItem_AppliesToColumn(replacerNumericType.ContentText, table, column);
+					if (replacerCondensedType != null)
+						return Replacer_ConditionItem_AppliesToColumn(replacerCondensedType.ContentText, table, column);
 					return string.Empty;
 
 				case PatternConditionKeyMode.FieldPrimaryKey:

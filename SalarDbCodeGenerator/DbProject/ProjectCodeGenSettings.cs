@@ -43,7 +43,6 @@ namespace SalarDbCodeGenerator.DbProject
 		public ProjectCodeGenSettings()
 		{
 			DefaultNamespace = "SalarDb.CodeGen";
-			GenerateCustomizablePartial = true;
 			GenerateColumnsDescription = true;
 			GenerateTablesForeignKeys = true;
 			GenerateConstraintKeys = true;
