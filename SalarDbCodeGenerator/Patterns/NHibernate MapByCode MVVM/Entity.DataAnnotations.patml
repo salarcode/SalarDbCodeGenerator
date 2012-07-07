@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Data Annotations Entity Objects</Name>
+	<Description>Data annotations entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="Entities\DataAnnotations\[:TableName:]Meta.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].Entities;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].DataAnnotations
+{
+	/// <summary>
+	/// Data annotations attributes for [:TableNameDb:]. 
+	/// This class won't update by generator. Delete this file to get updated fields.
+	/// </summary>
+	public class [:TableName:]Meta
+	{
+[#FieldsProperties#]
+	}
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+		<Condition Key="AutoInrcementPrimaryKey">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="AutoInrcement">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="AutoIncNativeNullable">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="AutoIncNullableType">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="PrimaryKey">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="NormalField">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="NativeNullable">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="NullableType">
+			<![CDATA[
+		[DisplayName("[:FieldDescription:]")]
+		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+		</Condition>
+	</PatternContent>
+</PatternFile>

@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].DataAnnotations;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<Condition>
+			<![CDATA[
+	[DataContract]
+	[MetadataType(typeof([:TableName:]Meta))]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
+	{
+		static [:TableName:]()
+		{
+			// Console, WPF, regular asp.net, don't respect the MetadataType attribute
+			TypeDescriptor.AddProviderTransparent(
+				new AssociatedMetadataTypeTypeDescriptionProvider(typeof([:TableName:]), typeof([:TableName:]Meta)), typeof([:TableName:]));
+		}
+[#FieldsProperties#]
+[#ForeignKeys#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
+		private [:FieldDotNetType:]? _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
+		private [:FieldDotNetType:]? _[:FieldName:];
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				_[:FieldName:] = value;
+				RaisePropertyChanged("[:FieldName:]");
+			}
+		}
+]]>
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

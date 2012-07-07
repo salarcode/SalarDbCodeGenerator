@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<Condition>
+			<![CDATA[
+	[DataContract]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
+	{
+[#FieldsProperties#]
+[#ForeignKeys#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldForeignKey">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldKeyType">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

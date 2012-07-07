@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>EntityObjectContext</Name>
+	<Description>Entity context object</Description>
+	<Options
+		Group="Entity Session"
+		AppliesTo="TablesAll"
+		Overwrite="true"
+		FilePath="Entities\[:DatabaseName:]Session.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Configuration;
+using System.Data;
+using NHibernate;
+using NHibernate.Cfg;
+using NHibernate.Cfg.MappingSchema;
+using NHibernate.Connection;
+using NHibernate.Dialect;
+using NHibernate.Driver;
+using NHibernate.Mapping.ByCode;
+using Configuration = NHibernate.Cfg.Configuration;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].Entities
+{
+	/// <summary>
+	/// [:DatabaseName:] NHibernate helper methods. This is suitable for windows-apps.
+	/// </summary>
+	public static class [:DatabaseName:]Session
+	{
+		private static ISessionFactory _sessionFactory;
+
+		private static ISessionFactory SessionFactory
+		{
+			get
+			{
+				if (_sessionFactory == null)
+				{
+					var configuration = GetConfig();
+					var mapping = GetMappings();
+					configuration.AddDeserializedMapping(mapping, "NHSchema_[:DatabaseName:]");
+					_sessionFactory = configuration.BuildSessionFactory();
+				}
+				return _sessionFactory;
+			}
+		}
+
+		private static HbmMapping GetMappings()
+		{
+			var mapper = new ModelMapper();
+			[:DatabaseName:]Mapper.MapToModel(mapper);
+			[:DatabaseName:]Mapper.CustomMapToModel(mapper);
+
+			var mapping = mapper.CompileMappingFor(
+				new[]
+					{[#TablesAndViewsContent#]
+					});
+			//Output XML mappings
+			//Console.WriteLine(mapping.AsString());
+			return mapping;
+		}
+
+		private static Configuration GetConfig()
+		{
+			var configure = new Configuration();
+			configure.SessionFactoryName("SessionFactory_[:DatabaseName:]");
+[#DataBaseIntegration#]
+			return configure;
+		}
+
+		/// <summary>
+		/// Create a database connection and open a ISession on it
+		/// </summary>
+		public static ISession OpenSession()
+		{
+			return SessionFactory.OpenSession();
+		}
+
+		/// <summary>
+		/// Create a database connection and open a ISession on it
+		/// </summary>
+		public static ISession OpenSession(FlushMode flushMode)
+		{
+			var session = SessionFactory.OpenSession();
+			session.FlushMode = flushMode;
+			return session;
+		}
+
+		/// <summary>
+		/// Open a ISession on the given connection
+		/// </summary>
+		public static ISession OpenSession(IDbConnection conn)
+		{
+			return SessionFactory.OpenSession(conn);
+		}
+
+		/// <summary>
+		/// Open a ISession on the given connection
+		/// </summary>
+		public static ISession OpenSession(IDbConnection conn, FlushMode flushMode)
+		{
+			var session = SessionFactory.OpenSession(conn);
+			session.FlushMode = flushMode;
+			return session;
+		}
+
+		/// <summary>
+		/// Get a new stateless session.
+		/// </summary>
+		public static IStatelessSession OpenStatelessSession()
+		{
+			return SessionFactory.OpenStatelessSession();
+		}
+
+		/// <summary>
+		/// Get a new stateless session for the given ADO.NET connection.
+		/// </summary>
+		public static IStatelessSession OpenStatelessSession(IDbConnection conn)
+		{
+			return SessionFactory.OpenStatelessSession(conn);
+		}
+	}
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<ItemsSeperator>,</ItemsSeperator>
+		<Condition>
+			<![CDATA[
+						typeof([:TableName:])]]>
+		</Condition>
+	</PatternContent>
+
+	<PatternContent Name="DataBaseIntegration" ConditionKeyMode="DatabaseProvider">
+		<Condition Key="SQLServer">
+			<![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<MsSql2008Dialect>();
+						db.Driver<Sql2008ClientDriver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+		</Condition>
+		<Condition Key="Oracle">
+			<![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<Oracle10gDialect>();
+						db.Driver<OracleClientDriver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+		</Condition>
+		<Condition Key="SQLite">
+			<![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<SQLiteDialect>();
+						db.Driver<SQLite20Driver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+		</Condition>
+		<Condition Key="SqlCe4">
+			<![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<MsSqlCe40Dialect>();
+						db.Driver<SqlServerCeDriver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+		</Condition>
+	</PatternContent>
+</PatternFile>
