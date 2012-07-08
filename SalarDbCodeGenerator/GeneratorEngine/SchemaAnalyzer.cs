@@ -44,8 +44,8 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			for (int i = 0; i < _database.SchemaTables.Count; i++)
 			{
 				var dbTable = _database.SchemaTables[i];
-				dbTable.TableNameSchema = NaturalizeNames_TableSchemaName_Duplicate(dbTable.TableNameSchema, false);
-				dbTable.TableNameSchemaCS = NaturalizeNames_TableSchemaNameCS_Duplicate(dbTable.TableNameSchemaCS, false);
+				dbTable.TableNameSchema = NaturalizeNames_TableSchemaName_Duplicate(dbTable, false);
+				dbTable.TableNameSchemaCS = NaturalizeNames_TableSchemaNameCS_Duplicate(dbTable, false);
 			}
 
 			// Renaming and duplicate checking of names
@@ -58,8 +58,8 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			for (int i = 0; i < _database.SchemaViews.Count; i++)
 			{
 				var dbView = _database.SchemaViews[i];
-				dbView.TableNameSchema = NaturalizeNames_TableSchemaName_Duplicate(dbView.TableNameSchema, true);
-				dbView.TableNameSchemaCS = NaturalizeNames_TableSchemaNameCS_Duplicate(dbView.TableNameSchemaCS, true);
+				dbView.TableNameSchema = NaturalizeNames_TableSchemaName_Duplicate(dbView, true);
+				dbView.TableNameSchemaCS = NaturalizeNames_TableSchemaNameCS_Duplicate(dbView, true);
 			}
 
 			// renaming field names
@@ -68,11 +68,11 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				for (int i = 0; i < dbTable.SchemaColumns.Count; i++)
 				{
 					var dbColumn = dbTable.SchemaColumns[i];
-					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbTable, dbColumn.FieldNameSchema, true);
+					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbTable, dbColumn, dbColumn.FieldNameSchema, true);
 					dbColumn.DataCondensedType = DotNetSchemaDataInfo.DetermineColumnCondensedType(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeDotNet = NaturalizeNames_DotNetTypeClean(dbColumn.DataTypeDotNet);
-					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbTable, dbColumn);
-					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbTable, dbColumn);
+					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbColumn);
+					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbColumn);
 				}
 				for (int i = 0; i < dbTable.ForeignKeys.Count; i++)
 				{
@@ -86,16 +86,16 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				for (int i = 0; i < dbView.SchemaColumns.Count; i++)
 				{
 					var dbColumn = dbView.SchemaColumns[i];
-					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbView, dbColumn.FieldNameSchema, true);
+					dbColumn.FieldNameSchema = NaturalizeNames_FieldName(dbView, dbColumn, dbColumn.FieldNameSchema, true);
 					dbColumn.DataCondensedType = DotNetSchemaDataInfo.DetermineColumnCondensedType(dbColumn.DataTypeDotNet);
 					dbColumn.DataTypeDotNet = NaturalizeNames_DotNetTypeClean(dbColumn.DataTypeDotNet);
-					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbView, dbColumn);
-					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbView, dbColumn);
+					dbColumn.DataTypeNullable = Determine_DataTypeNullable(dbColumn);
+					dbColumn.ExplicitCastDataType = Determine_ExplicitCastDataType(dbColumn);
 				}
 			}
 		}
 
- 
+
 		private string NaturalizeNames_DotNetTypeClean(string dataTypeDotNet)
 		{
 			string _dotNetType = dataTypeDotNet;
@@ -131,7 +131,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			return _dotNetType;
 		}
 
-		private bool Determine_ExplicitCastDataType(DbTable dbTable, DbColumn dbColumn)
+		private bool Determine_ExplicitCastDataType(DbColumn dbColumn)
 		{
 			if (dbColumn.IsArray(_patternProject.LanguageSettings.ArrayIdenticator))
 				return true;
@@ -139,7 +139,8 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			if (!_patternProject.LanguageSettings.KeywordsCaseSensitive)
 				stringCompare = StringComparison.InvariantCultureIgnoreCase;
 
-			if (dbColumn.DataTypeDotNet.StartsWith("System."))
+			// any type that has any dot (.) in it!
+			if (dbColumn.DataTypeDotNet.IndexOf('.') != -1)
 				return true;
 
 			foreach (var dataType in _patternProject.LanguageSettings.ExplicitCastDataTypes)
@@ -155,7 +156,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		/// <summary>
 		/// Column data type is nullabe
 		/// </summary>
-		private bool Determine_DataTypeNullable(DbTable dbTable, DbColumn dbColumn)
+		private bool Determine_DataTypeNullable(DbColumn dbColumn)
 		{
 			if (dbColumn.IsArray(_patternProject.LanguageSettings.ArrayIdenticator))
 				return true;
@@ -193,7 +194,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		/// <param name="fieldName"></param>
 		/// <param name="isAlreadyMember">is the field aready member of the table, or it is an external</param>
 		/// <returns></returns>
-		private string NaturalizeNames_FieldName(DbTable table, string fieldName, bool isAlreadyMember)
+		private string NaturalizeNames_FieldName(DbTable table, DbColumn column, string fieldName, bool isAlreadyMember)
 		{
 			if (string.IsNullOrEmpty(fieldName))
 				return fieldName;
@@ -237,10 +238,14 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			// field name is not changed and is a member
 			if (newName.Equals(fieldName, stringCompare) && isAlreadyMember)
 			{
+				var sameNameColumns =
+					table.SchemaColumns.Where(x => x.FieldNameSchema.Equals(newName, stringCompare)).ToList();
+
 				// no more than one accurance, including itself
-				if (table.SchemaColumns.CountFast(x => x.FieldNameSchema.Equals(newName, stringCompare)) > 1)
+				if (sameNameColumns.Count > 1 &&
+					sameNameColumns.IndexOf(column) > 0)
 				{
-					var renamedName = string.Format(replacement, newName, initReplacePartCount);
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
 					initReplacePartCount++;
 					initReplacePartStr = initReplacePartCount.ToString();
 
@@ -347,11 +352,14 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			// foreign name is not changed and is a member
 			if (newName.Equals(foreignKey.ForeignTableNameInLocalTable, stringCompare))
 			{
+				var sameNameForeignKeys =
+					table.ForeignKeys.Where(x => x.ForeignTableNameInLocalTable.Equals(newName, stringCompare)).ToList();
+
 				// no more than one accurance, including itself
 				if (table.FindColumnSchema(newName) != null ||
-					table.ForeignKeys.CountFast(x => x.ForeignTableNameInLocalTable.Equals(newName, stringCompare)) > 1)
+					(sameNameForeignKeys.Count > 1 && sameNameForeignKeys.IndexOf(foreignKey) > 0))
 				{
-					var renamedName = string.Format(replacement, newName, initReplacePartCount);
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
 					initReplacePartCount++;
 					initReplacePartStr = initReplacePartCount.ToString();
 
@@ -444,62 +452,112 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 
 		/// <summary>
 		/// </summary>
-		private string NaturalizeNames_TableSchemaName_Duplicate(string name, bool checkViews)
+		private string NaturalizeNames_TableSchemaName_Duplicate(DbTable table, bool checkViews)
 		{
-			string result = name;
+			string newName = table.TableNameSchema;
 
 			// suppress pattern
 			string replacement = _patternProject.LanguageSettings.LanguageKeywordsSuppress;
-			int count = 1;
+
+			int initReplacePartCount = 0;
+			string initReplacePartStr = "";
 
 			if (checkViews)
 			{
-				while (
-					_database.SchemaTables.CountFast(x => x.TableNameSchema == result) > 1 ||
-					_database.SchemaViews.CountFast(x => x.TableNameSchema == result) > 1)
+				var sameNameTables = _database.SchemaTables.Where(x => x.TableNameSchema == newName).ToList();
+				sameNameTables.AddRange(_database.SchemaViews.Where(x => x.TableNameSchema == newName));
+
+				if (sameNameTables.Count > 1 && sameNameTables.IndexOf(table) > 0)
 				{
-					result = string.Format(replacement, name, count);
-					count++;
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
+					initReplacePartCount++;
+					initReplacePartStr = initReplacePartCount.ToString();
+
+					while (_database.SchemaTables.Any(x => x.TableNameSchema == renamedName) ||
+						_database.SchemaViews.Any(x => x.TableNameSchema == renamedName))
+					{
+						renamedName = string.Format(replacement, newName, initReplacePartStr);
+						initReplacePartCount++;
+						initReplacePartStr = initReplacePartCount.ToString();
+					}
+					newName = renamedName;
 				}
 			}
 			else
 			{
-				while (_database.SchemaTables.CountFast(x => x.TableNameSchema == result) > 1)
+				var sameNameTables = _database.SchemaTables.Where(x => x.TableNameSchema == newName).ToList();
+
+				if (sameNameTables.Count > 1 && sameNameTables.IndexOf(table) > 0)
 				{
-					result = string.Format(replacement, name, count);
-					count++;
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
+					initReplacePartCount++;
+					initReplacePartStr = initReplacePartCount.ToString();
+
+					while (_database.SchemaTables.Any(x => x.TableNameSchema == renamedName))
+					{
+						renamedName = string.Format(replacement, newName, initReplacePartStr);
+						initReplacePartCount++;
+						initReplacePartStr = initReplacePartCount.ToString();
+					}
+					newName = renamedName;
 				}
 			}
-			return result;
+			return newName;
 		}
 
-		private string NaturalizeNames_TableSchemaNameCS_Duplicate(string name, bool checkViews)
+		/// <summary>
+		/// </summary>
+		private string NaturalizeNames_TableSchemaNameCS_Duplicate(DbTable table, bool checkViews)
 		{
-			string result = name;
+			string newName = table.TableNameSchemaCS;
 
 			// suppress pattern
 			string replacement = _patternProject.LanguageSettings.LanguageKeywordsSuppress;
-			int count = 1;
+
+			int initReplacePartCount = 0;
+			string initReplacePartStr = "";
 
 			if (checkViews)
 			{
-				while (
-					_database.SchemaTables.CountFast(x => x.TableNameSchemaCS == result) > 1 ||
-					_database.SchemaViews.CountFast(x => x.TableNameSchemaCS == result) > 1)
+				var sameNameTables = _database.SchemaTables.Where(x => x.TableNameSchemaCS == newName).ToList();
+				sameNameTables.AddRange(_database.SchemaViews.Where(x => x.TableNameSchemaCS == newName));
+
+				if (sameNameTables.Count > 1 && sameNameTables.IndexOf(table) > 0)
 				{
-					result = string.Format(replacement, name, count);
-					count++;
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
+					initReplacePartCount++;
+					initReplacePartStr = initReplacePartCount.ToString();
+
+					while (_database.SchemaTables.Any(x => x.TableNameSchemaCS == renamedName) ||
+						_database.SchemaViews.Any(x => x.TableNameSchemaCS == renamedName))
+					{
+						renamedName = string.Format(replacement, newName, initReplacePartStr);
+						initReplacePartCount++;
+						initReplacePartStr = initReplacePartCount.ToString();
+					}
+					newName = renamedName;
 				}
 			}
 			else
 			{
-				while (_database.SchemaTables.CountFast(x => x.TableNameSchemaCS == result) > 1)
+				var sameNameTables = _database.SchemaTables.Where(x => x.TableNameSchemaCS == newName).ToList();
+
+				if (sameNameTables.Count > 1 && sameNameTables.IndexOf(table) > 0)
 				{
-					result = string.Format(replacement, name, count);
-					count++;
+					var renamedName = string.Format(replacement, newName, initReplacePartStr);
+					initReplacePartCount++;
+					initReplacePartStr = initReplacePartCount.ToString();
+
+					while (_database.SchemaTables.Any(x => x.TableNameSchemaCS == renamedName))
+					{
+						renamedName = string.Format(replacement, newName, initReplacePartStr);
+						initReplacePartCount++;
+						initReplacePartStr = initReplacePartCount.ToString();
+					}
+					newName = renamedName;
 				}
 			}
-			return result;
+			return newName;
 		}
 
 

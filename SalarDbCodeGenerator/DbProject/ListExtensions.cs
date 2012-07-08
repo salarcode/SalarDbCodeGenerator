@@ -8,6 +8,19 @@ namespace System
 {
 	public static class ListExtensions
 	{
+
+		/// <summary>
+		/// How many times a specific character occured in a string
+		/// </summary>
+		public static int FrequencyCount(this string str, char ch)
+		{
+			int count = 0;
+			int lastPos = -1;
+			while ((lastPos = str.IndexOf(ch, lastPos + 1)) != -1)
+				count++;
+			return count;
+		}
+
 		/// <summary>
 		/// Performs the specified action on each element of the IEnumerable.
 		/// </summary>

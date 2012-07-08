@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -148,7 +149,8 @@ namespace SalarDbCodeGenerator
 		public static void ShowPleaseWait(string waitingState, bool autoClose, bool cancelable)
 		{
 #if DEBUG
-			//return;
+			if (Debugger.IsAttached)
+				return;
 #endif
 
 			if (_waiterThred != null)
