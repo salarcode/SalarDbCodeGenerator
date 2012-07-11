@@ -308,6 +308,24 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			// database provider
 			genContent = Replacer_DatabaseProvider(genContent);
 
+			// search for pattern in the general content
+			foreach (PatternContent pattern in patternFile.PatternContents)
+			{
+				string partialName = string.Format(ReplaceConsts.PatternContentReplacer, pattern.Name);
+
+				// is there a pattern for that
+				if (genContent.IndexOf(partialName) == -1)
+					continue;
+
+				 if (pattern.ConditionKeyMode == PatternConditionKeyMode.General ||
+					pattern.ConditionKeyMode == PatternConditionKeyMode.DatabaseProvider)
+				{
+					string contentToReplace = PatternContentAppliesTo_General(pattern);
+
+					genContent = genContent.Replace(partialName, contentToReplace);
+				}
+			}
+
 			// Write to file
 			File.WriteAllText(fileName, genContent);
 		}
@@ -376,9 +394,10 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 					// replace
 					genContent = genContent.Replace(partialName, contentToReplace);
 				}
-				else if (pattern.ConditionKeyMode == PatternConditionKeyMode.General)
+				else if (pattern.ConditionKeyMode == PatternConditionKeyMode.General ||
+					pattern.ConditionKeyMode == PatternConditionKeyMode.DatabaseProvider)
 				{
-					string contentToReplace = PatternContentAppliesTo_ProjectFileGeneral(pattern);
+					string contentToReplace = PatternContentAppliesTo_General(pattern);
 
 					genContent = genContent.Replace(partialName, contentToReplace);
 				}
@@ -404,7 +423,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		/// <summary>
 		/// Partial content replacer.
 		/// </summary>
-		string PatternContentAppliesTo_ProjectFileGeneral(PatternContent partialContent)
+		string PatternContentAppliesTo_General(PatternContent partialContent)
 		{
 			if (partialContent.ConditionKeyMode == PatternConditionKeyMode.DatabaseProvider)
 			{
@@ -427,6 +446,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 						dbReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.SqlCe4);
 						break;
 				}
+
 
 				if (dbReplacer != null)
 					// Replace the contents
@@ -809,7 +829,6 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				generationPath += Path.DirectorySeparatorChar;
 
 			// Remove generation path form string
-			content = Common.ReplaceEx(content, ReplaceConsts.ConnectionString, _projectDef.DbSettions.GetConnectionString(), StringComparison.CurrentCultureIgnoreCase);
 
 			// general
 			content = Replacer_GeneratorGeneral(content);
@@ -1455,6 +1474,9 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.DatabaseName, _projectDef.DbSettions.DatabaseName);
 			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.Generator, AppConfig.AppGeneratorSign);
 			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.OperateDate, DateTime.Now.ToString());
+			content = Common.ReplaceEx(content, ReplaceConsts.ConnectionString, _projectDef.DbSettions.GetConnectionString(), StringComparison.CurrentCultureIgnoreCase);
+			content = Common.ReplaceEx(content, ReplaceConsts.ConnectionStringPwd, _projectDef.DbSettions.SqlPassword, StringComparison.CurrentCultureIgnoreCase);
+			content = Common.ReplaceEx(content, ReplaceConsts.ConnectionStringUser, _projectDef.DbSettions.SqlUsername, StringComparison.CurrentCultureIgnoreCase);
 			return content;
 		}
 
@@ -1524,6 +1546,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 				return column.DataTypeMaxLength.ToString();
 			return "0";
 		}
+
 		/// <summary>
 		/// Get field type database full name
 		/// </summary>

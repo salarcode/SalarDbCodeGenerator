@@ -18,6 +18,8 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		public const string PatternContentReplacer = "[#{0}#]";
 		public const string PatternContentInnerContents = "[:InnerContent:]";
 		public const string ConnectionString = "[:ConnectionString:]";
+		public const string ConnectionStringUser = "[:ConnectionStringUser:]";
+		public const string ConnectionStringPwd = "[:ConnectionStringPwd:]";
 		public const string Namespace = "[:Namespace:]";
 		public const string DatabaseName = "[:DatabaseName:]";
 

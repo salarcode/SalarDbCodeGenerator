@@ -24,7 +24,7 @@ namespace SalarDbCodeGenerator.DbProject
 		public struct SelectedTablesType
 		{
 			[XmlText]
- 			public string Name;
+			public string Name;
 			[XmlAttribute]
 			public bool Selected;
 		}
@@ -229,6 +229,7 @@ namespace SalarDbCodeGenerator.DbProject
 		public void RefetchDatabaseCache()
 		{
 			using (DbConnection conn = GetNewConnection())
+			using (ExSchemaEngine engine = GetSchemaEngine(conn))
 			{
 				StringCollection dbTables, dbViews;
 
@@ -238,7 +239,6 @@ namespace SalarDbCodeGenerator.DbProject
 				// Woot! no error!
 
 				// the schema engine
-				ExSchemaEngine engine = GetSchemaEngine(conn);
 
 				// shcema engine options
 				engine.SpecificOwner = this.SqlUsername;
@@ -314,6 +314,32 @@ namespace SalarDbCodeGenerator.DbProject
 				Views.Sort((x, y) => string.Compare(x.Name, y.Name));
 				Tables.Sort((x, y) => string.Compare(x.Name, y.Name));
 			}
+		}
+
+		public StringCollection GetSelectedTablesList()
+		{
+			var result = new StringCollection();
+			foreach (var table in Tables)
+			{
+				if (table.Selected)
+				{
+					result.Add(table.Name);
+				}
+			}
+			return result;
+		}
+
+		public StringCollection GetSelectedViewsList()
+		{
+			var result = new StringCollection();
+			foreach (var view in Views)
+			{
+				if (view.Selected)
+				{
+					result.Add(view.Name);
+				}
+			}
+			return result;
 		}
 
 		public bool IsTableSelected(string tableName)

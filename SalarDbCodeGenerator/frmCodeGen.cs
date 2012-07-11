@@ -350,7 +350,7 @@ namespace SalarDbCodeGenerator
 						listGroups.Add(item.Options.Group);
 					}
 				}
-				if (patternCopyActionList.Count>0)
+				if (patternCopyActionList.Count > 0)
 				{
 					if (!listGroups.Contains(actionCopyGroupName))
 					{
@@ -866,6 +866,7 @@ namespace SalarDbCodeGenerator
 		{
 			PleaseWait.ShowPleaseWait("Connecting to database server", true, false);
 			using (System.Data.Common.DbConnection conn = _projectDefinaton.DbSettions.GetNewConnection())
+			using (ExSchemaEngine schemaEngine = _projectDefinaton.DbSettions.GetSchemaEngine(conn))
 			{
 				// Connection to database
 				conn.Open();
@@ -875,7 +876,6 @@ namespace SalarDbCodeGenerator
 
 				// 1 ==========================
 				// Database schema reader
-				ExSchemaEngine schemaEngine = _projectDefinaton.DbSettions.GetSchemaEngine(conn);
 				var schemaDatabase = new DbDatabase();
 				schemaDatabase.Provider = _projectDefinaton.DbSettions.DatabaseProvider;
 
@@ -886,6 +886,11 @@ namespace SalarDbCodeGenerator
 				schemaEngine.ReadColumnsDescription = _projectDefinaton.CodeGenSettings.GenerateColumnsDescription;
 				schemaEngine.ReadTablesForeignKeys = _projectDefinaton.CodeGenSettings.GenerateTablesForeignKeys;
 				schemaEngine.ReadConstraintKeys = _projectDefinaton.CodeGenSettings.GenerateConstraintKeys;
+
+				// only selected tables
+				schemaEngine.OnlyReadSelectedItems = true;
+				schemaEngine.SelectedTables = _projectDefinaton.DbSettions.GetSelectedTablesList();
+				schemaEngine.SelectedViews = _projectDefinaton.DbSettions.GetSelectedViewsList();
 
 				// read database schema
 				schemaEngine.FillSchema(schemaDatabase);

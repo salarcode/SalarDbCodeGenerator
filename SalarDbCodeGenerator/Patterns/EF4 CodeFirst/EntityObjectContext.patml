@@ -28,7 +28,7 @@ namespace [:Namespace:]
 		/// Constructs a new context instance
 		/// </summary>
 		public [:DatabaseName:]Context()
-			: base(ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString)
+			: base([:DatabaseName:]Connection.CreateConnection(), true)
 		{
 		}
 

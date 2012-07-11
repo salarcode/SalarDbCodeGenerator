@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System;
+using System.Collections.Specialized;
 using SalarDbCodeGenerator.Schema.Database;
 
 // ====================================
@@ -10,7 +11,7 @@ using SalarDbCodeGenerator.Schema.Database;
 // ====================================
 namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 {
-	public abstract class ExSchemaEngine
+	public abstract class ExSchemaEngine : IDisposable
 	{
 		/// <summary>
 		/// Determines if the engine should read columns description, if is supported.
@@ -32,6 +33,21 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		/// </summary>
 		public string SpecificOwner { get; set; }
 
+		/// <summary>
+		/// Determine if the reader should only read specified selected items schema
+		/// </summary>
+		public bool OnlyReadSelectedItems { get; set; }
+
+		/// <summary>
+		/// Selected tables list, only their schema will be read.
+		/// </summary>
+		public StringCollection SelectedTables { get; set; }
+
+		/// <summary>
+		/// Selected views list, only their schema will be read.
+		/// </summary>
+		public StringCollection SelectedViews { get; set; }
+
 
 		public abstract void FillSchema(DbDatabase schemaDatabase);
 		public abstract void ReadViewsTablesList(out StringCollection tables, out StringCollection views);
@@ -41,6 +57,33 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		/// </summary>
 		/// <returns></returns>
 		public abstract string GetDataProviderClassName(DataProviderClassNames providerClassName);
+
+		public abstract void Dispose();
+
+		/// <summary>
+		/// Checking to see if user has selected this table to be generated
+		/// </summary>
+		protected bool IsTableSelected(string tableName)
+		{
+			if (!OnlyReadSelectedItems)
+				return true;
+			if (SelectedTables == null || SelectedTables.Count==0)
+				return false;
+			return SelectedTables.Contains(tableName);
+		}
+
+		/// <summary>
+		/// Checking to see if user has selected this view to be generated
+		/// </summary>
+		protected bool IsViewSelected(string viewName)
+		{
+			if (!OnlyReadSelectedItems)
+				return true;
+			if (SelectedViews == null || SelectedViews.Count == 0)
+				return false;
+			return SelectedViews.Contains(viewName);
+		}
+
 
 	}
 }

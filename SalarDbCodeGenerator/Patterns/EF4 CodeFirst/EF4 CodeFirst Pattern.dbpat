@@ -94,6 +94,7 @@
 		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
 	</LanguageSettings>
 	<PatternFile Action="Generate">EntityObjectContext.patml</PatternFile>
+	<PatternFile Action="Generate">EntityDbConnection.patml</PatternFile>
 	<PatternFile Action="Generate">Entity.Principal.patml</PatternFile>
 	<PatternFile Action="Generate">Entity.User.patml</PatternFile>
 	<PatternFile Action="Generate">Entity.DataAnnotations.patml</PatternFile>

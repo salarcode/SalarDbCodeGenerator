@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbConnectionManager</Name>
+	<Description>Database connection manager</Description>
+	<Options
+		Group="Entity Context"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Entities\[:DatabaseName:]Connection.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Text;
+using [:ProviderClassReferenceName:];
+
+namespace [:Namespace:]
+{
+	public class [:DatabaseName:]Connection
+	{
+		public static [:ProviderClassConnection:] CreateConnection()
+		{
+			var connection = new [:ProviderClassConnection:](GetConnectionString());
+			[#ConnectionConfig#]
+			return connection;
+		}
+		public static string GetConnectionString()
+		{
+			return ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+		}
+	}
+}
+]]>
+	</BaseContent>
+	<PatternContent Name="ConnectionConfig" ConditionKeyMode="DatabaseProvider">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="SQLServer"></Condition>
+		<Condition Key="Oracle"></Condition>
+		<Condition Key="SQLite">
+			<![CDATA[connection.SetPassword(@"[:ConnectionStringPwd:]");]]>
+		</Condition>
+		<Condition Key="SqlCe4"></Condition>
+	</PatternContent>
+</PatternFile>

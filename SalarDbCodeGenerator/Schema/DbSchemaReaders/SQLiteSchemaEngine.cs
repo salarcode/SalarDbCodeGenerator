@@ -49,7 +49,6 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			{
 				schemaDatabase.SchemaViews = ReadViews();
 				schemaDatabase.SchemaTables = ReadTables(schemaDatabase.SchemaViews);
-
 			}
 			finally
 			{
@@ -57,7 +56,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				_dbConnection.Close();
 			}
 		}
-	
+
 		public override string GetDataProviderClassName(DataProviderClassNames providerClassName)
 		{
 			switch (providerClassName)
@@ -86,6 +85,14 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 					return "";
 			}
 		}
+
+		public override void Dispose()
+		{
+			if (_dbConnection != null)
+				_dbConnection.Close();
+			_dbConnection = null;
+		}
+
 		#endregion
 
 		#region private methods
@@ -98,26 +105,19 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+			using (DataTable views = _dbConnection.GetSchema("TABLES"))
 			{
-				using (DataTable views = _dbConnection.GetSchema("TABLES"))
+				foreach (DataRow row in views.Rows)
 				{
-					foreach (DataRow row in views.Rows)
-					{
-						string tableName = row["TABLE_NAME"].ToString();
+					string tableName = row["TABLE_NAME"].ToString();
 
-						// search in views about this
-						if (viewsList.Contains(tableName))
-							continue;
+					// search in views about this
+					if (viewsList.Contains(tableName))
+						continue;
 
-						// add to results
-						result.Add(tableName);
-					}
+					// add to results
+					result.Add(tableName);
 				}
-			}
-			finally
-			{
-				_dbConnection.Close();
 			}
 			return result;
 		}
@@ -131,22 +131,15 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+			using (DataTable views = _dbConnection.GetSchema("Views"))
 			{
-				using (DataTable views = _dbConnection.GetSchema("Views"))
+				foreach (DataRow row in views.Rows)
 				{
-					foreach (DataRow row in views.Rows)
-					{
-						string viewName = row["TABLE_NAME"].ToString();
+					string viewName = row["TABLE_NAME"].ToString();
 
-						// add to results
-						result.Add(viewName);
-					}
+					// add to results
+					result.Add(viewName);
 				}
-			}
-			finally
-			{
-				_dbConnection.Close();
 			}
 			return result;
 		}
@@ -161,54 +154,50 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+			using (DataTable tables = _dbConnection.GetSchema("TABLES"))
 			{
-				using (DataTable tables = _dbConnection.GetSchema("TABLES"))
+				foreach (DataRow row in tables.Rows)
 				{
-					foreach (DataRow row in tables.Rows)
-					{
-						string tableName = row["TABLE_NAME"].ToString();
+					string tableName = row["TABLE_NAME"].ToString();
 
-						// search in views about this
-						foreach (var view in viewList)
+					if (!IsTableSelected(tableName))
+						continue;
+
+					// search in views about this
+					foreach (var view in viewList)
+					{
+						if (view.TableName == tableName)
 						{
-							if (view.TableName == tableName)
-							{
-								// we ignore view here
-								continue;
-							}
+							// we ignore view here
+							continue;
 						}
-
-						// View columns
-						List<DbColumn> columns = ReadColumns(tableName);
-
-						// read columns description
-						//if (ReadColumnsDescription)
-						//	ApplyColumnsDescription(tableName, columns);
-
-						// new table
-						var dbTable = new DbTable(tableName, columns);
-
-						// table schema
-						dbTable.OwnerName = row["TABLE_SCHEMA"].ToString();
-
-						// add to results
-						result.Add(dbTable);
 					}
 
-					// it is time to read foreign keys!
-					// foreign keys are requested?
-					if (ReadTablesForeignKeys)
-					{
-						ApplyTablesForeignKeys(result);
-						ApplyDetectedOneToOneRelation(result);
-					}
+					// View columns
+					List<DbColumn> columns = ReadColumns(tableName);
 
+					// read columns description
+					//if (ReadColumnsDescription)
+					//	ApplyColumnsDescription(tableName, columns);
+
+					// new table
+					var dbTable = new DbTable(tableName, columns);
+
+					// table schema
+					dbTable.OwnerName = row["TABLE_SCHEMA"].ToString();
+
+					// add to results
+					result.Add(dbTable);
 				}
-			}
-			finally
-			{
-				_dbConnection.Close();
+
+				// it is time to read foreign keys!
+				// foreign keys are requested?
+				if (ReadTablesForeignKeys)
+				{
+					ApplyTablesForeignKeys(result);
+					ApplyDetectedOneToOneRelation(result);
+				}
+
 			}
 			return result;
 		}
@@ -222,7 +211,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				foreach (var fkey in table.ForeignKeys)
 				{
 					// already ont-to-?
-					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany||
+					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
 						fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
 						continue;
 
@@ -274,35 +263,32 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+
+			using (DataTable views = _dbConnection.GetSchema("Views"))
 			{
-				using (DataTable views = _dbConnection.GetSchema("Views"))
+				foreach (DataRow row in views.Rows)
 				{
-					foreach (DataRow row in views.Rows)
-					{
-						string viewName = row["TABLE_NAME"].ToString();
+					string viewName = row["TABLE_NAME"].ToString();
 
-						// View columns
-						List<DbColumn> columns = ReadColumns(viewName);
+					if (!IsViewSelected(viewName))
+						continue;
 
-						// read columns description
-						//if (ReadColumnsDescription)
-						//	ApplyColumnsDescription(viewName, columns);
+					// View columns
+					List<DbColumn> columns = ReadColumns(viewName);
 
-						// new view
-						var view = new DbView(viewName, columns);
+					// read columns description
+					//if (ReadColumnsDescription)
+					//	ApplyColumnsDescription(viewName, columns);
 
-						// view schema
-						view.OwnerName = row["TABLE_SCHEMA"].ToString();
+					// new view
+					var view = new DbView(viewName, columns);
 
-						// add to results
-						result.Add(view);
-					}
+					// view schema
+					view.OwnerName = row["TABLE_SCHEMA"].ToString();
+
+					// add to results
+					result.Add(view);
 				}
-			}
-			finally
-			{
-				_dbConnection.Close();
 			}
 			return result;
 		}
@@ -312,68 +298,62 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		/// </summary>
 		private List<DbColumn> ReadColumns(string tableName)
 		{
-			List<DbColumn> result = new List<DbColumn>();
+			var result = new List<DbColumn>();
 
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+
+			using (var adapter = new SQLiteDataAdapter(String.Format("SELECT * FROM {0} LIMIT 1 ", tableName), _dbConnection))
 			{
+				adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
-				using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(String.Format("SELECT * FROM {0} LIMIT 1 ", tableName), _dbConnection.ConnectionString))
+				DataTable columnsSchema;
+
+				// Jjust to avoid stupid "Failed to enable constraints" error!
+				using (DataSet tempDs = new DataSet())
 				{
-					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+					// Avoiding stupid "Failed to enable constraints" error!
+					tempDs.EnforceConstraints = false;
 
-					DataTable columnsSchema;
-
-					// Jjust to avoid stupid "Failed to enable constraints" error!
-					using (DataSet tempDs = new DataSet())
+					using (DataTable columnsList = new DataTable())
 					{
-						// Avoiding stupid "Failed to enable constraints" error!
-						tempDs.EnforceConstraints = false;
+						tempDs.Tables.Add(columnsList);
 
-						using (DataTable columnsList = new DataTable())
-						{
-							tempDs.Tables.Add(columnsList);
+						// Get from db
+						adapter.Fill(columnsList);
 
-							// Get from db
-							adapter.Fill(columnsList);
-
-							// Get schema
-							using (DataTableReader reader = new DataTableReader(columnsList))
-								columnsSchema = reader.GetSchemaTable();
-						}
-					}
-
-
-					// Used to get columns Sql DataType
-					using (DataTable columnsDbTypeTable = _dbConnection.GetSchema("COLUMNS"))
-					{
-						// Fetch the rows
-						foreach (DataRow dr in columnsSchema.Rows)
-						{
-							string columnName = dr["ColumnName"].ToString();
-							DbColumn column = new DbColumn(columnName)
-							{
-								DataTypeDotNet = dr["DataType"].ToString(),
-								Length = Convert.ToInt32(dr["ColumnSize"]),
-								PrimaryKey = Convert.ToBoolean(dr["IsKey"]),
-								AutoIncrement = Convert.ToBoolean(dr["IsAutoIncrement"]),
-								AllowNull = Convert.ToBoolean(dr["AllowDBNull"]),
-								ColumnOrdinal = Convert.ToInt32(dr["ColumnOrdinal"]),
-							};
-							column.FieldNameSchema = DbSchemaNames.FieldName_RemoveInvalidChars(column.FieldNameSchema);
-
-							// Columns which needs additional fetch
-							FillColumnAdditionalInfo(column, columnsDbTypeTable, tableName, columnName);
-
-							// Add to result
-							result.Add(column);
-						}
+						// Get schema
+						using (var reader = new DataTableReader(columnsList))
+							columnsSchema = reader.GetSchemaTable();
 					}
 				}
-			}
-			finally
-			{
+
+
+				// Used to get columns Sql DataType
+				using (DataTable columnsDbTypeTable = _dbConnection.GetSchema("COLUMNS"))
+				{
+					// Fetch the rows
+					foreach (DataRow dr in columnsSchema.Rows)
+					{
+						string columnName = dr["ColumnName"].ToString();
+						DbColumn column = new DbColumn(columnName)
+						{
+							DataTypeDotNet = dr["DataType"].ToString(),
+							Length = Convert.ToInt32(dr["ColumnSize"]),
+							PrimaryKey = Convert.ToBoolean(dr["IsKey"]),
+							AutoIncrement = Convert.ToBoolean(dr["IsAutoIncrement"]),
+							AllowNull = Convert.ToBoolean(dr["AllowDBNull"]),
+							ColumnOrdinal = Convert.ToInt32(dr["ColumnOrdinal"]),
+						};
+						column.FieldNameSchema = DbSchemaNames.FieldName_RemoveInvalidChars(column.FieldNameSchema);
+
+						// Columns which needs additional fetch
+						FillColumnAdditionalInfo(column, columnsDbTypeTable, tableName, columnName);
+
+						// Add to result
+						result.Add(column);
+					}
+				}
 			}
 			return result;
 		}
@@ -418,74 +398,68 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		{
 			if (_dbConnection.State != ConnectionState.Open)
 				_dbConnection.Open();
-			try
+
+			// Used to get columns Sql DataType
+			using (DataTable foreignKeysTable = _dbConnection.GetSchema("ForeignKeys"))
 			{
-				// Used to get columns Sql DataType
-				using (DataTable foreignKeysTable = _dbConnection.GetSchema("ForeignKeys"))
+				// nothing found!
+				if (foreignKeysTable.Rows.Count == 0)
+					return;
+
+				// find description if there is any
+				foreach (var table in tables)
 				{
-					// nothing found!
-					if (foreignKeysTable.Rows.Count == 0)
-						return;
+					// only FOREIGN KEY
+					foreignKeysTable.DefaultView.RowFilter =
+						string.Format(" CONSTRAINT_TYPE='FOREIGN KEY' AND TABLE_NAME='{0}' ", table.TableName);
 
-					// find description if there is any
-					foreach (var table in tables)
+					// Fetch the rows
+					foreach (DataRowView keysData in foreignKeysTable.DefaultView)
 					{
-						// only FOREIGN KEY
-						foreignKeysTable.DefaultView.RowFilter =
-							string.Format(" CONSTRAINT_TYPE='FOREIGN KEY' AND TABLE_NAME='{0}' ", table.TableName);
+						// table found!
+						DataRow keyRow = keysData.Row;
 
-						// Fetch the rows
-						foreach (DataRowView keysData in foreignKeysTable.DefaultView)
+						// foreign key
+						DbForeignKey foreignKey = new DbForeignKey()
 						{
-							// table found!
-							DataRow keyRow = keysData.Row;
+							ForeignKeyName = keyRow["CONSTRAINT_NAME"].ToString(),
+							LocalColumnName = keyRow["FKEY_FROM_COLUMN"].ToString(),
+							ForeignColumnName = keyRow["FKEY_TO_COLUMN"].ToString(),
+							ForeignTableName = keyRow["FKEY_TO_TABLE"].ToString()
+						};
 
-							// foreign key
-							DbForeignKey foreignKey = new DbForeignKey()
-							{
-								ForeignKeyName = keyRow["CONSTRAINT_NAME"].ToString(),
-								LocalColumnName = keyRow["FKEY_FROM_COLUMN"].ToString(),
-								ForeignColumnName = keyRow["FKEY_TO_COLUMN"].ToString(),
-								ForeignTableName = keyRow["FKEY_TO_TABLE"].ToString()
-							};
+						// add foreign key
+						table.ForeignKeys.Add(foreignKey);
 
-							// add foreign key
-							table.ForeignKeys.Add(foreignKey);
+						// apply local column
+						DbColumn localColumn = table.FindColumnDb(foreignKey.LocalColumnName);
+						foreignKey.LocalColumn = localColumn;
 
-							// apply local column
-							DbColumn localColumn = table.FindColumnDb(foreignKey.LocalColumnName);
-							foreignKey.LocalColumn = localColumn;
-							
-							//apply foreign table
-							DbTable foreignTable = FindTable(tables, foreignKey.ForeignTableName);
-							
-							// referenced key
-							if (!localColumn.PrimaryKey)
-							{
-								localColumn.IsReferenceKey = true;
-								localColumn.IsReferenceKeyTable = foreignTable;
-							}
+						//apply foreign table
+						DbTable foreignTable = FindTable(tables, foreignKey.ForeignTableName);
 
-							if (foreignTable != null)
-							{
-								foreignKey.ForeignTable = foreignTable;
+						// referenced key
+						if (!localColumn.PrimaryKey)
+						{
+							localColumn.IsReferenceKey = true;
+							localColumn.IsReferenceKeyTable = foreignTable;
+						}
 
-								// apply foreign column
-								DbColumn foreignColumn = foreignTable.FindColumnDb(foreignKey.ForeignColumnName);
-								foreignKey.ForeignColumn = foreignColumn;
-							}
-							else
-							{
-								foreignKey.ForeignTable = null;
-								foreignKey.ForeignColumn = null;
-							}
+						if (foreignTable != null)
+						{
+							foreignKey.ForeignTable = foreignTable;
+
+							// apply foreign column
+							DbColumn foreignColumn = foreignTable.FindColumnDb(foreignKey.ForeignColumnName);
+							foreignKey.ForeignColumn = foreignColumn;
+						}
+						else
+						{
+							foreignKey.ForeignTable = null;
+							foreignKey.ForeignColumn = null;
 						}
 					}
 				}
-			}
-			finally
-			{
-				_dbConnection.Close();
 			}
 		}
 

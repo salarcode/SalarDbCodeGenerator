@@ -4,7 +4,7 @@
 	<Description>Application config file</Description>
 	<Options
 		Group="ProjectFile"
-		AppliesTo="General"
+		AppliesTo="ProjectFile"
 		Overwrite="false"
 		FilePath="app.config"
 		Language="XML"

@@ -101,6 +101,14 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 					return "";
 			}
 		}
+
+		public override void Dispose()
+		{
+			if (_dbConnection != null)
+				_dbConnection.Close();
+			_dbConnection = null;
+		}
+
 		#endregion
 
 		#region protected methods
@@ -162,9 +170,13 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				foreach (DataRow row in tables.Rows)
 				{
 					string tableName = row["TABLE_NAME"].ToString();
+
+					if (!IsTableSelected(tableName))
+						continue;
+
 					bool jumpToNext = false;
 
- 					// search in views about this
+					// search in views about this
 					for (int i = 0; i < viewList.Count; i++)
 					{
 						if (viewList[i].TableName == tableName)
@@ -229,6 +241,9 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				foreach (DataRow row in views.Rows)
 				{
 					string viewName = row["TABLE_NAME"].ToString();
+
+					if (!IsViewSelected(viewName))
+						continue;
 
 					// View columns
 					List<DbColumn> columns = ReadColumns(viewName);

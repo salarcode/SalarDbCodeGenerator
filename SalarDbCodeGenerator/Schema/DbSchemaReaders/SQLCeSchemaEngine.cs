@@ -126,6 +126,14 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 					return "";
 			}
 		}
+
+		public override void Dispose()
+		{
+			if (_dbConnection != null)
+				_dbConnection.Close();
+			_dbConnection = null;
+		}
+
 		#endregion
 
 		#region private methods
@@ -219,6 +227,9 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 					foreach (DataRow row in tables.Rows)
 					{
 						string tableName = row["TABLE_NAME"].ToString();
+
+						if (!IsTableSelected(tableName))
+							continue;
 
 						// search in views about this
 						foreach (var view in viewList)

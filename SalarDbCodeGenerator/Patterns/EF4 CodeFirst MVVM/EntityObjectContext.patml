@@ -29,7 +29,7 @@ namespace [:Namespace:]
 		/// Constructs a new context instance
 		/// </summary>
 		public [:DatabaseName:]Context()
-			: base(new [:ProviderClassConnection:](ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString), true)
+			: base([:DatabaseName:]Connection.CreateConnection(), true)
 		{
 		}
 
