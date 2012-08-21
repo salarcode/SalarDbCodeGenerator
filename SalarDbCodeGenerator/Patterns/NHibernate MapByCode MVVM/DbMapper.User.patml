@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User Entity Mapper</Name>
+	<Description>User objects mapper pattern</Description>
+	<Options
+		Group="Entity Session"
+		AppliesTo="TablesAll"
+		Overwrite="false"
+		FilePath="Entities\[:DatabaseName:]Mapper.User.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using NHibernate.Mapping.ByCode;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+	/// <summary>
+	/// This partial class won't be toched by the generator.
+	/// </summary>
+	static partial class [:DatabaseName:]Mapper
+	{
+		internal static void CustomMapToModel(ModelMapper mapper)
+		{
+			// put your custom mappings here
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PatternProject>
+	<Name>3Tier VB.NET</Name>
+	<Description>This pattern generates 3-tier object relational database model.</Description>
+	<Author>Salar Khalilzadeh</Author>
+	<LastUpdate>2012/07/06</LastUpdate>
+	<Language>VB.NET</Language>
+	<FileExtension>.vb</FileExtension>
+	<SupportedDatabases>MS SQL Server</SupportedDatabases>
+	<SeperateReferenceColumns>false</SeperateReferenceColumns>
+	<LanguageSettings>
+		<VoidDataType>void</VoidDataType>
+		<TextFieldIdenticator>text</TextFieldIdenticator>
+		<ArrayIdenticator>()</ArrayIdenticator>
+		<DbDecimalName>decimal</DbDecimalName>
+		<DbNumericName>numeric</DbNumericName>
+		<DbDecimalType>decimal([:Precision:],[:Scale:])</DbDecimalType>
+		<DbNumericType>numeric([:Precision:],[:Scale:])</DbNumericType>
+		<LanguageKeywordsSuppress>{0}_{1}</LanguageKeywordsSuppress>
+		<KeywordsCaseSensitive>false</KeywordsCaseSensitive>
+		<LanguageKeywords>
+			<string>AddHandler</string>
+			<string>AddressOf</string>
+			<string>Alias</string>
+			<string>And</string>
+			<string>AndAlso</string>
+			<string>As</string>
+			<string>Boolean</string>
+			<string>ByRef</string>
+			<string>Byte</string>
+			<string>ByVal</string>
+			<string>Call</string>
+			<string>Case</string>
+			<string>Catch</string>
+			<string>CBool</string>
+			<string>CByte</string>
+			<string>CChar</string>
+			<string>CDate</string>
+			<string>CDec</string>
+			<string>CDbl</string>
+			<string>Char</string>
+			<string>CInt</string>
+			<string>Class</string>
+			<string>CLng</string>
+			<string>CObj</string>
+			<string>Const</string>
+			<string>Continue</string>
+			<string>CSByte</string>
+			<string>CShort</string>
+			<string>CSng</string>
+			<string>CStr</string>
+			<string>CType</string>
+			<string>CUInt</string>
+			<string>CULng</string>
+			<string>CUShort</string>
+			<string>Date</string>
+			<string>Decimal</string>
+			<string>Declare</string>
+			<string>Default</string>
+			<string>Delegate</string>
+			<string>Dim</string>
+			<string>DirectCast</string>
+			<string>Do</string>
+			<string>Double</string>
+			<string>Each</string>
+			<string>Else</string>
+			<string>ElseIf</string>
+			<string>End</string>
+			<string>EndIf</string>
+			<string>Enum</string>
+			<string>Erase</string>
+			<string>Error</string>
+			<string>Event</string>
+			<string>Exit</string>
+			<string>False</string>
+			<string>Finally</string>
+			<string>For</string>
+			<string>Friend</string>
+			<string>Function</string>
+			<string>Get</string>
+			<string>GetType</string>
+			<string>GetXMLNamespace</string>
+			<string>Global</string>
+			<string>GoSub</string>
+			<string>GoTo</string>
+			<string>Handles</string>
+			<string>If</string>
+			<string>Implements</string>
+			<string>Imports</string>
+			<string>In</string>
+			<string>Inherits</string>
+			<string>Integer</string>
+			<string>Interface</string>
+			<string>Is</string>
+			<string>IsNot</string>
+			<string>Let</string>
+			<string>Lib</string>
+			<string>Like</string>
+			<string>Long</string>
+			<string>Loop</string>
+			<string>Me</string>
+			<string>Mod</string>
+			<string>Module</string>
+			<string>MustInherit</string>
+			<string>MustOverride</string>
+			<string>MyBase</string>
+			<string>MyClass</string>
+			<string>Namespace</string>
+			<string>Narrowing</string>
+			<string>New</string>
+			<string>Next</string>
+			<string>Not</string>
+			<string>Nothing</string>
+			<string>NotInheritable</string>
+			<string>NotOverridable</string>
+			<string>Object</string>
+			<string>Of</string>
+			<string>On</string>
+			<string>Operator</string>
+			<string>Option</string>
+			<string>Optional</string>
+			<string>Or</string>
+			<string>OrElse</string>
+			<string>Overloads</string>
+			<string>Overridable</string>
+			<string>Overrides</string>
+			<string>ParamArray</string>
+			<string>Partial</string>
+			<string>Private</string>
+			<string>Property</string>
+			<string>Protected</string>
+			<string>Public</string>
+			<string>RaiseEvent</string>
+			<string>ReadOnly</string>
+			<string>ReDim</string>
+			<string>REM</string>
+			<string>RemoveHandler</string>
+			<string>Resume</string>
+			<string>Return</string>
+			<string>Readonly</string>
+			<string>SByte</string>
+			<string>Select</string>
+			<string>Set</string>
+			<string>Shadows</string>
+			<string>Shared</string>
+			<string>Short</string>
+			<string>Single</string>
+			<string>Static</string>
+			<string>Step</string>
+			<string>Stop</string>
+			<string>String</string>
+			<string>Structure</string>
+			<string>Sub</string>
+			<string>SyncLock</string>
+			<string>Then</string>
+			<string>Throw</string>
+			<string>To</string>
+			<string>True</string>
+			<string>Try</string>
+			<string>TryCast</string>
+			<string>TypeOf</string>
+			<string>Variant</string>
+			<string>Wend</string>
+			<string>UInteger</string>
+			<string>ULong</string>
+			<string>UShort</string>
+			<string>Using</string>
+			<string>When</string>
+			<string>While</string>
+			<string>Widening</string>
+			<string>With</string>
+			<string>WithEvents</string>
+			<string>WriteOnly</string>
+			<string>Xor</string>
+		</LanguageKeywords>
+		<ExplicitCastDataTypes>
+			<string>Object</string>
+			<string>Guid</string>
+			<string>DateTimeOffset</string>
+			<string>TimeSpan</string>
+		</ExplicitCastDataTypes>
+		<NullableDataTypes>
+			<string>String</string>
+			<string>Object</string>
+		</NullableDataTypes>
+		<LanguageInvalidCharsSuppress>95</LanguageInvalidCharsSuppress>
+		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
+	</LanguageSettings>
+	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
+	<PatternFile Action="Generate">BLLBase.patml</PatternFile>
+	<PatternFile Action="Generate">DALBase.patml</PatternFile>
+	<PatternFile Action="Generate">DbConnection.patml</PatternFile>
+	<PatternFile Action="Generate">DbProvider.patml</PatternFile>
+	<PatternFile Action="Generate">DbTransaction.patml</PatternFile>
+	<PatternFile Action="Generate">Enumerations.patml</PatternFile>
+	<PatternFile Action="Generate">ModelBase.patml</PatternFile>
+	<PatternFile Action="Generate">TableStoredProcs.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.User.patml</PatternFile>
+	<PatternFile Action="Generate">VS2008ClassProject.patml</PatternFile>
+	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
+</PatternProject>

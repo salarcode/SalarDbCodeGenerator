@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbTransaction</Name>
+	<Description>Transactions provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbTransaction.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Data.Linq;
+using [:Namespace:].Common;
+
+namespace [:Namespace:].BLL
+{
+	public partial class DbTransaction : IDisposable
+	{
+		DataContext _dataContext = null;
+
+		internal DataContext DataContext { get { return _dataContext; } }
+
+		public DbTransaction()
+		{
+			BeginTransaction();
+		}
+
+		void BeginTransaction()
+		{
+			_dataContext = new DataContext(DbConnection.GetConnectionString());
+		}
+
+		public void Commit()
+		{
+			_dataContext.SubmitChanges();
+		}
+
+		public void Dispose()
+		{
+			if (_dataContext != null)
+				_dataContext.Dispose();
+		}
+	}
+}]]>
+	</BaseContent>
+</PatternFile>

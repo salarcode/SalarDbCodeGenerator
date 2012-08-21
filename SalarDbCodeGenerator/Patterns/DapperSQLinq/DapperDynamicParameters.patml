@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DapperDynamicParameters</Name>
+	<Description></Description>
+	<Options
+		Group="Engine"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Dapper\DapperDynamicParameters.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+
+namespace Dapper
+{
+	public class DapperDynamicParameters : SqlMapper.IDynamicParameters
+	{
+		public IDictionary<string, object> Dictionary { get; private set; }
+		
+		public DapperDynamicParameters(IDictionary<string, object> dictionary)
+		{
+			this.Dictionary = dictionary;
+		}
+
+		public void AddParameters(IDbCommand command, SqlMapper.Identity identity)
+		{
+			foreach (var pair in this.Dictionary)
+			{
+				IDbDataParameter parameter = command.CreateParameter();
+				parameter.ParameterName = pair.Key;
+				parameter.Value = pair.Value;
+				command.Parameters.Add(parameter);
+			}
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

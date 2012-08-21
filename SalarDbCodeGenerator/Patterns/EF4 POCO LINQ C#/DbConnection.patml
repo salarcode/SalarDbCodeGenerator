@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbConnection</Name>
+	<Description>Database connection provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\[:DatabaseName:]Connection.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Text;
+using System.Data;
+using System.Configuration;
+
+namespace [:Namespace:].Common
+{
+	static class [:DatabaseName:]Connection
+	{
+		internal static String GetConnectionString()
+		{
+			return ConfigurationManager.ConnectionStrings["[:DatabaseName:]Entities"].ConnectionString;
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

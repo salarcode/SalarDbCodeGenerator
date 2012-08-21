@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ModelBase</Name>
+	<Description>Model base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\ModelBase.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports System.Reflection
+
+Namespace Base
+	<DefaultMember("Item")> _
+	Public Class ModelBase
+		Implements IDisposable
+		' Fields
+		Private _DataLoaded As Boolean = False
+		Private _Items As Hashtable
+
+		' Methods
+		Public Sub Dispose() Implements System.IDisposable.Dispose
+		End Sub
+
+		Public Overridable Sub ReadData(ByVal dataReader As IDataReader)
+		End Sub
+
+		Protected Sub SetDataLoaded(ByVal loaded As Boolean)
+			Me._DataLoaded = loaded
+		End Sub
+
+
+		' Properties
+		Public ReadOnly Property DataLoaded() As Boolean
+			Get
+				Return Me._DataLoaded
+			End Get
+		End Property
+
+		Default Public Property Item(ByVal name As String) As Object
+			Get
+				If (Me._Items Is Nothing) Then
+					Return Nothing
+				End If
+				Return Me._Items.Item(name)
+			End Get
+			Set(ByVal value As Object)
+				If (Me._Items Is Nothing) Then
+					Me._Items = New Hashtable
+				End If
+				Me._Items.Item(name) = value
+			End Set
+		End Property
+
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

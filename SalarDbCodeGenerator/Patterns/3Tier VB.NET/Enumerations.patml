@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Enumerations</Name>
+	<Description>Enumerations</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\Enumerations.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Namespace Common
+
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

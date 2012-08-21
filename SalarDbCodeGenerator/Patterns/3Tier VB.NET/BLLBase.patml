@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>BLLBase</Name>
+	<Description>BLL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\BLLBase.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:Namespace:].Common
+
+Namespace Base
+	Public Class BLLBase
+		Implements IDisposable
+
+		' Fields
+		Private _Connection As IDbConnection = Nothing
+		Private _Transaction As DbTransaction = Nothing
+
+		' Methods
+		Public Sub Dispose() Implements System.IDisposable.Dispose
+		End Sub
+
+
+		' Properties
+		Public Property Connection() As IDbConnection
+			Get
+				Return Me._Connection
+			End Get
+			Set(ByVal value As IDbConnection)
+				Me._Connection = value
+			End Set
+		End Property
+
+		Public Property Transaction() As DbTransaction
+			Get
+				Return Me._Transaction
+			End Get
+			Set(ByVal value As DbTransaction)
+				Me._Transaction = value
+			End Set
+		End Property
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

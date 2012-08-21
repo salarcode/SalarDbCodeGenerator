@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>BLLBase</Name>
+	<Description>BLL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\[:DatabaseName:]BLLBase.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using [:Namespace:].Common;
+
+namespace [:Namespace:].Base
+{
+	public class [:DatabaseName:]BLLBase: IDisposable
+	{
+		[:DatabaseName:]Entities _objectContext = null;
+		[:DatabaseName:]Transaction _transaction = null;
+		bool _autoSave = true;
+
+		public [:DatabaseName:]BLLBase()
+		{
+		}
+
+		/// <summary>
+		/// Determines to auto save the actions or not. Autosave doesn't apply when transaction is set.
+		/// </summary>
+		public [:DatabaseName:]BLLBase(bool autoSave)
+		{
+			_autoSave = autoSave;
+		}
+
+		public [:DatabaseName:]Entities ObjectContext
+		{
+			get
+			{
+				EnsureObjectContext();
+				return _objectContext;
+			}
+		}
+
+		/// <summary>
+		/// Determines to auto-save the actions immediately or not. Autosave won't apply if the Transaction is set.
+		/// </summary>
+		public bool AutoSaveChanges
+		{
+			get { return _autoSave; }
+		}
+
+		/// <summary>
+		/// The transaction used to delay save changes between BLLs.
+		/// </summary>
+		public [:DatabaseName:]Transaction Transaction
+		{
+			get { return _transaction; }
+			set
+			{
+				_transaction = value;
+				_objectContext = _transaction.ObjectContext;
+			}
+		}
+
+		/// <summary>
+		/// Saves any changes and ignores the transaction.
+		/// </summary>
+		public void SaveChanges(bool force)
+		{
+			if (!force && _transaction != null)
+			{
+				return;
+			}
+			ObjectContext.SaveChanges();
+		}
+
+		/// <summary>
+		/// Saves any changes and ignores the transaction.
+		/// </summary>
+		public void SaveChanges()
+		{
+			SaveChanges(false);
+		}
+
+		/// <summary>
+		/// Save changes if auto save is enabled
+		/// </summary>
+		protected void AutoSave()
+		{
+			if (_autoSave)
+			{
+				SaveChanges();
+			}
+		}
+
+		private void CreateObjectContext()
+		{
+			_objectContext = new [:DatabaseName:]Entities([:DatabaseName:]Connection.GetConnectionString());
+		}
+
+		private void EnsureObjectContext()
+		{
+			if (_objectContext == null)
+			{
+				CreateObjectContext();
+			}
+		}
+
+		public void Dispose()
+		{
+			if (_objectContext!=null)
+			{
+				_objectContext.Dispose();
+			}
+			_objectContext = null;
+		}
+	}
+}]]>
+	</BaseContent>
+</PatternFile>

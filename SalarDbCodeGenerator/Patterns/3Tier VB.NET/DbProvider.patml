@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbProvider</Name>
+	<Description>Database operations in low level provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbProvider.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:ProviderClassReferenceName:]
+Imports [:Namespace:].Base
+
+Namespace Common
+	Public Class DbProvider
+		' Methods
+		Private Shared Sub CloseConnection(ByVal command As IDbCommand)
+			If ((command.Transaction Is Nothing) AndAlso (Not command.Connection Is Nothing)) Then
+				command.Connection.Close()
+			End If
+		End Sub
+
+		Friend Shared Function ExecuteAsDataSet(ByVal command As IDbCommand) As DataSet
+			Dim resultObj As DataSet
+			Try
+				Dim ds As New DataSet
+				DbProvider.ExecuteAsDataSet(command, ds)
+				resultObj = ds
+			Catch
+				Throw
+			End Try
+			Return resultObj
+		End Function
+
+		Friend Shared Sub ExecuteAsDataSet(ByVal command As IDbCommand, ByVal ds As DataSet)
+			Try
+				Try
+					DbProvider.OpenConnection(command)
+					Dim da As IDbDataAdapter = New [:ProviderClassDataAdapter:]
+					da.SelectCommand = command
+					da.Fill(ds)
+				Catch
+					Throw
+				End Try
+			Finally
+				DbProvider.CloseConnection(command)
+			End Try
+		End Sub
+
+		Friend Shared Function ExecuteAsDataTable(ByVal command As IDbCommand) As DataTable
+			Dim resultObj As DataTable
+			Try
+				Dim table As New DataTable
+				DbProvider.ExecuteAsDataTable(command, table)
+				resultObj = table
+			Catch
+				Throw
+			End Try
+			Return resultObj
+		End Function
+
+		Friend Shared Sub ExecuteAsDataTable(ByVal command As IDbCommand, ByVal table As DataTable)
+			Try
+				Try
+					DbProvider.OpenConnection(command)
+					Dim da As New [:ProviderClassDataAdapter:]
+					da.SelectCommand = DirectCast(command, [:ProviderClassCommand:])
+					da.Fill(table)
+				Catch
+					Throw
+				End Try
+			Finally
+				DbProvider.CloseConnection(command)
+			End Try
+		End Sub
+
+		Friend Shared Function ExecuteNonQuery(ByVal command As IDbCommand) As Integer
+			Dim resultObj As Integer
+			Try
+				DbProvider.OpenConnection(command)
+				resultObj = command.ExecuteNonQuery
+			Catch
+				Throw
+			Finally
+				DbProvider.CloseConnection(command)
+			End Try
+			Return resultObj
+		End Function
+
+		Friend Shared Function ExecuteReader(ByVal command As IDbCommand) As IDataReader
+			Dim reader As IDataReader = Nothing
+			Dim resultObj As IDataReader
+			Try
+				DbProvider.OpenConnection(command)
+				If ((Not command.Transaction Is Nothing) AndAlso (Not command.Transaction.Connection Is Nothing)) Then
+					reader = command.ExecuteReader
+				Else
+					reader = command.ExecuteReader(CommandBehavior.CloseConnection)
+				End If
+				resultObj = reader
+			Catch
+				If (Not reader Is Nothing) Then
+					reader.Close()
+				End If
+				DbProvider.CloseConnection(command)
+				Throw
+			End Try
+			Return resultObj
+		End Function
+
+		Friend Shared Function ExecuteScalar(ByVal command As IDbCommand) As Object
+			Dim resultObj As Object
+			Try
+				DbProvider.OpenConnection(command)
+				resultObj = command.ExecuteScalar
+			Catch
+				Throw
+			Finally
+				DbProvider.CloseConnection(command)
+			End Try
+			Return resultObj
+		End Function
+
+		Friend Shared Function GetNewConnection() As IDbConnection
+			Return DbConnection.GetNewConnection
+		End Function
+
+		Private Shared Sub OpenConnection(ByVal command As IDbCommand)
+			If ((Not command.Connection Is Nothing) AndAlso (command.Connection.State <> ConnectionState.Open)) Then
+				command.Connection.Open()
+			End If
+		End Sub
+
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

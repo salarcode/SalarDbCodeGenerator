@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PatternProject>
+	<Name>3Tier C#</Name>
+	<Description>Default pattern. This pattern generates 3-tier object relational database model.</Description>
+	<Author>Salar Khalilzadeh</Author>
+	<LastUpdate>2012/07/06</LastUpdate>
+	<Language>C#</Language>
+	<FileExtension>.cs</FileExtension>
+	<SupportedDatabases>MS SQL Server</SupportedDatabases>
+	<SeperateReferenceColumns>false</SeperateReferenceColumns>
+	<LanguageSettings>
+		<VoidDataType>void</VoidDataType>
+		<TextFieldIdenticator>text</TextFieldIdenticator>
+		<ArrayIdenticator>[]</ArrayIdenticator>
+		<DbDecimalName>decimal</DbDecimalName>
+		<DbNumericName>numeric</DbNumericName>
+		<DbDecimalType>decimal([:Precision:],[:Scale:])</DbDecimalType>
+		<DbNumericType>numeric([:Precision:],[:Scale:])</DbNumericType>
+		<LanguageKeywordsSuppress>{0}_{1}</LanguageKeywordsSuppress>
+		<KeywordsCaseSensitive>true</KeywordsCaseSensitive>
+		<LanguageKeywords>
+			<string>readonly</string>
+			<string>base</string>
+			<string>break</string>
+			<string>byte</string>
+			<string>case</string>
+			<string>catch</string>
+			<string>checked</string>
+			<string>class</string>
+			<string>const</string>
+			<string>continue</string>
+			<string>default</string>
+			<string>delegate</string>
+			<string>do</string>
+			<string>value</string>
+			<string>else</string>
+			<string>enum</string>
+			<string>event</string>
+			<string>explicit</string>
+			<string>extern</string>
+			<string>false</string>
+			<string>finally</string>
+			<string>fixed</string>
+			<string>for</string>
+			<string>foreach</string>
+			<string>goto</string>
+			<string>if</string>
+			<string>implicit</string>
+			<string>in</string>
+			<string>interface</string>
+			<string>internal</string>
+			<string>is</string>
+			<string>namespace</string>
+			<string>new</string>
+			<string>null</string>
+			<string>object</string>
+			<string>operator</string>
+			<string>out</string>
+			<string>override</string>
+			<string>private</string>
+			<string>protected</string>
+			<string>public</string>
+			<string>readonly</string>
+			<string>ref</string>
+			<string>return</string>
+			<string>sealed</string>
+			<string>sizeof</string>
+			<string>static</string>
+			<string>struct</string>
+			<string>switch</string>
+			<string>this</string>
+			<string>throw</string>
+			<string>true</string>
+			<string>try</string>
+			<string>typeof</string>
+			<string>typeof</string>
+			<string>unchecked</string>
+			<string>unsafe</string>
+			<string>using</string>
+			<string>virtual</string>
+			<string>while</string>
+		</LanguageKeywords>
+		<ExplicitCastDataTypes>
+			<string>Object</string>
+			<string>Guid</string>
+			<string>DateTimeOffset</string>
+			<string>TimeSpan</string>
+		</ExplicitCastDataTypes>
+		<NullableDataTypes>
+			<string>String</string>
+			<string>Object</string>
+		</NullableDataTypes>
+		<LanguageInvalidCharsSuppress>95</LanguageInvalidCharsSuppress>
+		<LanguageInvalidChars>, ./&lt;&gt;?;'\:"|[]{}`-=~!@#$%^&amp;*()+</LanguageInvalidChars>
+	</LanguageSettings>
+	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
+	<PatternFile Action="Generate">BLLBase.patml</PatternFile>
+	<PatternFile Action="Generate">DALBase.patml</PatternFile>
+	<PatternFile Action="Generate">DbConnection.patml</PatternFile>
+	<PatternFile Action="Generate">DbProvider.patml</PatternFile>
+	<PatternFile Action="Generate">DbTransaction.patml</PatternFile>
+	<PatternFile Action="Generate">Enumerations.patml</PatternFile>
+	<PatternFile Action="Generate">ModelBase.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableModel.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableBLL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.Principal.patml</PatternFile>
+	<PatternFile Action="Generate">TableDAL.User.patml</PatternFile>
+	<PatternFile Action="Generate">TableSQLServerStoredProcs.patml</PatternFile>
+	<PatternFile Action="Generate">TableOracleStoredProcs.patml</PatternFile>
+	<PatternFile Action="Generate">VS2008ClassProject.patml</PatternFile>
+	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
+</PatternProject>

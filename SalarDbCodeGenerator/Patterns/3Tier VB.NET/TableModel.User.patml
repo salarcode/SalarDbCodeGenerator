@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User Model</Name>
+	<Description>Business model user custom methods pattern</Description>
+	<Options
+		Group="TableModel"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="Model\[:TableName:]Model.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:Namespace:].Base
+
+Namespace Model
+
+	REM <summary>
+	REM User custom methods for [:TableNameDb:]
+	REM </summary>
+	Partial Public Class [:TableName:]Model
+
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

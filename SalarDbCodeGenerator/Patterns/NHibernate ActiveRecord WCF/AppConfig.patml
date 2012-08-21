@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>AppConfig</Name>
+	<Description>Application config file</Description>
+	<Options
+		Group="ProjectFile"
+		AppliesTo="ProjectFile"
+		Overwrite="false"
+		FilePath="app.config"
+		Language="XML"
+		/>
+	<BaseContent>
+		<![CDATA[<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<configSections>
+		<section name="activerecord" type="Castle.ActiveRecord.Framework.Config.ActiveRecordSectionHandler, Castle.ActiveRecord"/>
+	</configSections>
+[#ActiveRecordConfig#]
+</configuration>
+]]>
+	</BaseContent>
+	
+	<PatternContent Name="ActiveRecordConfig" ConditionKeyMode="DatabaseProvider">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<ItemsSeperator>, </ItemsSeperator>
+		<Condition Key="SQLServer">
+			<![CDATA[
+	<activerecord>
+		<config>
+			<add key="connection.driver_class" value="NHibernate.Driver.SqlClientDriver"/>
+			<add key="dialect" value="NHibernate.Dialect.MsSql2008Dialect"/>
+			<add key="connection.provider" value="NHibernate.Connection.DriverConnectionProvider"/>
+			<add key="connection.connection_string" value="[:ConnectionString:]"/>
+			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
+		</config>
+	</activerecord>]]>
+		</Condition>
+		<Condition Key="Oracle">
+			<![CDATA[
+	<activerecord>
+		<config>
+			<add key="connection.driver_class" value="NHibernate.Driver.OracleClientDriver" />
+			<add key="dialect" value="NHibernate.Dialect.Oracle10gDialect" />
+			<add key="connection.provider" value="NHibernate.Connection.DriverConnectionProvider" />
+			<add key="connection.connection_string" value="[:ConnectionString:]" />
+			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
+		</config>
+	</activerecord>]]>
+		</Condition>
+		<Condition Key="SQLite">
+			<![CDATA[
+	<activerecord>
+		<config>
+			<add key="connection.driver_class" value="NHibernate.Driver.SQLite20Driver"/>
+			<add key="dialect" value="NHibernate.Dialect.SQLiteDialect"/>
+			<add key="connection.provider" value="MyBookStore.Model.SQLite.SQLiteConnectionProvider, MyBookStore.Model"/>
+			<add key="connection.connection_string" value="[:ConnectionString:]"/>
+			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
+		</config>
+	</activerecord>]]>
+		</Condition>
+		<Condition Key="SqlCe4">
+			<![CDATA[
+	<activerecord>
+		<config>
+			<add key="connection.driver_class" value="NHibernate.Driver.SqlServerCeDriver"/>
+			<add key="dialect" value="NHibernate.Dialect.MsSqlCe40Dialect"/>
+			<add key="connection.provider" value="NHibernate.Connection.DriverConnectionProvider" />
+			<add key="connection.connection_string" value="[:ConnectionString:]" />
+			<add key="proxyfactory.factory_class" value="NHibernate.ByteCode.Castle.ProxyFactoryFactory, NHibernate.ByteCode.Castle"/>
+		</config>
+	</activerecord>]]>
+		</Condition>
+	</PatternContent>
+
+</PatternFile>

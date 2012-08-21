@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User DAL</Name>
+	<Description>Data access layer user custom methods pattern</Description>
+	<Options
+		Group="TableDAL"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="DAL\[:TableNameCS:]DAL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:ProviderClassReferenceName:];
+using [:Namespace:].Model;
+using [:Namespace:].Common;
+
+namespace [:Namespace:].DAL
+{
+	/// <summary>
+	/// User custom methods for [:TableNameDb:]
+	/// </summary>
+	partial class [:TableName:]DAL
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DALBase</Name>
+	<Description>DAL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\DALBase.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:ProviderClassReferenceName:]
+Imports [:Namespace:].Common
+
+Namespace Base
+	Public Class DALBase
+		Implements IDisposable
+
+		' Fields
+		Private _Connection As IDbConnection = Nothing
+		Private _Transaction As DbTransaction = Nothing
+
+		' Methods
+		Public Sub Dispose() Implements System.IDisposable.Dispose
+		End Sub
+
+		Protected Function GetNewCommand() As [:ProviderClassCommand:]
+			Dim conn As IDbConnection = Me._Connection
+			If (conn Is Nothing) Then
+				If ((Not Me._Transaction Is Nothing) AndAlso (Not Me._Transaction.Connection Is Nothing)) Then
+					Return Me._Transaction.GetNewCommand
+				End If
+				conn = DbProvider.GetNewConnection
+			End If
+			Return DirectCast(conn.CreateCommand, [:ProviderClassCommand:])
+		End Function
+
+
+		' Properties
+		Public Property Connection() As IDbConnection
+			Get
+				Return Me._Connection
+			End Get
+			Set(ByVal value As IDbConnection)
+				Me._Connection = value
+			End Set
+		End Property
+
+		Public Property Transaction() As DbTransaction
+			Get
+				Return Me._Transaction
+			End Get
+			Set(ByVal value As DbTransaction)
+				Me._Transaction = value
+			End Set
+		End Property
+
+	End Class
+	End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

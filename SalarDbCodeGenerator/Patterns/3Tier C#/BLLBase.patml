@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>BLLBase</Name>
+	<Description>BLL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\[:DatabaseName:]BLLBase.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:Namespace:].Common;
+using [:Namespace:].BLL;
+
+namespace [:Namespace:].Base
+{
+	public partial class [:DatabaseName:]BLLBase : IDisposable
+	{
+		#region variables
+		private [:DatabaseName:]DbTransaction _Transaction = null;
+		private IDbConnection _Connection = null;
+		#endregion
+
+		#region properties
+		public [:DatabaseName:]DbTransaction Transaction
+		{
+			get { return _Transaction; }
+			set { _Transaction = value; }
+		}
+		public IDbConnection Connection
+		{
+			get { return _Connection; }
+			set { _Connection = value; }
+		}
+		#endregion
+
+		#region public methods
+		public void Dispose()
+		{
+		}
+		#endregion
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

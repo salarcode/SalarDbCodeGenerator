@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User Entity DapperAccess Object</Name>
+	<Description>User entity DapperAccess objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="Entities\UserDap\[:TableName:]UserDap.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].Entities
+{
+	/// <summary>
+	/// User custom methods for [:TableName:]Dap
+	/// </summary>
+	partial class [:TableName:]Dap
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

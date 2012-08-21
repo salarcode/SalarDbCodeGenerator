@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User BLL</Name>
+	<Description>Busines logic layer user custom methods pattern</Description>
+	<Options
+		Group="TableBLL"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="BLL\[:TableName:]BLL.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:Namespace:].Base
+Imports [:Namespace:].Model
+Imports [:Namespace:].DAL
+
+Namespace BLL
+
+	REM <summary>
+	REM User custom methods for [:TableNameDb:]
+	REM </summary>
+	Partial Public Class [:TableName:]BLL
+
+
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

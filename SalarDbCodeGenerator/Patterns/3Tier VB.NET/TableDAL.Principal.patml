@@ -1,0 +1,317 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Database DAL</Name>
+	<Description>Data access layer pattern</Description>
+	<Options
+		Group="TableDAL"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="DAL\Principal\DatabaseDAL.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:ProviderClassReferenceName:]
+Imports [:Namespace:].Base
+Imports [:Namespace:].Model
+Imports [:Namespace:].Common
+
+Namespace DAL
+[#TablesAndViewsContent#]
+End Namespace
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+	''' <summary>
+	''' Data access layer for [:TableNameDb:]
+	''' </summary>
+	Public Class [:TableName:]DAL
+		Inherits DALBase
+
+		Friend Sub New()
+		End Sub
+
+		Friend Sub New(ByVal transaction As DbTransaction, ByVal connection As IDbConnection)
+			MyBase.Connection = connection
+			MyBase.Transaction = transaction
+		End Sub
+
+
+		Public Function GetAll() As List(Of [:TableName:]Model)
+			Dim result As New List(Of [:TableName:]Model)
+			
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+			
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.CommandText = "[:TableNameDb:]_GetAll"
+				
+				Dim reader As IDataReader = Nothing
+				Try
+					Try
+						reader = DbProvider.ExecuteReader(cmd)
+						Dim fields As New [:TableName:]Model.FieldsOrdinal(reader)
+						Do While reader.Read
+							Dim model As New [:TableName:]Model
+							model.ReadData(reader, fields)
+							result.Add(model)
+						Loop
+						
+					Catch
+						Throw
+					End Try
+					
+					Return result
+					
+				Finally
+					If (Not reader Is Nothing) Then
+						reader.Close()
+					End If
+				End Try
+			End Using
+			
+			Return result
+		End Function
+
+	[#UpdatableTable#]
+
+	End Class
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="UpdatableTable" ConditionKeyMode="TablePrimaryKey" description="Updatable table methods">
+				<Condition Key="ReadOnlyTable"></Condition>
+				<Condition Key="NoPrimaryKey">
+					<![CDATA[
+[#InsertMethodDeclare#]
+		Try
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+				cmd.CommandType = CommandType.StoredProcedure
+
+				cmd.CommandText = "[:TableNameDb:]_Insert"
+				[#InsertParameters#]
+				[#InsertMethodDbProvider#]
+			End Using
+		Catch
+			Throw
+		End Try
+[#InsertMethodDeclareEnd#]
+]]>
+				</Condition>
+
+				<Condition Key="WithPrimaryKey">
+					<![CDATA[
+	Public Function GetBy[:PrimaryKeyName:](ByVal [:PrimaryKeyName:] As [:PrimaryKeyDotNetType:]) As [:TableName:]Model
+		Dim resultModel As [:TableName:]Model
+
+		Try
+			Dim result As New [:TableName:]Model
+
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+				cmd.CommandType = CommandType.StoredProcedure
+				cmd.CommandText = "[:TableNameDb:]_GetBy[:PrimaryKeyNameDb:]"
+				Dim reader As IDataReader = Nothing
+
+				Try
+					cmd.Parameters.AddWithValue("@[:PrimaryKeyNameDb:]", [:PrimaryKeyName:])
+					
+					reader = DbProvider.ExecuteReader(cmd)
+					If reader.Read Then
+						result.ReadData(reader)
+						Return result
+					End If
+					resultModel = Nothing
+
+				Finally
+					If (Not reader Is Nothing) Then
+						reader.Close()
+					End If
+				End Try
+			End Using
+
+		Catch
+			Throw
+		End Try
+
+		Return resultModel
+	End Function
+	
+	Public Sub Update(ByVal model As [:TableName:]Model)
+		Try
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+				cmd.CommandType = CommandType.StoredProcedure
+				
+				cmd.CommandText = "[:TableNameDb:]_Update"
+				
+				[#UpdateParameters#]
+				
+				DbProvider.ExecuteNonQuery(cmd)
+				
+			End Using
+		Catch
+			Throw
+		End Try
+		
+	End Sub
+
+[#InsertMethodDeclare#]
+		Try
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+				cmd.CommandType = CommandType.StoredProcedure
+
+				cmd.CommandText = "[:TableNameDb:]_Insert"
+				[#InsertParameters#]
+				[#InsertMethodDbProvider#]
+			End Using
+		Catch
+			Throw
+		End Try
+[#InsertMethodDeclareEnd#]
+
+	Public Sub Delete(ByVal [:PrimaryKeyName:] As [:PrimaryKeyDotNetType:])
+		Try
+			Using cmd As [:ProviderClassCommand:] = MyBase.GetNewCommand
+				cmd.CommandType = CommandType.StoredProcedure
+				
+				cmd.CommandText = "[:TableNameDb:]_DeleteBy[:PrimaryKeyNameDb:]"
+				
+				cmd.Parameters.AddWithValue("@[:PrimaryKeyNameDb:]", [:PrimaryKeyName:])
+				
+				DbProvider.ExecuteNonQuery(cmd)
+			End Using
+		Catch
+			Throw
+		End Try
+	End Sub
+		
+]]>
+				</Condition>
+				<ConditionContents>
+					<PatternContent Name="InsertMethodDeclare" ConditionKeyMode="TableAutoIncrement" description="Insert method pattern used in Insert">
+						<Condition Key="NoAutoIncrement" description="There is no auto increment field in table.">
+							<![CDATA[
+	Public Sub Insert(ByVal model As [:TableName:]Model)]]>
+						</Condition>
+						<Condition Key="OneAutoIncrement" description="There is one increment field in table.">
+							<![CDATA[
+	Public Function Insert(ByVal model As [:TableName:]Model) As [:AutoIncrementDotNetType:]]]>
+						</Condition>
+						<Condition Key="MoreAutoIncrement" description="There is more increment field in table.">
+							<![CDATA[
+	Public Sub Insert(ByVal model As [:TableName:]Model)]]>
+						</Condition>
+					</PatternContent>
+
+					<PatternContent Name="InsertMethodDeclareEnd" ConditionKeyMode="TableAutoIncrement" description="Insert method pattern used in Insert">
+						<Condition Key="NoAutoIncrement" description="There is no auto increment field in table.">
+							<![CDATA[
+	End Sub]]>
+						</Condition>
+						<Condition Key="OneAutoIncrement" description="There is one increment field in table.">
+							<![CDATA[
+	End Function]]>
+						</Condition>
+						<Condition Key="MoreAutoIncrement" description="There is more increment field in table.">
+							<![CDATA[
+	End Sub]]>
+						</Condition>
+					</PatternContent>
+
+					<PatternContent Name="InsertParameters" ConditionKeyMode="FieldsKeyTypeAll" description="Model parameters to send to the insert or update commands">
+						<Condition Key="AutoInrcementPrimaryKey"></Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="NormalField">
+							<![CDATA[
+				cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])]]>
+						</Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[
+				cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])]]>
+						</Condition>
+						<Condition Key="NativeNullable">
+							<![CDATA[
+				If (model.[:FieldName:] IsNot Nothing) Then
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])
+				Else
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", DBNull.Value)
+				End If
+]]>
+						</Condition>
+						<Condition Key="NullableType">
+							<![CDATA[
+				If (model.[:FieldName:].HasValue) Then
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:].Value)
+				Else
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", DBNull.Value)
+				End If
+]]>
+						</Condition>
+					</PatternContent>
+
+					<PatternContent Name="InsertMethodDbProvider" ConditionKeyMode="TableAutoIncrement" description="Insert method pattern used in Insert">
+						<Condition Key="NoAutoIncrement" description="There is no auto increment field in table.">
+							<![CDATA[
+				DbProvider.ExecuteNonQuery(cmd)]]>
+						</Condition>
+						<Condition Key="OneAutoIncrement" description="There is one increment field in table.">
+							<![CDATA[
+				Dim result As Object = Nothing
+				result = DbProvider.ExecuteScalar(cmd)
+				If ((result Is Nothing) OrElse Convert.IsDBNull(result)) Then
+					Throw New Exception("Can not get inserted auto number from db.")
+				End If
+				Return result]]>
+						</Condition>
+						<Condition Key="MoreAutoIncrement" description="There is more increment field in table.">
+							<![CDATA[
+				DbProvider.ExecuteNonQuery(cmd)]]>
+						</Condition>
+					</PatternContent>
+
+					<PatternContent Name="UpdateParameters" ConditionKeyMode="FieldsKeyTypeAll" description="Model parameters to send to the insert or update commands">
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[
+				cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])]]>
+						</Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="NormalField">
+							<![CDATA[
+				cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])]]>
+						</Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[
+				cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])]]>
+						</Condition>
+						<Condition Key="NativeNullable">
+							<![CDATA[
+				If (model.[:FieldName:] IsNot Nothing) Then
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:])
+				Else
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", DBNull.Value)
+				End If
+]]>
+						</Condition>
+						<Condition Key="NullableType">
+							<![CDATA[
+				If (model.[:FieldName:].HasValue) Then
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:].Value)
+				Else
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", DBNull.Value)
+				End If
+]]>
+						</Condition>
+					</PatternContent>
+				</ConditionContents>
+			</PatternContent>
+
+		</ConditionContents>
+	</PatternContent>
+
+</PatternFile>

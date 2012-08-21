@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Principal View BLL</Name>
+	<Description>Busines logic layer for views pattern</Description>
+	<Options
+		Group="ViewBLL"
+		AppliesTo="ViewsAll"
+		Overwrite="true"
+		FilePath="BLL\Principal\DatabaseViewsBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].BLL
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="ViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+	/// <summary>
+	/// Business logic for [:TableNameDb:]
+	/// </summary>
+	public partial class [:TableName:]BLL : ViewBaseBLL<[:TableName:]Entity>
+	{
+[#UpdatableTable#]
+[#ForeignKeys#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="TableForeignKey">
+				<Condition Key="NormalKey">
+					<![CDATA[
+		public [:LocalTableName:]Entity GetBy[:LocalFieldNameDb:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			return GetAll().Where(item => item.[:LocalFieldName:] == [:LocalFieldName:]).FirstOrDefault();
+		}
+
+		public IQueryable<[:ForeignTableName:]Entity> GetForeignTableBy[:ForeignFieldNameDb:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			return GetAll().Where(item => item.[:ForeignFieldName:] == [:ForeignFieldName:]).FirstOrDefault();
+		}
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="UpdatableTable" ConditionKeyMode="TablePrimaryKey">
+				<Condition Key="ReadOnlyTable"></Condition>
+				<Condition Key="NoPrimaryKey"></Condition>
+				<Condition Key="WithPrimaryKey">
+					<![CDATA[
+		public [:TableName:]Entity GetBy[:PrimaryKeyNameDb:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			return GetAll().Where(item => item.[:PrimaryKeyName:] == [:PrimaryKeyName:]).FirstOrDefault();
+		}
+
+		public bool DeleteBy[:PrimaryKeyNameDb:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			[:TableName:]Entity item = GetBy[:PrimaryKeyNameDb:]([:PrimaryKeyName:]);
+			if (item == null)
+				return false;
+			Delete(item);
+			return true;
+		}
+]]>
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User Entity Objects</Name>
+	<Description>User entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="BLL\[:TableName:]BLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data.Objects;
+using System.Linq;
+using System.Text;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].BLL
+{
+	partial class [:TableName:]BLL
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ActiveRecord Initializer</Name>
+	<Description>Nhibernate CastleActiveRecord initializer</Description>
+	<Options
+		Group="Common"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Common\[:DatabaseName:]ActiveRecord.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using System.Configuration;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Framework;
+using [:Namespace:].Entities;
+		
+namespace [:Namespace:]
+{
+	public class [:DatabaseName:]ActiveRecord
+	{
+		public static void InitializeActiveRecord()
+		{
+			IConfigurationSource configSource = ConfigurationSettings.GetConfig("activerecord") as IConfigurationSource;
+			ActiveRecordStarter.Initialize(configSource,[#TablesAndViewsContent#]);
+			// Use this only when creating a new database
+			//ActiveRecordStarter.CreateSchema();
+		}
+	}
+}
+]]>
+	</BaseContent>
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<ItemsSeperator>, </ItemsSeperator>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+				typeof([:TableName:])]]>
+		</Condition>
+	</PatternContent>
+</PatternFile>

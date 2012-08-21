@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>BaseEntity</Name>
+	<Description>Base entity objects pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\[:DatabaseName:]BaseEntity.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using System.Configuration;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Framework;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].Base
+{
+	[DataContract]
+	public partial class [:DatabaseName:]BaseEntity<T> : ActiveRecordBase<T>, IDisposable
+	{
+		#region variables
+		private Hashtable _Items;
+		#endregion
+
+		#region properties
+		public virtual object this[string name]
+		{
+			get
+			{
+				if (_Items == null)
+					return null;
+
+				return _Items[name];
+			}
+			set
+			{
+				if (_Items == null)
+					_Items = new Hashtable();
+				_Items[name] = value;
+			}
+		}
+		#endregion
+
+		#region public methods
+
+		/// <summary>
+		/// Attaches the detached object. The object should heve valid Key value.
+		/// It will not work if you are outside an active SessionScope or if the object is already attached to an active ISession. 
+		/// </summary>
+		public virtual void Reattach()
+		{
+			if (!holder.ThreadScopeInfo.HasInitializedScope)
+				throw new Exception("Cannot reattach if you are not within a SessionScope.");
+			holder.CreateSession(typeof(T)).Lock(this, NHibernate.LockMode.None);
+		}
+
+		/// <summary>
+		/// Creates a copy of current ActiveRecord entity.
+		/// </summary>
+		public virtual object CloneEntity()
+		{
+			if (!typeof(T).IsAbstract)
+			{
+				PropertyInfo[] properties;
+				try
+				{
+					properties = typeof(T).GetProperties(BindingFlags.SetProperty | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
+				}
+				catch
+				{
+					return null;
+				}
+				T newObj = Activator.CreateInstance<T>();
+
+				foreach (var property in properties)
+					//Has many
+					if (property.GetCustomAttributes(typeof(Castle.ActiveRecord.HasManyAttribute), true).Length == 1)
+					{
+					}
+					//Has and belongs to many
+					else if (property.GetCustomAttributes(typeof(Castle.ActiveRecord.HasAndBelongsToManyAttribute), true).Length == 1)
+					{
+						if (property.PropertyType as IList != null)
+						{
+							IList list = (IList)Activator.CreateInstance(property.PropertyType);
+							foreach (Object collectionObject in (property.GetValue(this, null) as IList))
+								list.Add(collectionObject);
+							property.SetValue(newObj, list, null);
+						}
+					}
+					//Property
+					else if (property.GetCustomAttributes(typeof(Castle.ActiveRecord.PropertyAttribute), true).Length == 1)
+					{
+						if (property.PropertyType as ICloneable != null)
+							property.SetValue(newObj, (property.GetValue(this, null) as ICloneable) != null ? (property.GetValue(this, null) as ICloneable).Clone() : null, null);
+						else
+							property.SetValue(newObj, property.GetValue(this, null), null);
+					}
+					//Belongs to
+					else if (property.GetCustomAttributes(typeof(Castle.ActiveRecord.BelongsToAttribute), true).Length == 1)
+					{
+						property.SetValue(newObj, property.GetValue(this, null), null);
+					}
+
+				return newObj;
+			}
+			else
+				return this;
+		}
+		
+		/// <summary>
+		/// Creates an unproxied clone of the entity, based on DataMember flag.
+		/// </summary>
+		public virtual T CloneDataMember()
+		{
+			Type entityType = typeof(T);
+
+			// new close instance
+			var cloneEntity = (T)Activator.CreateInstance(entityType);
+			CopyDataMember(cloneEntity);
+
+			return cloneEntity;
+		}
+
+		/// <summary>
+		/// Creates an unproxied copy of the entity, based on DataMember flag.
+		/// </summary>
+		public virtual void CopyDataMember(object destinationModel)
+		{
+			Type entityType = this.GetType();
+
+			// Getting the properties list
+			PropertyInfo[] entityProps;
+			try
+			{
+				entityProps = entityType.GetProperties(BindingFlags.SetProperty | BindingFlags.GetProperty | BindingFlags.Instance | BindingFlags.Public);
+			}
+			catch
+			{
+				return;
+			}
+
+			var dataMemType = typeof(DataMemberAttribute);
+
+			// copy the properties that marked as DataMember
+			foreach (PropertyInfo srcProp in entityProps)
+			{
+				try
+				{
+					// don't copy not data members
+					if (!srcProp.IsDefined(dataMemType, true))
+						continue;
+
+					// apply to the destination
+					srcProp.SetValue(destinationModel, srcProp.GetValue(this, null), null);
+				}
+				catch { }
+			}
+		}
+
+		public void Dispose()
+		{
+		}
+		#endregion
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

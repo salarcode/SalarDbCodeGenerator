@@ -1,0 +1,334 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Entity DapperAccess Object</Name>
+	<Description>Entity DapperAccess objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\Principal\DapperAccessPricipal.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using SQLinq;
+using Dapper;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+ 
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+	public partial class [:TableName:]Dap : BaseDap
+	{
+		public [:TableName:]Dap()
+		{
+		}
+
+		public [:TableName:]Dap(IDbConnection connection)
+		{
+			Connection = connection;
+		}
+
+		public [:TableName:]Dap(IDbTransaction transaction)
+		{
+			Transaction = transaction;
+			Connection = transaction.Connection;
+		}
+
+		public [:TableName:]Dap(BaseDap dapProvider)
+		{
+			Transaction = dapProvider.Transaction;
+			Connection = dapProvider.Connection;
+		}
+
+		public SQLinq<[:TableName:]> ToSQLinq()
+		{
+			return new SQLinq<[:TableName:]>();
+		}
+
+		public int Execute(SQLinq<[:TableName:]> query, IDbTransaction transaction = null, int? commandTimeout = null, CommandType? commandType = null)
+		{
+			if (transaction == null)
+				transaction = Transaction;
+
+			OpenConnection();
+			try
+			{
+				SQLinqResult result = query.ToSQL();
+				string str = result.ToQuery();
+				var obj2 = new DapperDynamicParameters(result.Parameters);
+				return SqlMapper.Execute(Connection, str, obj2, transaction, commandTimeout, commandType);
+			}
+			finally
+			{
+				CloseConnection();
+			}
+		}
+
+		/// <summary>
+		/// Return a list of dynamic objects, reader is closed after the call
+		/// </summary>
+		public IEnumerable<dynamic> QueryDynamic(SQLinq<[:TableName:]> query, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
+		{
+			if (transaction == null)
+				transaction = Transaction;
+
+			OpenConnection();
+			try
+			{
+				SQLinqResult result = query.ToSQL();
+				string str = result.ToQuery();
+				var obj2 = new DapperDynamicParameters(result.Parameters);
+				return SqlMapper.Query(Connection, str, obj2, transaction, buffered, commandTimeout, commandType);
+			}
+			finally
+			{
+				CloseConnection();
+			}
+		}
+
+		/// <summary>
+		/// Executes a query, returning the data typed as per T
+		/// </summary>
+		/// <remarks>the dynamic param may seem a bit odd, but this works around a major usability issue in vs, if it is Object vs completion gets annoying. Eg type new [space] get new object</remarks>
+		/// <returns>A sequence of data of the supplied type; if a basic type (int, string, etc) is queried then the data from the first column in assumed, otherwise an instance is
+		/// created per row, and a direct column-name===member-name mapping is assumed (case insensitive).
+		/// </returns>
+		public IEnumerable<[:TableName:]> Query(SQLinq<[:TableName:]> query, IDbTransaction transaction = null, bool buffered = true, int? commandTimeout = null, CommandType? commandType = null)
+		{
+			if (transaction == null)
+				transaction = Transaction;
+
+			OpenConnection();
+			try
+			{
+				SQLinqResult result = query.ToSQL();
+				string str = result.ToQuery();
+				var obj2 = new DapperDynamicParameters(result.Parameters);
+				return SqlMapper.Query<[:TableName:]>(Connection, str, obj2, transaction, buffered, commandTimeout, commandType);
+			}
+			finally
+			{
+				if (buffered)
+					CloseConnection();
+			}
+		}
+
+		public List<[:TableName:]> GetTop(int count)
+		{
+			return Query<[:TableName:]>(string.Format("SELECT TOP {0} * FROM {1}", count, SqlTableName)).ToList();
+		}
+[#UpdatableTable#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+[#SqlCommands#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		public List<[:LocalTableName:]> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:LocalFieldNameDb:]=[:ProviderSPParamPrefix:][:LocalFieldName:]", new { [:LocalFieldName:] = [:LocalFieldName:] }).ToList();
+ 		}
+		
+		public [:ForeignTableName:] Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		public List<[:ForeignTableName:]> Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+		public List<[:TableName:]> GetBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNameDb:]=[:ProviderSPParamPrefix:][:IndexKeyName:]", new { [:IndexKeyName:] = [:IndexKeyName:] }).ToList();
+ 		}]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+		public [:TableName:] GetBy[:IndexKeyName:]Index([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNameDb:]=[:ProviderSPParamPrefix:][:IndexKeyName:]", new { [:IndexKeyName:] = [:IndexKeyName:] }).FirstOrDefault();
+		}
+
+		public void DeleteBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
+		{
+			Execute(SqlDeleteCommand, new { [:IndexKeyName:] = [:IndexKeyName:] });
+		}]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="UpdatableTable" ConditionKeyMode="TablePrimaryKey">
+				<Condition Key="ReadOnlyTable"></Condition>
+				<Condition Key="NoPrimaryKey">
+					<![CDATA[
+		public void Insert([:TableName:] model)
+		{
+			Execute(SqlInsertCommand, model);
+		}
+
+		public void Insert(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlInsertCommand, models);
+		}]]>
+				</Condition>
+				<Condition Key="WithPrimaryKey">
+					<![CDATA[
+		public [:TableName:] GetBy[:PrimaryKeyName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:PrimaryKeyNameDb:]=[:ProviderSPParamPrefix:][:PrimaryKeyName:]", new { [:PrimaryKeyName:] = [:PrimaryKeyName:] }).FirstOrDefault();
+		}
+
+		public void Insert([:TableName:] model)
+		{
+			Execute(SqlInsertCommand, model);
+		}
+
+		public void Insert(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlInsertCommand, models);
+		}
+
+		public void Delete([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		{
+			Execute(SqlDeleteCommand, new { [:PrimaryKeyName:] = [:PrimaryKeyName:] });
+		}
+
+		public void Update([:TableName:] model)
+		{
+			Execute(SqlUpdateCommand, model);
+		}
+
+		public void Update(IEnumerable<[:TableName:]> models)
+		{
+			Execute(SqlUpdateCommand, models);
+		}]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="SqlCommands" ConditionKeyMode="TablePrimaryKey">
+				<Condition Key="ReadOnlyTable">
+					<![CDATA[
+		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;]]>
+				</Condition>
+				<Condition Key="NoPrimaryKey">
+					<![CDATA[
+		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " [#InsertParametersValue#] ";
+		]]>
+				</Condition>
+				<Condition Key="WithPrimaryKey">
+					<![CDATA[
+		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
+		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " ([#InsertParametersName#]) VALUES ([#InsertParametersValue#]) ";
+		public const string SqlUpdateCommand = "UPDATE " + SqlTableName + " SET [#UpdateParameters#] WHERE [#PrimaryKeyParameters#]";
+		public const string SqlDeleteCommand = "DELETE FROM " + SqlTableName + " WHERE [#PrimaryKeyParameters#]";
+		]]>
+				</Condition>
+
+				<ConditionContents>
+					<PatternContent Name="InsertParametersName" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[ , ]]>
+						</ItemsSeperator>
+						<Condition Key="AutoInrcementPrimaryKey"></Condition>
+						<Condition Key="AutoInrcement"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="AutoIncNativeNullable"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="AutoIncNullableType"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="PrimaryKey"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="NormalField"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="NativeNullable"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="NullableType"><![CDATA[[:FieldNameDb:]]]></Condition>
+					</PatternContent>
+
+					<PatternContent Name="InsertParametersValue" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[ , ]]>
+						</ItemsSeperator>
+						<Condition Key="AutoInrcementPrimaryKey"></Condition>
+						<Condition Key="AutoInrcement"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoIncNativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoIncNullableType"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="PrimaryKey"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="NormalField"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="NativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="NullableType"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+					</PatternContent>
+
+					<PatternContent Name="UpdateParameters" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[ , ]]>
+						</ItemsSeperator>
+						<Condition Key="AutoInrcementPrimaryKey"></Condition>
+						<Condition Key="AutoInrcement"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoIncNativeNullable"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoIncNullableType"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]>
+						</Condition>
+						<Condition Key="NormalField"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="NativeNullable"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="NullableType"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+					</PatternContent>
+
+					<PatternContent Name="PrimaryKeyParameters" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[ AND ]]>
+						</ItemsSeperator>
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]>
+						</Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]>
+						</Condition>
+						<Condition Key="NormalField"></Condition>
+						<Condition Key="NativeNullable"></Condition>
+						<Condition Key="NullableType"></Condition>
+					</PatternContent>
+				</ConditionContents>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

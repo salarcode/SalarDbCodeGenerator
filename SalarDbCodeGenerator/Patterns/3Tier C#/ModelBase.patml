@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ModelBase</Name>
+	<Description>Model base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\[:DatabaseName:]ModelBase.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using System.Collections;
+
+namespace [:Namespace:].Base
+{
+	public partial class [:DatabaseName:]ModelBase : IDisposable
+	{
+		#region variables
+		private Hashtable _Items;
+		private bool _DataLoaded = false;
+		#endregion
+
+		#region properties
+		public object this[string name]
+		{
+			get
+			{
+				if (_Items == null)
+					return null;
+
+				return _Items[name];
+			}
+			set
+			{
+				if (_Items == null)
+					_Items = new Hashtable();
+				_Items[name] = value;
+			}
+		}
+		public bool DataLoaded
+		{
+			get { return _DataLoaded; }
+		}
+		#endregion
+
+		#region public methods
+		public virtual void ReadData(IDataReader dataReader)
+		{
+		}
+		public void Dispose()
+		{
+		}
+		#endregion
+
+		#region protected methods
+		protected void SetDataLoaded(bool loaded)
+		{
+			_DataLoaded = loaded;
+		}
+		#endregion
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

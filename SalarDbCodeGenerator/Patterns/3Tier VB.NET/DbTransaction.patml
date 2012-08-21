@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbTransaction</Name>
+	<Description>Transactions provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbTransaction.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports [:ProviderClassReferenceName:]
+		
+Namespace Common
+	Public Class DbTransaction
+		Implements IDisposable
+
+		' Fields
+		Private _Connection As IDbConnection
+		Private _SqlTransaction As IDbTransaction
+
+		' Methods
+		Private Sub New()
+		End Sub
+
+		Public Shared Function BeginTransaction() As DbTransaction
+			Dim result As New DbTransaction
+			result._Connection = DbProvider.GetNewConnection
+			result._Connection.Open()
+			result._SqlTransaction = result._Connection.BeginTransaction
+			Return result
+		End Function
+
+		Public Sub Commit()
+			Me._SqlTransaction.Commit()
+		End Sub
+
+		Public Sub Dispose() Implements System.IDisposable.Dispose
+			If (Not Me._SqlTransaction Is Nothing) Then
+				Me._SqlTransaction.Dispose()
+			End If
+			If (Not Me._Connection Is Nothing) Then
+				Me._Connection.Dispose()
+			End If
+		End Sub
+
+		Friend Function GetNewCommand() As [:ProviderClassCommand:]
+			Dim cmd As IDbCommand = Me._SqlTransaction.Connection.CreateCommand
+			cmd.Transaction = Me._SqlTransaction
+			Return DirectCast(cmd, [:ProviderClassCommand:])
+		End Function
+
+		Public Sub Rollback()
+			Me._SqlTransaction.Rollback()
+		End Sub
+
+
+		' Properties
+		Friend Property Connection() As IDbConnection
+			Get
+				Return Me._Connection
+			End Get
+			Set(ByVal value As IDbConnection)
+				Me._Connection = value
+			End Set
+		End Property
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

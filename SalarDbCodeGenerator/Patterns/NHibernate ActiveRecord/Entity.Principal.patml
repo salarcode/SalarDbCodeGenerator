@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Xml.Serialization;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Linq;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+	[Serializable]
+	[DataContract]
+	[ActiveRecord(Table="[:TableNameDb:]", Lazy=true)]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity<[:TableName:]>
+	{
+[#FieldsProperties#]
+[#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		[BelongsTo(Column = "[:LocalFieldNameDb:]", Lazy = [:DatabaseName:]CarConfig.LazyBelongs)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		[HasMany(typeof([:ForeignTableName:]), Inverse = true, Table="[:ForeignTableNameDb:]" ,ColumnKey="[:ForeignFieldNameDb:]", Lazy=[:DatabaseName:]CarConfig.LazyCollections)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNameDb:]", Generator = PrimaryKeyType.Native)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNameDb:]", Generator = PrimaryKeyType.Assigned)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNameDb:]", NotNull = true, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNameDb:]", NotNull = false, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[Property("[:FieldNameDb:]", NotNull = false, Length = [:FieldDbSize:])]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+			<PatternContent ConditionKeyMode="FieldsReferencedKeyTypeAll">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey"></Condition>
+			</PatternContent>
+
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey"></Condition>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

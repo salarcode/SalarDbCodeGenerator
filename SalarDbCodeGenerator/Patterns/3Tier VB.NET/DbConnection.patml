@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbConnection</Name>
+	<Description>Database connection provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbConnection.vb"
+		Language="VB.NET"
+		/>
+	<BaseContent>
+		<![CDATA[
+Imports System.Configuration
+Imports [:ProviderClassReferenceName:]
+		
+Namespace Base		
+	Friend Class DbConnection
+		' Methods
+		Friend Shared Function GetConnectionString() As String
+			Return ConfigurationManager.ConnectionStrings.Item("ConnectionString").ConnectionString
+		End Function
+
+		Friend Shared Function GetNewConnection() As IDbConnection
+			Return New [:ProviderClassConnection:](DbConnection.GetConnectionString)
+		End Function
+
+	End Class
+End Namespace
+]]>
+	</BaseContent>
+</PatternFile>

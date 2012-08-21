@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DALBase</Name>
+	<Description>DAL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\[:DatabaseName:]DALBase.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:ProviderClassReferenceName:];
+using [:Namespace:].Common;
+
+namespace [:Namespace:].Base
+{
+	public class [:DatabaseName:]DALBase : IDisposable
+	{
+		#region variables
+		private [:DatabaseName:]DbTransaction _Transaction = null;
+		private IDbConnection _Connection = null;
+		#endregion
+
+		#region properties
+		public [:DatabaseName:]DbTransaction Transaction
+		{
+			get { return _Transaction; }
+			set { _Transaction = value; }
+		}
+		public IDbConnection Connection
+		{
+			get { return _Connection; }
+			set { _Connection = value; }
+		}
+		#endregion
+
+		#region public methods
+		public void Dispose()
+		{
+
+		}
+		#endregion
+
+		#region protected methods
+		protected [:ProviderClassCommand:] GetNewCommand()
+		{
+			IDbConnection conn = _Connection;
+			if (conn == null)
+			{
+				if (_Transaction != null && _Transaction.Connection != null)
+				{
+					// Getting command from transaction
+					return _Transaction.GetNewCommand();
+				}
+				else
+					conn = [:DatabaseName:]DbProvider.GetNewConnection();
+			}
+			return ([:ProviderClassCommand:])conn.CreateCommand();
+		}
+		#endregion
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

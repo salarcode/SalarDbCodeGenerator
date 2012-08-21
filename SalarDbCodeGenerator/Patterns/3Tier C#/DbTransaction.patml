@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbTransaction</Name>
+	<Description>Transactions provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbTransaction.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using [:ProviderClassReferenceName:];
+using System.Data;
+
+namespace [:Namespace:].Common
+{
+	public partial class DbTransaction
+	{
+		public static [:DatabaseName:]DbTransaction BeginTransaction[:DatabaseName:]()
+		{
+			return [:DatabaseName:]DbTransaction.BeginTransaction();
+		}
+	}
+
+	public class [:DatabaseName:]DbTransaction : IDisposable
+	{
+		#region variables
+		private IDbTransaction _SqlTransaction;
+		private IDbConnection _Connection;
+		#endregion
+
+		#region properties
+		internal IDbConnection Connection
+		{
+			get { return _Connection; }
+			set { _Connection = value; }
+		}
+		#endregion
+
+		#region static methods
+		public static [:DatabaseName:]DbTransaction BeginTransaction()
+		{
+			[:DatabaseName:]DbTransaction result = new [:DatabaseName:]DbTransaction();
+			result._Connection = [:DatabaseName:]DbProvider.GetNewConnection();
+
+			// Openning transaction connection
+			result._Connection.Open();
+
+			// Begin the trasnaction
+			result._SqlTransaction = result._Connection.BeginTransaction();
+
+			return result;
+		}
+		#endregion
+
+		#region public methods
+		private [:DatabaseName:]DbTransaction()
+		{
+			// User shouldn't create
+		}
+
+		public void Dispose()
+		{
+			if (_SqlTransaction != null)
+				_SqlTransaction.Dispose();
+			if (_Connection != null)
+				_Connection.Dispose();
+		}
+
+		public void Commit()
+		{
+			_SqlTransaction.Commit();
+		}
+
+		public void Rollback()
+		{
+			_SqlTransaction.Rollback();
+		}
+		#endregion
+
+		#region protected methods
+		internal [:ProviderClassCommand:] GetNewCommand()
+		{
+			IDbCommand cmd = _SqlTransaction.Connection.CreateCommand();
+			cmd.Transaction = _SqlTransaction;
+			return ([:ProviderClassCommand:])cmd;
+		}
+		#endregion
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

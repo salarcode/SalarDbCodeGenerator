@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>TableBaseBLL</Name>
+	<Description>Table base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\TableBaseBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Data.Linq;
+
+namespace [:Namespace:].Base
+{
+	public class TableBaseBLL<T> : BLLBase<T> where T : class
+	{
+		/// <summary>
+		/// Inserts a new record (entity) to the table
+		/// </summary>
+		/// <param name="entity">Record (entity) to be inserted</param>
+		public virtual void Insert(T entity)
+		{
+			if (Transaction == null)
+				Insert(entity, true);
+			else
+				Insert(entity, false);
+		}
+
+		public virtual void Insert(T entity, bool autoSave)
+		{
+			try
+			{
+				GetTable().InsertOnSubmit(entity);
+
+				if (autoSave)
+					Save();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Deletes a record (entity) from table
+		/// </summary>
+		/// <param name="entity">Record (entity) to be deleted</param>
+		public void Delete(T entity)
+		{
+			if (Transaction == null)
+				Delete(entity, true);
+			else
+				Delete(entity, false);
+		}
+
+		public void Delete(T entity, bool autoSave)
+		{
+			try
+			{
+				GetTable().DeleteOnSubmit(entity);
+
+				if (autoSave)
+					Save();
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Saves changes to the table
+		/// </summary>
+		public virtual void Save()
+		{
+			if (DataContext == null)
+				return;
+
+			DataContext.SubmitChanges();
+		}
+	}
+}]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Database Entity Objects</Name>
+	<Description>Entity objects pattern</Description>
+	<Options
+		Group="Database Model"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\Principal\EntityObjects.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data.Objects.DataClasses;
+using System.Linq;
+using System.Runtime.Serialization;
+using System.Text;
+using System.Xml.Serialization;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Entities
+{
+[#TablesAndViewsContent#]
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+	[EdmEntityTypeAttribute(Name = "[:TableNameDb:]")]
+	[Serializable]
+	[DataContractAttribute(IsReference = true)]
+	public partial class [:TableName:] : [:DatabaseName:]BaseEntity
+	{
+[#FieldsProperties#]
+[#ForeignKeys#]
+	}
+]]>
+		</Condition>
+		<ConditionContents>
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
+				<Condition Key="MultiplicityOne">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityMany">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+			</PatternContent>
+			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="AutoInrcementPrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] =value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="AutoInrcement">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="AutoIncNativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="AutoIncNullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:]? _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="PrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="NormalField">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="NativeNullable">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="NullableType">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMemberAttribute]
+		public [:FieldDotNetType:]? [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:]? _[:FieldName:];
+]]>
+				</Condition>
+			</PatternContent>
+		</ConditionContents>
+	</PatternContent>
+</PatternFile>

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>BLLBase</Name>
+	<Description>BLL base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\BLLBase.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Data.Linq;
+using System.Linq;
+using [:Namespace:].Common;
+using [:Namespace:].BLL;
+
+namespace [:Namespace:].Base
+{
+	public class BLLBase<T> : IDisposable where T : class
+	{
+		DataContext _dataContext = null;
+		DbTransaction _transaction = null;
+
+		public BLLBase()
+		{
+		}
+
+		protected virtual Table<T> GetTable()
+		{
+			EnsureDataContext();
+			if (_transaction != null)
+				return _transaction.DataContext.GetTable<T>();
+			else
+				return _dataContext.GetTable<T>();
+		}
+
+		protected virtual Table<T> GetTable<T>() where T : class
+		{
+			EnsureDataContext();
+			if (_transaction != null)
+				return _transaction.DataContext.GetTable<T>();
+			else
+				return _dataContext.GetTable<T>();
+		}
+
+		protected DataContext DataContext
+		{
+			get
+			{
+				EnsureDataContext();
+				if (_transaction != null)
+					return _transaction.DataContext;
+				else
+					return _dataContext;
+			}
+		}
+
+		protected virtual void EnsureDataContext()
+		{
+			if (_transaction == null && _dataContext == null)
+				_dataContext = new DataContext(DbConnection.GetConnectionString());
+		}
+
+		public DbTransaction Transaction
+		{
+			get { return _transaction; }
+			set { _transaction = value; }
+		}
+
+		public virtual IQueryable<T> GetAll()
+		{
+			EnsureDataContext();
+			try
+			{
+				IQueryable<T> data;
+
+				// select everything...
+				data = from b in GetTable() select b;
+
+				// return querable data...
+				return data;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		public void Dispose()
+		{
+			if (_dataContext != null)
+				_dataContext.Dispose();
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

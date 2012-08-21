@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User View BLL</Name>
+	<Description>Busines logic layer for views user custom methods</Description>
+	<Options
+		Group="ViewBLL"
+		AppliesTo="ViewsEach"
+		Overwrite="false"
+		FilePath="BLL\[:TableName:]BLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:].BLL
+{
+	/// <summary>
+	/// User custom methods for [:TableNameDb:]
+	/// </summary>
+	partial class [:TableName:]BLL
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

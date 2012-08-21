@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ActiveRecord General config</Name>
+	<Description>Nhibernate CastleActiveRecord configurations class</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="true"
+		FilePath="Common\[:DatabaseName:]CarConfig.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Collections;
+using System.Configuration;
+using Castle.ActiveRecord;
+using Castle.ActiveRecord.Framework;
+using [:Namespace:].Entities;
+		
+namespace [:Namespace:]
+{
+	public class [:DatabaseName:]CarConfig
+	{
+		public const bool LazyCollections = true;
+		public const FetchWhen LazyBelongs = FetchWhen.OnInvoke;
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

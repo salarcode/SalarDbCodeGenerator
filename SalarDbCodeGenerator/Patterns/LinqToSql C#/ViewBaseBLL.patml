@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ViewBaseBLL</Name>
+	<Description>View base pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\ViewBaseBLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data.Linq;
+using System.Data.Linq.Mapping;
+using System.Data;
+using [:Namespace:].Common;
+using [:Namespace:].Base;
+
+namespace [:Namespace:].Base
+{
+	public class ViewBaseBLL<T> : BLLBase<T> where T : class
+	{
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

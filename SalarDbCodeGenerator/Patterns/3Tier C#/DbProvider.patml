@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>DbProvider</Name>
+	<Description>Database operations in low level provider pattern</Description>
+	<Options
+		Group="Common"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Common\DbProvider.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:ProviderClassReferenceName:];
+
+namespace [:Namespace:].Common
+{
+	public static class [:DatabaseName:]DbProvider
+	{
+		/// <summary>
+		/// Get connection string
+		/// </summary>
+		internal static IDbConnection GetNewConnection()
+		{
+			return [:DatabaseName:]DbConnection.GetNewConnection();
+		}
+
+		/// <summary>
+		/// Execute a command directly
+		/// </summary>
+		internal static int ExecuteNonQuery(IDbCommand command)
+		{
+			int result;
+			try
+			{
+				OpenConnection(command);
+				result = command.ExecuteNonQuery();
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			finally
+			{
+				CloseConnection(command);
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return value from first cell of first row
+		/// </summary>
+		internal static object ExecuteScalar(IDbCommand command)
+		{
+			Object result = null;
+			try
+			{
+				OpenConnection(command);
+				result = command.ExecuteScalar();
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			finally
+			{
+				CloseConnection(command);
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return it's reader
+		/// </summary>
+		internal static IDataReader ExecuteReader(IDbCommand command)
+		{
+			IDataReader reader = null;
+			try
+			{
+				OpenConnection(command);
+
+				if (command.Transaction != null && command.Transaction.Connection != null)
+					reader = command.ExecuteReader();
+				else
+					reader = command.ExecuteReader(CommandBehavior.CloseConnection);
+
+				return reader;
+			}
+			catch
+			{
+				if (reader != null)
+					reader.Close();
+				CloseConnection(command);
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return a dataset
+		/// </summary>
+		internal static DataSet ExecuteAsDataSet(IDbCommand command)
+		{
+			try
+			{
+				DataSet ds = new DataSet();
+				ExecuteAsDataSet(command, ds);
+				return ds;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return a dataset as a paramater
+		/// </summary>
+		internal static void ExecuteAsDataSet(IDbCommand command, DataSet ds)
+		{
+			try
+			{
+				OpenConnection(command);
+
+				IDbDataAdapter da = new [:ProviderClassDataAdapter:]();
+				da.SelectCommand = command;
+
+				da.Fill(ds);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			finally
+			{
+				CloseConnection(command);
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return a datatable
+		/// </summary>
+		internal static DataTable ExecuteAsDataTable(IDbCommand command)
+		{
+			try
+			{
+				DataTable table = new DataTable();
+				ExecuteAsDataTable(command, table);
+				return table;
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
+		/// <summary>
+		/// Execute a command and return a datatable as a parameter
+		/// </summary>
+		internal static void ExecuteAsDataTable(IDbCommand command, DataTable table)
+		{
+			try
+			{
+				OpenConnection(command);
+
+				[:ProviderClassDataAdapter:] da = new [:ProviderClassDataAdapter:]();
+				da.SelectCommand = ([:ProviderClassCommand:])command;
+				da.Fill(table);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+			finally
+			{
+				CloseConnection(command);
+			}
+		}
+
+		/// <summary>
+		/// Close command's related connection
+		/// </summary>
+		private static void CloseConnection(IDbCommand command)
+		{
+			if (command.Transaction == null && command.Connection != null)
+				command.Connection.Close();
+		}
+
+		/// <summary>
+		/// Open command's related connection
+		/// </summary>
+		private static void OpenConnection(IDbCommand command)
+		{
+			if (command.Connection != null)
+				if (command.Connection.State != ConnectionState.Open)
+					command.Connection.Open();
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>EntityObjectContext</Name>
+	<Description>Entity context object</Description>
+	<Options
+		Group="Entity Context"
+		AppliesTo="TablesAll"
+		Overwrite="true"
+		FilePath="[:DatabaseName:]Entities.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.EntityClient;
+using System.Data.Objects;
+using System.Linq;
+using System.Text;
+using [:Namespace:].Entities;
+
+namespace [:Namespace:]
+{
+	public class [:DatabaseName:]Entities : ObjectContext
+	{
+		public [:DatabaseName:]Entities()
+			: base("name=[:DatabaseName:]Entities", "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public [:DatabaseName:]Entities(string connectionString)
+			: base(connectionString, "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public [:DatabaseName:]Entities(EntityConnection connection)
+			: base(connection, "[:DatabaseName:]Entities")
+		{
+			this.ContextOptions.LazyLoadingEnabled = true;
+		}
+
+		public override int SaveChanges(SaveOptions options)
+		{
+			return base.SaveChanges(options);
+		}
+
+[#TablesAndViewsContent#]
+	}
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsContent" ConditionKeyMode="TablesAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+		public ObjectSet<[:TableName:]> [:TableName:]
+		{
+			get
+			{
+				return _[:TableName:] ?? (_[:TableName:] = base.CreateObjectSet<[:TableName:]>());
+			}
+		}
+		private ObjectSet<[:TableName:]> _[:TableName:];
+]]>
+		</Condition>
+	</PatternContent>
+</PatternFile>

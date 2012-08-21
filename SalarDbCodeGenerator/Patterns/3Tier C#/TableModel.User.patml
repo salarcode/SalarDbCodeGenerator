@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User Model</Name>
+	<Description>Business model user custom methods pattern</Description>
+	<Options
+		Group="TableModel"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="Model\[:TableNameCS:]Model.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+using [:Namespace:].Base;
+using [:Namespace:].BLL;
+
+namespace [:Namespace:].Model
+{
+	/// <summary>
+	/// User custom methods for [:TableNameDb:]
+	/// </summary>
+	partial class [:TableName:]Model
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

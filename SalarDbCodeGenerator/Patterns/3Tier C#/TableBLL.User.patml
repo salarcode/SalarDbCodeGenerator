@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>User BLL</Name>
+	<Description>Busines logic layer user custom methods pattern</Description>
+	<Options
+		Group="TableBLL"
+		AppliesTo="TablesAndViewsEach"
+		Overwrite="false"
+		FilePath="BLL\[:TableNameCS:]BLL.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Text;
+using [:Namespace:].Base;
+using [:Namespace:].Model;
+using [:Namespace:].DAL;
+
+namespace [:Namespace:].BLL
+{
+	/// <summary>
+	/// User custom methods for [:TableNameDb:]
+	/// </summary>
+	partial class [:TableName:]BLL
+	{
+
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>
