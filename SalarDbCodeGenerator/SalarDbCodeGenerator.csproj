@@ -14,7 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <ApplicationIcon>
     </ApplicationIcon>
-    <Win32Resource>E:\Programming\C#.NET\SalarDbCodeGenerator\SalarDbCodeGenerator\Resources\AppRes.res</Win32Resource>
+    <Win32Resource>Resources\AppRes.res</Win32Resource>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
     <OldToolsVersion>3.5</OldToolsVersion>

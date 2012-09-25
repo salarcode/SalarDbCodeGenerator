@@ -436,7 +436,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 									FROM sysforeignkeys AS f 
 										INNER JOIN syscolumns AS c1 ON f.fkeyid = c1.id AND f.fkey = c1.colid 
 										INNER JOIN syscolumns AS c2 ON f.rkeyid = c2.id AND f.rkey = c2.colid 
-									ORDER BY c1.colid ";
+									ORDER BY 'FKTable', c1.colid ";
 
 			// NEW command format
 			if (sqlServer > SQLServerVersions.SQL2000)
@@ -456,7 +456,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 						sys.all_objects AS O2 ON F.parent_object_id = O2.object_id INNER JOIN
 						sys.all_columns AS C1 ON F.referenced_object_id = C1.object_id AND K.referenced_column_id = C1.column_id INNER JOIN
 						sys.all_columns AS C2 ON F.parent_object_id = C2.object_id AND K.parent_column_id = C2.column_id
-					ORDER BY C2.column_id";
+					ORDER BY 'FKTable', C2.column_id";
 			}
 
 			try
