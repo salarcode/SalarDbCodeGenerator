@@ -56,7 +56,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNameDb:]")]
+		[Display(Name = "[:ForeignTableNameDb:]")]
 		[XmlIgnore]
 		[SoapIgnore]
 		[Browsable(false)]
@@ -69,7 +69,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
 		/// </summary>
-		[DisplayName("[:ForeignTableNameDb:]")]
+		[Display(Name = "[:ForeignTableNameDb:]")]
 		[XmlIgnore]
 		[SoapIgnore]
 		[Browsable(false)]
@@ -86,7 +86,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -108,7 +108,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Column("[:FieldNameDb:]")]
@@ -129,7 +129,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Column("[:FieldNameDb:]")]
@@ -150,7 +150,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Column("[:FieldNameDb:]")]
@@ -171,7 +171,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[Key]
 		[Column("[:FieldNameDb:]", Order = [:FieldOrdinalValue:])]
@@ -192,7 +192,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:]
@@ -212,7 +212,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:] [:FieldName:]
@@ -232,7 +232,7 @@ namespace [:Namespace:].Entities
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		[DataMember]
 		[Column("[:FieldNameDb:]")]
 		public [:FieldDotNetType:]? [:FieldName:]

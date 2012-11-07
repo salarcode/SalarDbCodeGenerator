@@ -182,18 +182,22 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		public static class FieldForeignKey
 		{
 			public const string MultiplicityOne = "MultiplicityOne";
-			public const string MultiplicityMany = "MultiplicityMany";
-		}
+            public const string MultiplicityMany = "MultiplicityMany";
+            public const string MultiplicityOneToOnePrimary = "MultiplicityOneToOnePrimary";
+            public const string MultiplicityOneToOneForeign = "MultiplicityOneToOneForeign";
+        }
 
 		/// <summary>
-		/// AutoInrcementPrimaryKey ,AutoInrcement, PrimaryKey, AutoIncNativeNullable, AutoIncNullableType, NormalField, NativeNullable, NullableType
+        /// AutoInrcementPrimaryKey ,AutoInrcement, PrimaryKey,OneToOnePrimaryKey , OneToOneForeignKey, AutoIncNativeNullable, AutoIncNullableType, NormalField, NativeNullable, NullableType
 		/// </summary>
 		public static class FieldKeyType
 		{
 			public const string AutoInrcement = "AutoInrcement";
 			public const string PrimaryKey = "PrimaryKey";
-			public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";
-			public const string AutoIncNativeNullable = "AutoIncNativeNullable";
+            public const string OneToOnePrimaryKey = "OneToOnePrimaryKey";
+            public const string OneToOneForeignKey = "OneToOneForeignKey";
+            public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";
+            public const string AutoIncNativeNullable = "AutoIncNativeNullable";
 			public const string AutoIncNullableType = "AutoIncNullableType";
 			public const string NormalField = "NormalField";
 			public const string NativeNullable = "NativeNullable";

@@ -700,10 +700,13 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
-					// already ont-to-?
-					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
-						fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
-						continue;
+                    //// already ont-to-?
+                    //if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
+                    //    fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
+                    //    continue;
+                    // already ont-to-one
+                    if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
+                        continue;
 
 					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
 						continue;

@@ -93,7 +93,7 @@ namespace [:Namespace:].Entities
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:], Insert = false, Update = false)]
 		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 				</Condition>
@@ -104,7 +104,7 @@ namespace [:Namespace:].Entities
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:], Insert = false, Update = false)]
 		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 				</Condition>
@@ -115,7 +115,7 @@ namespace [:Namespace:].Entities
 		/// </summary>
 		[DisplayName("[:FieldDescription:]")]
 		[DataMember]
-		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:])]
+		[KeyProperty(Column = "[:FieldNameDb:]", Length = [:FieldDbSize:], Insert = false, Update = false)]
 		public virtual [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
 				</Condition>

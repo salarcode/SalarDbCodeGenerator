@@ -36,49 +36,49 @@ namespace [:Namespace:].DataAnnotations
 	<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
 		<Condition Key="AutoInrcementPrimaryKey">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="AutoInrcement">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="AutoIncNativeNullable">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="AutoIncNullableType">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="PrimaryKey">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="NormalField">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="NativeNullable">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }
 ]]>
 		</Condition>
 		<Condition Key="NullableType">
 			<![CDATA[
-		[DisplayName("[:FieldDescription:]")]
+		[Display(Name = "[:FieldDescription:]")]
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
 		</Condition>
