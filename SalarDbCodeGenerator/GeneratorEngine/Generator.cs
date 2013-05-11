@@ -1531,6 +1531,10 @@ namespace SalarDbCodeGenerator.GeneratorEngine
                         keyTypeReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.FieldKeyType.NormalField);
                     }
 
+					// the rplacer is not defined
+		            if (keyTypeReplacer == null)
+			            return string.Empty;
+
                     // Replace the contents
                     return Replacer_ConditionItem_AppliesToColumn(keyTypeReplacer.ContentText, table, column);
 
@@ -1606,6 +1610,10 @@ namespace SalarDbCodeGenerator.GeneratorEngine
                             // not defined Multiplicity
                             return string.Empty;
                     }
+
+					// not defined replacer
+					if (theReplacer == null)
+			            return string.Empty;
 
                     // Replace the contents
                     return Replacer_ConditionItem_AppliesToForeignKey(theReplacer.ContentText, table, foreignKey);

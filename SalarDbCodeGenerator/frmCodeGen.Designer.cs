@@ -71,6 +71,7 @@
 			this.splitContainer2 = new System.Windows.Forms.SplitContainer();
 			this.treGenFiles = new System.Windows.Forms.TreeView();
 			this.imgGeneratedFiles = new System.Windows.Forms.ImageList(this.components);
+			this.txtCodeEditor = new ICSharpCode.TextEditor.TextEditorControl();
 			this.pnlInfo = new System.Windows.Forms.Panel();
 			this.lnkGenerationPath = new System.Windows.Forms.LinkLabel();
 			this.lblInfoGenerationPath = new System.Windows.Forms.Label();
@@ -114,7 +115,6 @@
 			this.tipHints = new System.Windows.Forms.ToolTip(this.components);
 			this.dlgOpenProject = new System.Windows.Forms.OpenFileDialog();
 			this.dlgSaveProject = new System.Windows.Forms.SaveFileDialog();
-			this.txtCodeEditor = new ICSharpCode.TextEditor.TextEditorControl();
 			this.barStarusBar.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splContent)).BeginInit();
 			this.splContent.Panel1.SuspendLayout();
@@ -307,7 +307,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.cmbPatternProjectFile.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.cmbPatternProjectFile.FormattingEnabled = true;
+			this.cmbPatternProjectFile.ItemHeight = 13;
 			this.cmbPatternProjectFile.Location = new System.Drawing.Point(3, 3);
+			this.cmbPatternProjectFile.MaxDropDownItems = 15;
 			this.cmbPatternProjectFile.Name = "cmbPatternProjectFile";
 			this.cmbPatternProjectFile.Size = new System.Drawing.Size(180, 21);
 			this.cmbPatternProjectFile.TabIndex = 2;
@@ -503,6 +505,17 @@
 			this.imgGeneratedFiles.Images.SetKeyName(1, "Folder");
 			this.imgGeneratedFiles.Images.SetKeyName(2, "File");
 			this.imgGeneratedFiles.Images.SetKeyName(3, "FileVB");
+			// 
+			// txtCodeEditor
+			// 
+			this.txtCodeEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.txtCodeEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.txtCodeEditor.IsIconBarVisible = true;
+			this.txtCodeEditor.IsReadOnly = false;
+			this.txtCodeEditor.Location = new System.Drawing.Point(0, 0);
+			this.txtCodeEditor.Name = "txtCodeEditor";
+			this.txtCodeEditor.Size = new System.Drawing.Size(365, 406);
+			this.txtCodeEditor.TabIndex = 9;
 			// 
 			// pnlInfo
 			// 
@@ -866,17 +879,6 @@
 			this.dlgSaveProject.DefaultExt = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
 			this.dlgSaveProject.Filter = "SalarCodeGen DbProject (*.dbgen)|*.dbgen";
 			this.dlgSaveProject.Title = "Save Project";
-			// 
-			// txtCodeEditor
-			// 
-			this.txtCodeEditor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-			this.txtCodeEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.txtCodeEditor.IsIconBarVisible = true;
-			this.txtCodeEditor.IsReadOnly = false;
-			this.txtCodeEditor.Location = new System.Drawing.Point(0, 0);
-			this.txtCodeEditor.Name = "txtCodeEditor";
-			this.txtCodeEditor.Size = new System.Drawing.Size(365, 406);
-			this.txtCodeEditor.TabIndex = 9;
 			// 
 			// frmCodeGen
 			// 

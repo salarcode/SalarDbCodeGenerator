@@ -503,7 +503,10 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 																			Multiplicity = DbForeignKey.ForeignKeyMultiplicity.ManyToOne
 																		};
 									// check if it is already there
-									if (primaryKeyTable.ForeignKeys.Exists(x => x.ForeignKeyName == manyMultiplicityKey_Local.ForeignKeyName))
+									if (primaryKeyTable.ForeignKeys.Exists(
+										x =>
+										x.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.ManyToOne &&
+										x.ForeignKeyName == manyMultiplicityKey_Local.ForeignKeyName))
 										continue;
 
 									manyMultiplicityKey_Local.UpdateAction =
@@ -552,7 +555,10 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 																			Multiplicity = DbForeignKey.ForeignKeyMultiplicity.OneToMany
 																		};
 									// check if it is already there
-									if (foreignKeyTable.ForeignKeys.Exists(x => x.ForeignKeyName == oneMultiplicityKey_Foreign.ForeignKeyName))
+									if (foreignKeyTable.ForeignKeys.Exists(
+										x =>
+										x.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany &&
+										x.ForeignKeyName == oneMultiplicityKey_Foreign.ForeignKeyName))
 										continue;
 
 									oneMultiplicityKey_Foreign.UpdateAction =
@@ -700,13 +706,13 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
-                    //// already ont-to-?
-                    //if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
-                    //    fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
-                    //    continue;
-                    // already ont-to-one
-                    if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
-                        continue;
+					//// already ont-to-?
+					//if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
+					//    fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
+					//    continue;
+					// already ont-to-one
+					if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
+						continue;
 
 					if (fkey.LocalColumn == null || fkey.ForeignColumn == null)
 						continue;

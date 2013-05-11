@@ -1,0 +1,51 @@
+﻿
+------------------------------------
+Version Next
+
+	Changes:
+
+* 
+
+	Fixes:
+
+*  Bug in "CopyDataMember" of the ActiveRecord patterns is fixed.
+
+
+------------------------------------
+Version 2.0.2012.0724		2012/7/24
+    Pattern Changes:
+
+NHibernate MappingByCode is added.
+NHibernate MappingByCode simple and MVVM patterns are added.
+DapperAccess+SQLinq pattern is added!
+Added connection manager for EF patterns.
+
+    Changes:
+
+New database schema engine.
+New pattern schema engine.
+New generator engine.
+All patterns are updated.
+New project pattern schema.
+Invalid column name detection is improved.
+Generator overall performance improvement.
+Oracle columns comment supported.
+SQLCE columns description supported.
+Fixed errors reading SQLite encrypted databases.
+ForeignKey actions (for update and delete) are supported.
+
+    Breaking changes:
+
+Version 1.0 projects are not compatible.
+Generated project names renamed from "[:ProjectName:]-VS2010.csproj" to "[:ProjectName:].csproj"
+Renamed ForeignKeys orders are changed due to new analyzer.
+SQLServer ForeignKeys synced by columns order.
+
+
+------------------------------------
+Version 1.1.2012.0518
+
+    New: DapperAccess pattern is added based on Dapper mini ORM
+
+    Update: EF all patterns are updated to support custom model mapping.
+    New: One-to-One relation detection.

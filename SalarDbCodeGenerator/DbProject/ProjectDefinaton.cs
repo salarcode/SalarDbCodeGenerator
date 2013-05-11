@@ -50,7 +50,7 @@ namespace SalarDbCodeGenerator.DbProject
 			DbSettions = new ProjectDbSettions();
 			CodeGenSettings = new ProjectCodeGenSettings();
 			RenamingOptions = new ProjectRenaming();
-			_generatorVersion = 2.0f;
+			_generatorVersion = 2.1f;
 		}
 
 		public object Clone()

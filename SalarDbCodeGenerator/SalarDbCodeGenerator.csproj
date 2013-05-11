@@ -285,25 +285,67 @@
     <None Include="Patterns\DapperAccess\BaseModel.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\DapperAccess\DapperEntityUser.patml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Patterns\DapperAccess\DapperSqlMapper.patml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Patterns\DapperAccess\DapperAccess C# Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\DapperAccess\DapperAccessPricipal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\DapperAccess\DapperEntityPrincipal.patml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Patterns\DapperAccess\DapperAccessUser.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Patterns\DapperAccess\DapperEntityPrincipal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperAccess\DapperEntityUser.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperAccess\DapperSqlMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Patterns\DapperAccess\VS2010ClassProject.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\AppConfig.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\BaseDap.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\BaseModel.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperContext.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperModelQuery.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperConnectionContainer.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperEntityUser.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperSqlMapper.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperContext C# Pattern.dbpat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperContextPricipal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperEntityPrincipal.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperContextUser.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\DapperDbConnection.patml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Patterns\DapperContext\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\DapperSQLinq\AppConfig.patml">
@@ -703,6 +745,7 @@
     <Content Include="References\SQLinq.dll" />
     <Content Include="References\System.Data.SQLite.Linq.dll" />
     <Content Include="References\System.Data.SqlServerCe.dll" />
+    <Content Include="ReleaseNotes.txt" />
     <Content Include="Resources\ToLeft10.png" />
     <Content Include="Resources\ToRight10.png" />
     <None Include="Patterns\3Tier C#\TableModel.Principal.patml">
