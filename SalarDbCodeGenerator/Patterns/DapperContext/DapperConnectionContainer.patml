@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>ConnectionContainer</Name>
+	<Description>Connection container for DAP objects</Description>
+	<Options
+		Group="Entity Context"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Entities\ConnectionContainer.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Configuration;
+using System.Collections.Generic;
+using System.Data;
+using System.Text;
+using [:ProviderClassReferenceName:];
+
+namespace [:Namespace:]
+{
+	public class ConnectionContainer : IDisposable
+	{
+		private IDbConnection _connection { get; set; }
+
+		public IDbConnection Connection
+		{
+			get { return _connection; }
+			set { _connection = value; }
+		}
+
+		private IDbTransaction _transaction;
+
+		public IDbTransaction Transaction
+		{
+			get { return _transaction; }
+			set
+			{
+				_transaction = value;
+				if (_transaction != null)
+					_connection = _transaction.Connection;
+			}
+		}
+
+		public void Dispose()
+		{
+			if (_transaction != null)
+				_transaction.Dispose();
+
+			if (_connection != null)
+				_connection.Dispose();
+
+			_transaction = null;
+			_connection = null;
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>

@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Dapper Context</Name>
+	<Description>Dapper context for entities</Description>
+	<Options
+		Group="Entity Context"
+		AppliesTo="TablesAndViewsAll"
+		Overwrite="true"
+		FilePath="Entities\[:DatabaseName:]Context.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Linq;
+using [:Namespace:].Base;
+using [:Namespace:].Entities;
+ 
+namespace [:Namespace:].Entities
+{
+	public partial class [:DatabaseName:]Context : IDisposable
+	{
+		private ConnectionContainer _connectionContainer;
+
+		public ConnectionContainer DbConnection
+		{
+			get { return _connectionContainer; }
+			set { _connectionContainer = value; }
+		}
+[#TablesAndViewsProperties#]
+		public [:DatabaseName:]Context()
+		{
+			DbConnection = new ConnectionContainer()
+									  {
+										  Connection = [:DatabaseName:]Connection.CreateConnection()
+									  };
+		}
+
+		public IDbTransaction BeginTransaction()
+		{
+			DbConnection.Transaction = DbConnection.Connection.BeginTransaction();
+			return DbConnection.Transaction;
+		}
+
+		public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
+		{
+			DbConnection.Transaction = DbConnection.Connection.BeginTransaction(isolationLevel);
+			return DbConnection.Transaction;
+		}
+
+		public void CommitTransaction()
+		{
+			DbConnection.Transaction.Commit();
+		}
+
+		public void Dispose()
+		{
+[#TablesAndViewsDisposal#]
+			if (_connectionContainer != null)
+				_connectionContainer.Dispose();
+			_connectionContainer = null;
+		}
+	}
+}
+]]>
+	</BaseContent>
+
+	<PatternContent Name="TablesAndViewsProperties" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+		private [:TableName:]Dap _[:TableName:];
+		public [:TableName:]Dap [:TableName:]
+		{
+			get
+			{
+				if (_[:TableName:] == null)
+				{
+					_[:TableName:] = new [:TableName:]Dap(_connectionContainer, true);
+				}
+				return _[:TableName:];
+			}
+		}
+]]>
+		</Condition>
+	</PatternContent>
+	<PatternContent Name="TablesAndViewsDisposal" ConditionKeyMode="TablesAndViewsAll">
+		<BaseContent>[:InnerContent:]</BaseContent>
+		<Condition Key="TheReplacement">
+			<![CDATA[
+			if (_[:TableName:] != null)
+				_[:TableName:].Dispose();
+			_[:TableName:] = null;
+]]>
+		</Condition>
+	</PatternContent>
+</PatternFile>

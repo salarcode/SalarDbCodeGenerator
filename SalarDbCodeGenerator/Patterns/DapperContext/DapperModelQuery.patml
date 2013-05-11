@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PatternFile>
+	<Name>Dapper Model Query</Name>
+	<Description>Query pattern</Description>
+	<Options
+		Group="Base"
+		AppliesTo="General"
+		Overwrite="false"
+		FilePath="Base\DapperModelQuery.cs"
+		Language="C#"
+		/>
+	<BaseContent>
+		<![CDATA[using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Text;
+using System.Data;
+
+namespace [:Namespace:].Base
+{
+	/// <summary>
+	/// Assigns the owner property of the results
+	/// </summary>
+	class DapperModelQuery<T> : IEnumerable<T>, IEnumerator<T>
+	{
+		private readonly IEnumerable<T> _query;
+		private readonly BaseDap _owner;
+		private IEnumerator<T> _queryEnumerator;
+
+		public DapperModelQuery(IEnumerable<T> query, BaseDap owner)
+		{
+			_query = query;
+			_owner = owner;
+		}
+
+		public IEnumerator<T> GetEnumerator()
+		{
+			_queryEnumerator = _query.GetEnumerator();
+			return this;
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return GetEnumerator();
+		}
+
+		public void Dispose()
+		{
+			if (_queryEnumerator != null)
+				_queryEnumerator.Dispose();
+		}
+
+		public bool MoveNext()
+		{
+			return _queryEnumerator.MoveNext();
+		}
+
+		public void Reset()
+		{
+			_queryEnumerator.Reset();
+		}
+
+		public T Current
+		{
+			get
+			{
+				var c = _queryEnumerator.Current;
+				var cBase = c as BaseModel;
+				if (cBase != null)
+					cBase.Owner = _owner;
+				return c;
+			}
+		}
+
+		object IEnumerator.Current
+		{
+			get { return Current; }
+		}
+	}
+}
+]]>
+	</BaseContent>
+</PatternFile>
