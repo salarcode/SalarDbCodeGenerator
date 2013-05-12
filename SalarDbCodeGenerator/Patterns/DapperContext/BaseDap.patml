@@ -30,7 +30,7 @@ namespace [:Namespace:].Base
 		{
 			_connectionContainer = new ConnectionContainer()
 									   {
-										   Connection = NewModelDataConnection.CreateConnection()
+										   Connection = [:DatabaseName:]Connection.CreateConnection()
 									   };
 		}
 		protected internal BaseDap(ConnectionContainer container, bool leaveOpen)

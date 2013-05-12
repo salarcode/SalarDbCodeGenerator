@@ -40,6 +40,24 @@ namespace [:Namespace:].Entities
 		</Condition>
 		<ConditionContents>
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>
@@ -116,32 +134,66 @@ namespace [:Namespace:].Entities
 			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
 				<Condition Key="MultiplicityOne">
 					<![CDATA[
-		// MultiplicityOne ForeignKeys LocalTableName
-		//public List<[:LocalTableName:]> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
-		//{
-		//	return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:LocalFieldNameDb:]=[:ProviderSPParamPrefix:][:LocalFieldName:]", new { [:LocalFieldName:] = [:LocalFieldName:] }).ToList();
- 		//}
-		
-		// MultiplicityOne ForeignKeys ForeignTableName
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
 		public [:ForeignTableName:] [:ForeignTableNameAsField:]()
 		{
 			using (var dap = new [:ForeignTableName:]Dap(Owner))
 			{
-				return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);
+				[#ForeignKeyLocalColumnKeyType#]
 			}
 		}]]>
 				</Condition>
 				<Condition Key="MultiplicityMany">
 					<![CDATA[
-		// MultiplicityMany ForeignKeys ForeignTableName
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
 		public List<[:ForeignTableName:]> [:ForeignTableNameAsField:]()
 		{
 			using (var dap = new [:ForeignTableName:]Dap(Owner))
 			{
-				return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);
+				[#ForeignKeyLocalColumnKeyType#]
 			}
 		}]]>
 				</Condition>
+				<ConditionContents>
+					<PatternContent Name="ForeignKeyLocalColumnKeyType" ConditionKeyMode="FieldForeignKeyLocalColumn">
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="AutoInrcement">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="AutoIncNativeNullable">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="AutoIncNullableType">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="NormalField">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="NativeNullable">
+							<![CDATA[return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:]);]]>
+						</Condition>
+						<Condition Key="NullableType">
+							<![CDATA[if ([:LocalFieldName:] != null)
+					return dap.GetBy[:ForeignFieldName:]([:LocalFieldName:].Value);
+				return null;]]>
+						</Condition>
+					</PatternContent>
+				</ConditionContents>
 			</PatternContent>
 		</ConditionContents>
 	</PatternContent>

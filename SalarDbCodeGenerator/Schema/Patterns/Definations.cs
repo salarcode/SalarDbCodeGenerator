@@ -43,7 +43,7 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		TablePrimaryKey,
 
 		/// <summary>
-		/// NormalKey
+		/// NormalKey ; Runs for every foreign-key in the current table, regardless of the foreign key type.
 		/// </summary>
 		TableForeignKey,
 
@@ -75,10 +75,18 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		FieldPrimaryKey,
 
 		/// <summary>
-		/// MultiplicityOne, MultiplicityMany
+		/// MultiplicityOne, MultiplicityMany ; Runs for every foregn key in the current table based on the type of the foreign key.
 		/// </summary>
 		FieldsForeignKeyAll,
-		FieldForeignKey,
+
+		/// <summary>
+		///  ; Runs exactly like FieldsKeyTypeAll for the local column
+		/// </summary>
+		FieldForeignKeyLocalColumn,
+		/// <summary>
+		///  ; Runs exactly like FieldsKeyTypeAll for the foreign column
+		/// </summary>
+		FieldForeignKeyForeignColumn,
 
 		/// <summary>
 		/// NotSet, NoAction, Cascade, SetNull, SetDefault, Restrict
@@ -194,7 +202,15 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		{
 			public const string AutoInrcement = "AutoInrcement";
 			public const string PrimaryKey = "PrimaryKey";
-            public const string OneToOnePrimaryKey = "OneToOnePrimaryKey";
+            
+			/// <summary>
+			/// One-to-one the primary key
+			/// </summary>
+			public const string OneToOnePrimaryKey = "OneToOnePrimaryKey";
+
+			/// <summary>
+			/// One-to-one the dependant foreign key
+			/// </summary>
             public const string OneToOneForeignKey = "OneToOneForeignKey";
             public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";
             public const string AutoIncNativeNullable = "AutoIncNativeNullable";
