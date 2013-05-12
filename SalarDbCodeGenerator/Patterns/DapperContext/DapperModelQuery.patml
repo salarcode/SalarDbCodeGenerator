@@ -24,13 +24,13 @@ namespace [:Namespace:].Base
 	class DapperModelQuery<T> : IEnumerable<T>, IEnumerator<T>
 	{
 		private readonly IEnumerable<T> _query;
-		private readonly BaseDap _owner;
+		private readonly ConnectionContainer _dbConnection;
 		private IEnumerator<T> _queryEnumerator;
 
-		public DapperModelQuery(IEnumerable<T> query, BaseDap owner)
+		public DapperModelQuery(IEnumerable<T> query, ConnectionContainer dbConnection)
 		{
 			_query = query;
-			_owner = owner;
+			_dbConnection = dbConnection;
 		}
 
 		public IEnumerator<T> GetEnumerator()
@@ -67,7 +67,7 @@ namespace [:Namespace:].Base
 				var c = _queryEnumerator.Current;
 				var cBase = c as BaseModel;
 				if (cBase != null)
-					cBase.Owner = _owner;
+					cBase.DbConnection = _dbConnection;
 				return c;
 			}
 		}

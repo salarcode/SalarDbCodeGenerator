@@ -37,17 +37,22 @@ namespace [:Namespace:].Entities
 		}
 		public [:TableName:]Dap(BaseDap dapProvider)
 		{
-			if (dapProvider != null)
+			if (dapProvider != null &&
+				dapProvider.ConnectionContainer != null &&
+				dapProvider.ConnectionContainer.Connection != null)
 			{
 				LeaveOpen = dapProvider.LeaveOpen;
 				ConnectionContainer = dapProvider.ConnectionContainer;
-				Owner = dapProvider;
 			}
 		}
 		public [:TableName:]Dap(ConnectionContainer connectionContainer, bool leaveOpen)
 		{
-			LeaveOpen = leaveOpen;
-			ConnectionContainer = connectionContainer;
+			if (connectionContainer != null &&
+				connectionContainer.Connection != null)
+			{
+				LeaveOpen = leaveOpen;
+				ConnectionContainer = connectionContainer;
+			}
 		}
 
 		/// <summary>

@@ -15,6 +15,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Data;
+using [:Namespace:].Entities;
 
 namespace [:Namespace:].Base
 {
@@ -42,7 +43,7 @@ namespace [:Namespace:].Base
 			}
 		}
 
-		internal BaseDap Owner { get; set; }
+		internal ConnectionContainer DbConnection { get; set; }
 		#endregion
 
 		#region public methods

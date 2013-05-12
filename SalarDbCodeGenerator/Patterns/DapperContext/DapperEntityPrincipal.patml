@@ -28,11 +28,6 @@ namespace [:Namespace:].Entities
 			<![CDATA[
 	public partial class [:TableName:] : BaseModel
 	{
-		public [:TableName:]() { }
-		public [:TableName:](BaseDap owner)
-		{
-			Owner = owner;
-		}
 [#FieldsProperties#]
 [#ForeignKeys#]
 	}
@@ -139,7 +134,7 @@ namespace [:Namespace:].Entities
 		/// </summary>
 		public [:ForeignTableName:] [:ForeignTableNameAsField:]()
 		{
-			using (var dap = new [:ForeignTableName:]Dap(Owner))
+			using (var dap = new [:ForeignTableName:]Dap(DbConnection, true))
 			{
 				[#ForeignKeyLocalColumnKeyType#]
 			}
@@ -152,7 +147,7 @@ namespace [:Namespace:].Entities
 		/// </summary>
 		public List<[:ForeignTableName:]> [:ForeignTableNameAsField:]()
 		{
-			using (var dap = new [:ForeignTableName:]Dap(Owner))
+			using (var dap = new [:ForeignTableName:]Dap(DbConnection, true))
 			{
 				[#ForeignKeyLocalColumnKeyType#]
 			}

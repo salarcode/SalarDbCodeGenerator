@@ -24,13 +24,12 @@ namespace [:Namespace:].Base
 	{
 		private ConnectionContainer _connectionContainer;
 		private bool _leaveOpen;
-		private BaseDap _ownerDap;
-
+ 
 		protected internal BaseDap()
 		{
 			_connectionContainer = new ConnectionContainer()
 									   {
-										   Connection = [:DatabaseName:]Connection.CreateConnection()
+										   Connection =  [:DatabaseName:]Connection.CreateConnection()
 									   };
 		}
 		protected internal BaseDap(ConnectionContainer container, bool leaveOpen)
@@ -51,13 +50,7 @@ namespace [:Namespace:].Base
 			set { _leaveOpen = value; }
 		}
 
-		protected internal BaseDap Owner
-		{
-			get { return _ownerDap; }
-			set { _ownerDap = value; }
-		}
-
-		public IDbTransaction BeginTransaction()
+ 		public IDbTransaction BeginTransaction()
 		{
 			_connectionContainer.Transaction = _connectionContainer.Connection.BeginTransaction();
 			return _connectionContainer.Transaction;
@@ -200,8 +193,7 @@ namespace [:Namespace:].Base
 			{
 				return data;
 			}
-			var owner = _ownerDap ?? this;
-			return new DapperModelQuery<T>(data, owner);
+ 			return new DapperModelQuery<T>(data, _connectionContainer);
 		}
 
 		protected IList<T> AssignOwner<T>(IList<T> data)
@@ -210,27 +202,25 @@ namespace [:Namespace:].Base
 			{
 				return data;
 			}
-			var owner = _ownerDap ?? this;
-			for (int i = 0; i < data.Count; i++)
+ 			for (int i = 0; i < data.Count; i++)
 			{
 				var baseModel = data[i] as BaseModel;
 				if (baseModel != null)
-					baseModel.Owner = owner;
+					baseModel.DbConnection = _connectionContainer;
 			}
 			return data;
 		}
 		protected void AssignListOwner<T>(IList<T> data) where T : BaseModel
 		{
-			var owner = _ownerDap ?? this;
-			for (int i = 0; i < data.Count; i++)
+ 			for (int i = 0; i < data.Count; i++)
 			{
-				data[i].Owner = owner;
+				data[i].DbConnection = _connectionContainer;
 			}
 		}
 		protected void AssignModelOwner<T>(T data) where T : BaseModel
 		{
 			if (data != null)
-				data.Owner = _ownerDap ?? this;
+				data.DbConnection = _connectionContainer;
 		}
 
 		public void Dispose()
