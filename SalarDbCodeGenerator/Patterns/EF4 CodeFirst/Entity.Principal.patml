@@ -77,9 +77,60 @@ namespace [:Namespace:].Entities
 		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
 ]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[Display(Name = "[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[ForeignKey("[:LocalFieldName:]")]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[Display(Name = "[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[ForeignKey("[:LocalFieldName:]")]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		[DataMember]
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Column("[:FieldNameDb:]", Order = [:FieldOrdinalValue:])]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		[DataMember]
+		[Key, ForeignKey("[#OneToOneForeignKey_NavigationKey#]")]
+		[Column("[:FieldNameDb:]", Order = [:FieldOrdinalValue:])]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>
@@ -174,6 +225,22 @@ namespace [:Namespace:].Entities
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }
 ]]>
 				</Condition>
+				<ConditionContents>
+					<PatternContent Name="OneToOneForeignKey_NavigationKey" ConditionKeyMode="FieldsForeignKeyAll">
+						<Condition Key="MultiplicityOne">
+							<![CDATA[]]>
+						</Condition>
+						<Condition Key="MultiplicityMany">
+							<![CDATA[]]>
+						</Condition>
+						<Condition Key="MultiplicityOneToOnePrimary">
+							<![CDATA[]]>
+						</Condition>
+						<Condition Key="MultiplicityOneToOneForeign">
+							<![CDATA[[:ForeignTableNameAsField:]]]>
+						</Condition>
+					</PatternContent>
+				</ConditionContents>
 			</PatternContent>
 
 			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">

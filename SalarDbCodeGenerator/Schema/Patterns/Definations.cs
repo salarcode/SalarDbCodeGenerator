@@ -204,12 +204,12 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			public const string PrimaryKey = "PrimaryKey";
             
 			/// <summary>
-			/// One-to-one the primary key
+			/// One-to-one the primary key, Is PrimaryKey, Is AutoIncrement
 			/// </summary>
 			public const string OneToOnePrimaryKey = "OneToOnePrimaryKey";
 
 			/// <summary>
-			/// One-to-one the dependant foreign key
+			/// One-to-one the dependant foreign key, Is PrimaryKey
 			/// </summary>
             public const string OneToOneForeignKey = "OneToOneForeignKey";
             public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";

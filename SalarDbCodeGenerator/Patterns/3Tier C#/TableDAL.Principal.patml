@@ -408,6 +408,11 @@ namespace [:Namespace:].DAL
 
 				<ConditionContents>
 					<PatternContent Name="InsertParameters" ConditionKeyMode="FieldsKeyTypeAll">
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:]);]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="AutoIncNativeNullable"></Condition>

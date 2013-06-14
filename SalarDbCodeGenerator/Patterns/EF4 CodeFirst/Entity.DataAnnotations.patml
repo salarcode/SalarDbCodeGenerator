@@ -34,6 +34,18 @@ namespace [:Namespace:].DataAnnotations
 	</BaseContent>
 
 	<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+		<Condition Key="OneToOnePrimaryKey">
+			<![CDATA[
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
+		<Condition Key="OneToOneForeignKey">
+			<![CDATA[
+		[Display(Name = "[:FieldDescription:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+		</Condition>
 		<Condition Key="AutoInrcementPrimaryKey">
 			<![CDATA[
 		[Display(Name = "[:FieldDescription:]")]

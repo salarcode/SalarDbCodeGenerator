@@ -89,7 +89,7 @@ namespace [:Namespace:].Entities
         <Condition Key="MultiplicityOneToOneForeign">
           <![CDATA[
 		/// <summary>
-		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
 		/// </summary>
 		[DisplayName("[:ForeignTableNameDb:]")]
 		[XmlIgnoreAttribute]
