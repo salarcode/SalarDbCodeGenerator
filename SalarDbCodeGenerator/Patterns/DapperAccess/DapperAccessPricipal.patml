@@ -92,6 +92,26 @@ namespace [:Namespace:].Entities
 			}
 		}]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		public [:ForeignTableName:] Get[:ForeignTableNameAsField:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		public [:ForeignTableName:] Get[:ForeignTableNameAsField:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using (var dap = new [:ForeignTableName:]Dap(this))
+			{
+				return dap.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
@@ -194,10 +214,12 @@ namespace [:Namespace:].Entities
 						<ItemsSeperator>
 							<![CDATA[ , ]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey"><![CDATA[[:FieldNameDb:]]]></Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
-						<Condition Key="AutoInrcement"><![CDATA[[:FieldNameDb:]]]></Condition>
-						<Condition Key="AutoIncNativeNullable"><![CDATA[[:FieldNameDb:]]]></Condition>
-						<Condition Key="AutoIncNullableType"><![CDATA[[:FieldNameDb:]]]></Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
 						<Condition Key="PrimaryKey"><![CDATA[[:FieldNameDb:]]]></Condition>
 						<Condition Key="NormalField"><![CDATA[[:FieldNameDb:]]]></Condition>
 						<Condition Key="NativeNullable"><![CDATA[[:FieldNameDb:]]]></Condition>
@@ -208,10 +230,12 @@ namespace [:Namespace:].Entities
 						<ItemsSeperator>
 							<![CDATA[ , ]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
-						<Condition Key="AutoInrcement"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
-						<Condition Key="AutoIncNativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
-						<Condition Key="AutoIncNullableType"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
 						<Condition Key="PrimaryKey"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="NormalField"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="NativeNullable"><![CDATA[[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
@@ -222,10 +246,12 @@ namespace [:Namespace:].Entities
 						<ItemsSeperator>
 							<![CDATA[ , ]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
-						<Condition Key="AutoInrcement"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
-						<Condition Key="AutoIncNativeNullable"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
-						<Condition Key="AutoIncNullableType"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
 						<Condition Key="PrimaryKey"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="NormalField"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="NativeNullable"><![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
@@ -236,6 +262,11 @@ namespace [:Namespace:].Entities
 						<ItemsSeperator>
 							<![CDATA[ AND ]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]></Condition>
 						<Condition Key="AutoInrcementPrimaryKey">
 							<![CDATA[[:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]]]>
 						</Condition>

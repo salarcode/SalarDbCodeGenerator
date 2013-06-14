@@ -185,7 +185,7 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		}
 
 		/// <summary>
-		/// MultiplicityOne, MultiplicityMany
+		/// MultiplicityOne, MultiplicityMany , MultiplicityOneToOnePrimary , MultiplicityOneToOneForeign
 		/// </summary>
 		public static class FieldForeignKey
 		{

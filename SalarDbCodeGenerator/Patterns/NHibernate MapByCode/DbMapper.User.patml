@@ -22,7 +22,7 @@ using [:Namespace:].Base;
 namespace [:Namespace:].Entities
 {
 	/// <summary>
-	/// This partial class won't be toched by the generator.
+	/// The generator will not touch this class.
 	/// </summary>
 	static partial class [:DatabaseName:]Mapper
 	{
