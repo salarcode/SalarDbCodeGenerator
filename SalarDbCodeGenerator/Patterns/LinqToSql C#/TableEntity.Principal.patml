@@ -79,9 +79,61 @@ namespace [:Namespace:].Entities
 		}
 ]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		private EntityRef<[:ForeignTableName:]Entity> _[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOnePrimary;
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[Association(Name="[[:LocalFieldNameDb:]]", Storage = "_[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOnePrimary", ThisKey = "[:LocalFieldName:]", OtherKey="[:ForeignFieldName:]", IsForeignKey=true)]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		public [:ForeignTableName:]Entity [:ForeignTableNameAsField:]
+		{
+			get { return this._[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOnePrimary.Entity; }
+			set { this._[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOnePrimary.Entity = value; }
+		}
+]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		private EntityRef<[:ForeignTableName:]Entity> _[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOneForeign;
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[Association(Name="[[:LocalFieldNameDb:]]", Storage = "_[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOneForeign", ThisKey = "[:LocalFieldName:]", OtherKey="[:ForeignFieldName:]", IsForeignKey=true)]
+		[XmlIgnoreAttribute]
+		[SoapIgnoreAttribute]
+		[BrowsableAttribute(false)]
+		public [:ForeignTableName:]Entity [:ForeignTableNameAsField:]
+		{
+			get { return this._[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOneForeign.Entity; }
+			set { this._[:LocalFieldName:]_[:ForeignTableName:]_[:ForeignFieldName:]OneToOneForeign.Entity = value; }
+		}
+]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = true, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = false, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>
@@ -97,7 +149,7 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = false, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = true, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }]]>
 				</Condition>
 				<Condition Key="AutoIncNativeNullable">
@@ -106,7 +158,7 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = false, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = true, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }]]>
 				</Condition>
 				<Condition Key="AutoIncNullableType">
@@ -115,7 +167,7 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = false, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = true, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
 		public [:FieldDotNetType:]? [:FieldName:] { get; set; }]]>
 				</Condition>
 				<Condition Key="PrimaryKey">
@@ -124,7 +176,7 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = true, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
+		[Column(Name="[[:FieldNameDb:]]", IsPrimaryKey = [:FieldIsPrimaryKey:], IsDbGenerated = false, CanBeNull = [:FieldCanBeNull:], DbType = "[:FieldDbTypeSize:]")]
 		public [:FieldDotNetType:] [:FieldName:] { get; set; }]]>
 				</Condition>
 				<Condition Key="NormalField">

@@ -52,9 +52,9 @@ namespace [:Namespace:].Entities
 		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
 		/// </summary>
 		[DisplayName("[:ForeignTableNameDb:]")]
-		[XmlIgnoreAttribute]
-		[SoapIgnoreAttribute]
-		[BrowsableAttribute(false)]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
 		[BelongsTo(Column = "[:LocalFieldNameDb:]", Lazy = [:DatabaseName:]CarConfig.LazyBelongs)]
 		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
 ]]>
@@ -65,16 +65,64 @@ namespace [:Namespace:].Entities
 		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
 		/// </summary>
 		[DisplayName("[:ForeignTableNameDb:]")]
-		[XmlIgnoreAttribute]
-		[SoapIgnoreAttribute]
-		[BrowsableAttribute(false)]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
 		[HasMany(typeof([:ForeignTableName:]), Inverse = true, Table="[:ForeignTableNameDb:]" ,ColumnKey="[:ForeignFieldNameDb:]", Lazy=[:DatabaseName:]CarConfig.LazyCollections)]
 		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[OneToOne]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[DisplayName("[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		[OneToOne]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
 ]]>
 				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNameDb:]", Generator = PrimaryKeyType.Native)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]")]
+		[DataMember]
+		[PrimaryKey(Column = "[:FieldNameDb:]", Generator = PrimaryKeyType.Assigned)]
+		public virtual [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>

@@ -51,6 +51,8 @@ namespace [:Namespace:].BLL
 			return GetAll().Where(item => item.[:LocalFieldName:] == [:LocalFieldName:]);
 		}]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary"></Condition>
+				<Condition Key="MultiplicityOneToOneForeign"></Condition>
 			</PatternContent>
 
 			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">

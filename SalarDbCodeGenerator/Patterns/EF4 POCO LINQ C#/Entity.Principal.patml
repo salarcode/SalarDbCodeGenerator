@@ -67,17 +67,83 @@ namespace [:Namespace:].Entities
 		public virtual IList<[:ForeignTableName:]> [:ForeignTableNameAsField:] { get; set; }
 ]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		[Display(Name = "[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		[Display(Name = "[:ForeignTableNameDb:]")]
+		[XmlIgnore]
+		[SoapIgnore]
+		[Browsable(false)]
+		public virtual [:ForeignTableName:] [:ForeignTableNameAsField:] { get; set; }
+]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] =value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set
+			{
+				ReportPropertyChanging("[:FieldName:]");
+				_[:FieldName:] = value;
+				ReportPropertyChanged("[:FieldName:]");
+			}
+		}
+		private [:FieldDotNetType:] _[:FieldName:];
+]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -97,8 +163,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -118,8 +184,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -139,8 +205,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:]? [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -160,8 +226,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -181,8 +247,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -202,8 +268,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:] [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
@@ -223,8 +289,8 @@ namespace [:Namespace:].Entities
 		/// [:FieldDescription:]
 		/// </summary>
 		[DisplayName("[:FieldDescription:]"), Description("[:FieldDescription:]")]
-		[EdmScalarPropertyAttribute(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
-		[DataMemberAttribute]
+		[EdmScalarProperty(EntityKeyProperty = [:FieldIsPrimaryKey:], IsNullable = [:FieldCanBeNull:])]
+		[DataMember]
 		public [:FieldDotNetType:]? [:FieldName:]
 		{
 			get { return _[:FieldName:]; }
