@@ -36,6 +36,26 @@ namespace [:Namespace:].Entities
 
 		<ConditionContents>
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		[SQLinqColumn("[:FieldNameDb:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		[Display(Name = "[:FieldDescription:]")]
+		[SQLinqColumn("[:FieldNameDb:]")]
+		public [:FieldDotNetType:] [:FieldName:] { get; set; }
+]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>

@@ -153,6 +153,32 @@ namespace [:Namespace:].Entities
 			}
 		}]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:LocalFieldNameDb:]
+		/// </summary>
+		public [:ForeignTableName:] [:ForeignTableNameAsField:]()
+		{
+			using (var dap = new [:ForeignTableName:]Dap(DbConnection, true))
+			{
+				[#ForeignKeyLocalColumnKeyType#]
+			}
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		/// <summary>
+		/// [:ForeignTableNameDb:] - [:ForeignFieldNameDb:]
+		/// </summary>
+		public [:ForeignTableName:] [:ForeignTableNameAsField:]()
+		{
+			using (var dap = new [:ForeignTableName:]Dap(DbConnection, true))
+			{
+				[#ForeignKeyLocalColumnKeyType#]
+			}
+		}]]>
+				</Condition>
 				<ConditionContents>
 					<PatternContent Name="ForeignKeyLocalColumnKeyType" ConditionKeyMode="FieldForeignKeyLocalColumn">
 						<Condition Key="OneToOnePrimaryKey">
