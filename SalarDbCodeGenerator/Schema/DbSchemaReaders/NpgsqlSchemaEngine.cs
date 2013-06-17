@@ -543,9 +543,9 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
                     }
                 }
             }
-            catch (Exception)
+            catch
             {
-                // Seems this version of SQL Server doesn't support this query!
+                // Seems this version of postgresql doesn't support this query!
                 // don't stop here!
             }
         }
@@ -555,20 +555,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
         /// </summary>
         private void ApplyTablesConstraintKeys(IEnumerable<DbTable> tables)
         {
-            
-            //// Table constraints for SQL Server 2005 and above
-            //SELECT        sys.objects.name AS TableName, sys.columns.name AS ColumnName, sys.indexes.name AS IndexName, sys.indexes.is_unique AS IsUnique, 
-            //                sys.indexes.is_primary_key AS IsPrimaryKey, sys.indexes.ignore_dup_key AS IgnoreDuplicateKey, sys.indexes.is_unique_constraint AS IsUniqueConstraintKey, 
-            //                sys.indexes.is_disabled AS Disabled
-            //FROM            sys.objects INNER JOIN
-            //                sys.indexes INNER JOIN
-            //                sys.index_columns INNER JOIN
-            //                sys.columns ON sys.index_columns.object_id = sys.columns.object_id AND sys.index_columns.column_id = sys.columns.column_id ON 
-            //                sys.indexes.object_id = sys.index_columns.object_id AND sys.indexes.index_id = sys.index_columns.index_id ON 
-            //                sys.objects.object_id = sys.index_columns.object_id
-            //WHERE        (sys.objects.is_ms_shipped = 0) AND (sys.objects.type = 'U')
-
-            string constraintKeySql = @"SELECT
+            const string constraintKeySql = @"SELECT
 	                                        t.relname  as TableName
 	                                        ,a.attname as ColumnName
 	                                        ,c.relname  as IndexName
@@ -586,12 +573,12 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
                                         WHERE
                                             c.relkind = 'i' and n.nspname not in ('pg_catalog', 'pg_toast') and pg_catalog.pg_table_is_visible(c.oid)";
 
-            using (NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(constraintKeySql, _dbConnection))
+            using (var adapter = new NpgsqlDataAdapter(constraintKeySql, _dbConnection))
             {
                 adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
                 // description data table
-                using (DataTable keysData = new DataTable())
+                using (var keysData = new DataTable())
                 {
                     // Just to avoid stupid "Failed to enable constraints" error!
                     using (DataSet tempDs = new DataSet())
@@ -833,7 +820,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
             }
             catch
             {
-                // Seems this version of SQL Server doesn't support this query!
+                // Seems this version of postgresql doesn't support this query!
                 // don't stop here!
                 // TODO: inform user
             }
@@ -842,7 +829,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
         /// <summary>
         /// Finds table from list
         /// </summary>
-        private DbTable FindTable(IEnumerable<DbTable> tables, string tableName)
+        private static DbTable FindTable(IEnumerable<DbTable> tables, string tableName)
         {
             foreach (var table in tables)
             {
@@ -852,7 +839,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
             return null;
         }
 
-        private DbForeignKeyAction ConvertPosgresqlForeignKeyAction(int actionCode)
+        private static DbForeignKeyAction ConvertPosgresqlForeignKeyAction(int actionCode)
         {
             switch (actionCode)
             {
