@@ -263,6 +263,7 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			public const string SQLServer = "SQLServer";
 			public const string SQLite = "SQLite";
 			public const string SqlCe4 = "SqlCe4";
+            public const string Npgsql = "Npgsql";
 		}
 
 

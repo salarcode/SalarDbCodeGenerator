@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Npgsql;
 using Oracle.DataAccess.Client;
 using SalarDbCodeGenerator.DbProject;
 using SalarDbCodeGenerator.Properties;
@@ -131,6 +132,17 @@ namespace SalarDbCodeGenerator.Presentation
 
 				ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Oracle;
 			}
+            else if (pagerDatabaseProvider.SelectedTab == tabPostgres)
+            {
+                ProjectInstance.DbSettions.ServerName = txtPgHost.Text;
+                ProjectInstance.DbSettions.DatabaseName = txtPgDbName.Text;
+                ProjectInstance.DbSettions.SqlUsername = txtPgUsername.Text;
+                ProjectInstance.DbSettions.SqlPassword = txtPgPassword.Text;
+                ProjectInstance.DbSettions.PgSchema = txtPgSchema.Text;
+
+                ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Npgsql;
+            }
+
 
 			ProjectInstance.DbSettions.SuffixForTables = txtSuffixForTables.Text;
 			ProjectInstance.DbSettions.SuffixForViews = txtSuffixForViews.Text;
@@ -214,6 +226,16 @@ namespace SalarDbCodeGenerator.Presentation
 				txtOrclPassword.Text = ProjectInstance.DbSettions.SqlPassword;
 				chkOrclUserRoleSYSDBA.Checked = ProjectInstance.DbSettions.OracleUseSysdbaRole;
 			}
+            else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.Npgsql)
+            {
+                pagerDatabaseProvider.SelectedTab = tabPostgres;
+
+                txtPgHost.Text = ProjectInstance.DbSettions.ServerName;
+                txtPgDbName.Text = ProjectInstance.DbSettions.DatabaseName;
+                txtPgUsername.Text = ProjectInstance.DbSettions.SqlUsername;
+                txtPgPassword.Text = ProjectInstance.DbSettions.SqlPassword;
+                txtPgSchema.Text = ProjectInstance.DbSettions.PgSchema;
+            }
 
 
 			txtSuffixForTables.Text = ProjectInstance.DbSettions.SuffixForTables;
@@ -455,6 +477,20 @@ namespace SalarDbCodeGenerator.Presentation
 				return false;
 			}
 		}
+
+        bool TestPgConnection(string connStr)
+        {
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connStr))
+                    conn.Open();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 
 		void MoreOptionsExpand(bool expanded)
@@ -733,5 +769,27 @@ namespace SalarDbCodeGenerator.Presentation
 			if (txtOrclDbName.Text.Length == 0)
 				txtOrclDbName.Text = txtOrclUsername.Text;
 		}
+
+        private void btnPgTestConnection_Click(object sender, EventArgs e)
+        {
+            var connStr = string.Format("server={0};Port=5432;Database={1};User Id={2};Password={3}",
+                    txtPgHost.Text,
+                    txtPgDbName.Text,
+                    txtPgUsername.Text,
+                    txtPgPassword.Text
+                );
+
+            PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
+            if (TestPgConnection(connStr))
+            {
+                PleaseWait.Abort();
+                MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                PleaseWait.Abort();
+                MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 	}
 }

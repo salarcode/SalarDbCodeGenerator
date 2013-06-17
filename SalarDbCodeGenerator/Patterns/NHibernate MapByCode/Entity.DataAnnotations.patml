@@ -19,7 +19,7 @@ using System.Xml.Serialization;
 using [:Namespace:].Entities;
 using [:Namespace:].Base;
 
-namespace [:Namespace:].DataAnnotations
+namespace [:Namespace:].Entities.DataAnnotations
 {
 	/// <summary>
 	/// Data annotations attributes for [:TableNameDb:]. 

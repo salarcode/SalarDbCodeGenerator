@@ -12,7 +12,8 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		SQLServer,
 		SqlCe4,
 		Oracle,
-		SQLite
+		SQLite,
+        Npgsql
 	}
 
 	public enum DataProviderClassNames
