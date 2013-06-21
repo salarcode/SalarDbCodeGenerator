@@ -47,7 +47,7 @@ namespace [:Namespace:].BLL
 	}
 ]]>
 		</Condition>
-		
+
 		<ConditionContents>
 			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
 				<Condition Key="MultiplicityOne">
@@ -71,6 +71,26 @@ namespace [:Namespace:].BLL
 				<Condition Key="MultiplicityMany">
 					<![CDATA[
 		public List<[:ForeignTableName:]Model> Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		public [:ForeignTableName:]Model Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
+		{
+			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
+			{
+				return dal.GetBy[:ForeignFieldName:]([:ForeignFieldName:]);
+			}
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		public [:ForeignTableName:]Model Get[:ForeignTableNameAsField:]By[:ForeignFieldName:]([:ForeignFieldDotNetType:] [:ForeignFieldName:])
 		{
 			using ([:ForeignTableName:]DAL dal = new [:ForeignTableName:]DAL(Transaction, Connection))
 			{

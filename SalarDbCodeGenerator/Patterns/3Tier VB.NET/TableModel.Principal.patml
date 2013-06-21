@@ -82,6 +82,14 @@ End Namespace
 			</PatternContent>
 
 			<PatternContent Name="FieldsVariables" ConditionKeyMode="FieldsKeyTypeAll" description="Table Fields Variables">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		Private _[:FieldName:] As [:FieldDotNetType:]]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		Private _[:FieldName:] As [:FieldDotNetType:]]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		Private _[:FieldName:] As [:FieldDotNetType:]]]>
@@ -117,6 +125,34 @@ End Namespace
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll" description="Table fields properties">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		''' <summary>
+		''' [:FieldDescription:]
+		''' </summary>
+		Public Property [:FieldName:] As [:FieldDotNetType:]
+			Get
+				Return Me._[:FieldName:]
+			End Get
+			Set(ByVal value As [:FieldDotNetType:])
+				Me._[:FieldName:] = value
+			End Set
+		End Property]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		''' <summary>
+		''' [:FieldDescription:]
+		''' </summary>
+		Public Property [:FieldName:] As [:FieldDotNetType:]
+			Get
+				Return Me._[:FieldName:]
+			End Get
+			Set(ByVal value As [:FieldDotNetType:])
+				Me._[:FieldName:] = value
+			End Set
+		End Property]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		''' <summary>

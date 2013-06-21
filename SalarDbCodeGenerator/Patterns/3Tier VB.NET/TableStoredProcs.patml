@@ -32,14 +32,14 @@ AS
 
 	SELECT *  FROM [:TableNameDb:]
 GO
-		
 [#UpdatableTable#]
-
 [#ForeignKeys#]
+[#IndexConstraintKeys#]
+[#UniqueConstraintKeys#]
 ]]>
 		</Condition>
 		<ConditionContents>
-			<PatternContent Name="ForeignKeys" ConditionKeyMode="TableForeignKey" description="ForeignKeys methods">
+			<PatternContent Name="ForeignKeys" ConditionKeyMode="TableForeignKey">
 				<Condition Key="NormalKey">
 					<![CDATA[
 IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:LocalTableNameDb:]_GetBy[:LocalFieldNameDb:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -60,6 +60,78 @@ AS
 	SET NOCOUNT ON
 
 	SELECT *  FROM [:LocalTableNameDb:] WHERE [[:LocalFieldNameDb:]]=@[:LocalFieldNameDb:]
+GO
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting a row by specified primary key from [:TableNameDb:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+	(
+	@[:IndexKeyNameDb:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNameDb:] WHERE [[:IndexKeyNameDb:]]=@[:IndexKeyNameDb:]
+GO
+]]>
+				</Condition>
+			</PatternContent>
+
+			<PatternContent Name="UniqueConstraintKeys" ConditionKeyMode="TableUniqueConstraint">
+				<Condition Key="NormalKey">
+					<![CDATA[
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+GO
+
+-- ==========================================================================================
+-- Entity Name:	[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for selecting a row by specified primary key from [:TableNameDb:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNameDb:]_GetBy[:IndexKeyNameDb:]
+	(
+	@[:IndexKeyNameDb:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	SELECT *  FROM [:TableNameDb:] WHERE [[:IndexKeyNameDb:]]=@[:IndexKeyNameDb:]
+GO
+
+
+IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNameDb:]_DeleteBy[:IndexKeyNameDb:]') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
+DROP PROCEDURE [dbo].[:TableNameDb:]_DeleteBy[:IndexKeyNameDb:]
+GO
+-- ==========================================================================================
+-- Entity Name:	[:TableNameDb:]_DeleteBy[:IndexKeyNameDb:]
+-- Generator:	[:Generator:]
+-- Create date:	[:OperateDate:]
+-- Description:	This stored procedure is intended for deleting a specific row from [:TableNameDb:] table
+-- ==========================================================================================
+CREATE PROCEDURE [dbo].[:TableNameDb:]_DeleteBy[:IndexKeyNameDb:]
+	(
+	@[:IndexKeyNameDb:] [:IndexKeyDbTypeSize:]
+	)
+AS
+	SET NOCOUNT ON
+
+	DELETE FROM [:TableNameDb:] WHERE [[:IndexKeyNameDb:]]=@[:IndexKeyNameDb:]
 GO
 ]]>
 				</Condition>
@@ -93,7 +165,6 @@ AS
 GO
 ]]>
 				</Condition>
-
 				<Condition Key="WithPrimaryKey">
 					<![CDATA[
 IF EXISTS (select * from dbo.sysobjects where id = object_id(N'[dbo].[:TableNameDb:]_Insert') and OBJECTPROPERTY(id, N'IsProcedure') = 1)
@@ -191,6 +262,11 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="AutoIncNativeNullable"></Condition>
@@ -216,6 +292,14 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey">
 							<![CDATA[
 	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
@@ -258,6 +342,10 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[[[:FieldNameDb:]] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
@@ -277,6 +365,10 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[@[:FieldNameDb:] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
@@ -296,6 +388,11 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+		[[:FieldNameDb:]] = @[:FieldNameDb:] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
@@ -317,6 +414,7 @@ GO
 					</PatternContent>
 				</ConditionContents>
 			</PatternContent>
+
 		</ConditionContents>
 	</PatternContent>
 </PatternFile>

@@ -106,6 +106,14 @@ namespace [:Namespace:].Model
 			</PatternContent>
 
 			<PatternContent Name="FieldsVariables" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		private [:FieldDotNetType:] _[:FieldName:];]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		private [:FieldDotNetType:] _[:FieldName:];]]>
@@ -141,6 +149,28 @@ namespace [:Namespace:].Model
 			</PatternContent>
 
 			<PatternContent Name="FieldsProperties" ConditionKeyMode="FieldsKeyTypeAll">
+				<Condition Key="OneToOnePrimaryKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set { _[:FieldName:] = value; }
+		}]]>
+				</Condition>
+				<Condition Key="OneToOneForeignKey">
+					<![CDATA[
+		/// <summary>
+		/// [:FieldDescription:]
+		/// </summary>
+		public [:FieldDotNetType:] [:FieldName:]
+		{
+			get { return _[:FieldName:]; }
+			set { _[:FieldName:] = value; }
+		}]]>
+				</Condition>
 				<Condition Key="AutoInrcementPrimaryKey">
 					<![CDATA[
 		/// <summary>
@@ -294,7 +324,7 @@ namespace [:Namespace:].Model
 						<Condition Key="NoAutoIncrement"></Condition>
 						<Condition Key="OneAutoIncrement">
 							<![CDATA[
-		public [:TableName:]Model([:AutoIncrementDotNetType:] [:PrimaryKeyName:])
+		public [:TableName:]Model([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
 		{
 			using ([:TableName:]BLL bll = new [:TableName:]BLL())
 			{

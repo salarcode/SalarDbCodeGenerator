@@ -674,7 +674,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 							// fetch findings, if there is any
 							foreach (DataRowView keysDataRow in keysData.DefaultView)
 							{
-								// found table !
+								// table found  !
 								DataRow keyRow = keysDataRow.Row;
 
 								// constraint Key
@@ -706,7 +706,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			foreach (var table in tables)
 				foreach (var fkey in table.ForeignKeys)
 				{
-					//// already ont-to-?
+					//// already one-to-?
 					//if (fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToMany ||
 					//    fkey.Multiplicity == DbForeignKey.ForeignKeyMultiplicity.OneToOne)
 					//    continue;
@@ -767,7 +767,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 				StringCollection duplicateConstraints = new StringCollection();
 
-				// fetching the contraints keys
+				// looping the contraints keys
 				for (int j = table.ConstraintKeys.Count - 1; j >= 0; j--)
 				{
 					var constraintKey = table.ConstraintKeys[j];

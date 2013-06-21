@@ -133,6 +133,96 @@ namespace [:Namespace:].DAL
 			}		
 		}]]>
 				</Condition>
+				<Condition Key="MultiplicityOneToOnePrimary">
+					<![CDATA[
+		public List<[:LocalTableName:]Model> Ff___GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			List<[:LocalTableName:]Model> result = new List<[:LocalTableName:]Model>();
+
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:LocalTableNameDb:]_GetBy[:LocalFieldNameDb:]";
+					
+					cmd.Parameters.AddWithValue("@[:LocalFieldNameDb:]", [:LocalFieldName:]);
+
+					IDataReader reader = null;
+					try
+					{
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						[:LocalTableName:]Model.FieldsOrdinal fields = new [:LocalTableName:]Model.FieldsOrdinal(reader);
+						while (reader.Read())
+						{
+							[:LocalTableName:]Model model = new [:LocalTableName:]Model();
+							model.ReadData(reader, fields);
+							result.Add(model);
+						}
+					}
+					catch (Exception)
+					{
+						throw;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}		
+		}]]>
+				</Condition>
+				<Condition Key="MultiplicityOneToOneForeign">
+					<![CDATA[
+		public List<[:LocalTableName:]Model> ___GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
+		{
+			List<[:LocalTableName:]Model> result = new List<[:LocalTableName:]Model>();
+
+			try
+			{
+				using ([:ProviderClassCommand:] cmd = GetNewCommand())
+				{
+					cmd.CommandType = CommandType.StoredProcedure;
+					cmd.CommandText = "[:LocalTableNameDb:]_GetBy[:LocalFieldNameDb:]";
+					
+					cmd.Parameters.AddWithValue("@[:LocalFieldNameDb:]", [:LocalFieldName:]);
+
+					IDataReader reader = null;
+					try
+					{
+						reader = [:DatabaseName:]DbProvider.ExecuteReader(cmd);
+						[:LocalTableName:]Model.FieldsOrdinal fields = new [:LocalTableName:]Model.FieldsOrdinal(reader);
+						while (reader.Read())
+						{
+							[:LocalTableName:]Model model = new [:LocalTableName:]Model();
+							model.ReadData(reader, fields);
+							result.Add(model);
+						}
+					}
+					catch (Exception)
+					{
+						throw;
+					}
+					finally
+					{
+						if (reader != null)
+							reader.Close();
+					}
+				}
+				return result;
+			}
+			catch (Exception)
+			{
+				throw;
+			}		
+		}]]>
+				</Condition>
 			</PatternContent>
 
 			<PatternContent Name="IndexConstraintKeys" ConditionKeyMode="TableIndexConstraint">
@@ -440,6 +530,14 @@ namespace [:Namespace:].DAL
 					</PatternContent>
 
 					<PatternContent Name="UpdateParameters" ConditionKeyMode="FieldsKeyTypeAll">
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:]);]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:]);]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey">
 							<![CDATA[
 					cmd.Parameters.AddWithValue("@[:FieldNameDb:]", model.[:FieldName:]);]]>

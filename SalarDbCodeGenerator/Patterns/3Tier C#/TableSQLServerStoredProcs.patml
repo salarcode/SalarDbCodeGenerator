@@ -262,6 +262,11 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="AutoIncNativeNullable"></Condition>
@@ -287,6 +292,14 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey">
 							<![CDATA[
 	@[:FieldNameDb:] [:FieldDbTypeSize:]]]>
@@ -329,6 +342,10 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[[[:FieldNameDb:]] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
@@ -348,6 +365,10 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[@[:FieldNameDb:] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
@@ -367,6 +388,11 @@ GO
 						<ItemsSeperator>
 							<![CDATA[,]]>
 						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey"></Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+		[[:FieldNameDb:]] = @[:FieldNameDb:] ]]>
+						</Condition>
 						<Condition Key="AutoInrcementPrimaryKey"></Condition>
 						<Condition Key="AutoInrcement"></Condition>
 						<Condition Key="PrimaryKey">
