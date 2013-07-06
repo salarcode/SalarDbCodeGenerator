@@ -81,9 +81,7 @@ namespace [:Namespace:].Entities
 					<![CDATA[
 					mp.OneToOne(m => m.[:ForeignTableName:],
 								map =>
-									{
-										//map.Cascade(Cascade.All);
-									});]]>
+									{ });]]>
 				</Condition>
 				<Condition Key="MultiplicityOneToOneForeign">
 					<![CDATA[
