@@ -10,6 +10,16 @@ Version Next
 
 *  Bug in "CopyDataMember" of the ActiveRecord patterns is fixed.
 
+------------------------------------
+Version 2.1.2013.0719		2013/7/19
+    Pattern Changes:
+	*	DapperContext pattern is added.
+	*	All patterns are updated to work with one-to-one relations.
+
+    Changes:
+	*	One-to-one relation is supported.
+	*	Minor bug fixes.
+
 
 ------------------------------------
 Version 2.0.2012.0724		2012/7/24
