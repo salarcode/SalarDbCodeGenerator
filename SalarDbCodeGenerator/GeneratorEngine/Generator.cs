@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using SalarDbCodeGenerator.DbProject;
@@ -29,6 +30,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		DbDatabase _database;
 		ExSchemaEngine _schemaEngine;
 		bool _optionGenerateUnselectedForeigns;
+	    private string _databaseName;
 		#endregion
 
 		public Generator(ProjectDefinaton project, PatternProject pattern, DbDatabase database, ExSchemaEngine schemaEngine)
@@ -38,6 +40,10 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			_database = database;
 			_schemaEngine = schemaEngine;
 			_optionGenerateUnselectedForeigns = false;
+
+            var fc = _projectDef.DbSettions.DatabaseName[0];
+            var fother = _projectDef.DbSettions.DatabaseName.Substring(1, _projectDef.DbSettions.DatabaseName.Length - 1);
+            _databaseName = fc.ToString(CultureInfo.InvariantCulture).ToUpper() + fother;
 		}
 
 		#region public methods
@@ -443,6 +449,9 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 					case DatabaseProvider.SqlCe4:
 						dbReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.SqlCe4);
 						break;
+                    case DatabaseProvider.Npgsql:
+                        dbReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.Npgsql);
+                        break;
 				}
 
 
@@ -786,6 +795,10 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 							case DatabaseProvider.SqlCe4:
 								dbReplacer = pattern.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.SqlCe4);
 								break;
+
+                            case DatabaseProvider.Npgsql:
+                                dbReplacer = pattern.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.Npgsql);
+                                break;
 						}
 
 						if (dbReplacer != null)
@@ -1700,7 +1713,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		{
 			content = Common.ReplaceEx(content, ReplaceConsts.Namespace, _projectDef.CodeGenSettings.DefaultNamespace, StringComparison.CurrentCultureIgnoreCase);
 			content = Common.ReplaceEx(content, ReplaceConsts.ProjectName, _projectDef.ProjectName, StringComparison.CurrentCultureIgnoreCase);
-			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.DatabaseName, _projectDef.DbSettions.DatabaseName);
+			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.DatabaseName, _databaseName);
 			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.Generator, AppConfig.AppGeneratorSign);
 			content = Common.ReplaceExIgnoreCase(content, ReplaceConsts.OperateDate, DateTime.Now.ToString());
 			content = Common.ReplaceEx(content, ReplaceConsts.ConnectionString, _projectDef.DbSettions.GetConnectionString(), StringComparison.CurrentCultureIgnoreCase);
@@ -1752,7 +1765,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		{
 			fileName = Common.ReplaceEx(fileName, ReplaceConsts.ProjectName, _projectDef.ProjectName, StringComparison.CurrentCultureIgnoreCase);
 			fileName = Common.ReplaceEx(fileName, ReplaceConsts.Namespace, _projectDef.CodeGenSettings.DefaultNamespace, StringComparison.CurrentCultureIgnoreCase);
-			fileName = Common.ReplaceExIgnoreCase(fileName, ReplaceConsts.DatabaseName, _projectDef.DbSettions.DatabaseName);
+			fileName = Common.ReplaceExIgnoreCase(fileName, ReplaceConsts.DatabaseName, _databaseName);
 
 			if (tableSchemaName != null)
 				fileName = Common.ReplaceEx(fileName, ReplaceConsts.TableName, tableSchemaName, StringComparison.CurrentCultureIgnoreCase);

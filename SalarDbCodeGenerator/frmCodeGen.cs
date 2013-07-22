@@ -896,7 +896,9 @@ namespace SalarDbCodeGenerator
 				schemaDatabase.Provider = _projectDefinaton.DbSettions.DatabaseProvider;
 
 				// shcema engine options
-				schemaEngine.SpecificOwner = _projectDefinaton.DbSettions.SqlUsername;
+			    schemaEngine.SpecificOwner = _projectDefinaton.DbSettions.DatabaseProvider == DatabaseProvider.Oracle
+			                                     ? _projectDefinaton.DbSettions.SqlUsername
+			                                     : _projectDefinaton.DbSettions.PgSchema;
 
 				// columns descriptions
 				schemaEngine.ReadColumnsDescription = _projectDefinaton.CodeGenSettings.GenerateColumnsDescription;

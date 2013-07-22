@@ -208,5 +208,23 @@ namespace [:Namespace:].Entities
 						//db.LogSqlInConsole = true;
 					});]]>
 		</Condition>
+    <Condition Key="Npgsql">
+      <![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<PostgreSQL82Dialect>();
+						db.Driver<NpgsqlDriver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+    </Condition>
 	</PatternContent>
 </PatternFile>
