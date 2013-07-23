@@ -39,7 +39,7 @@ namespace SalarDbCodeGenerator.DbProject
 		public int ConnectTimeout { get; set; }
 		public DateTime LastFetch { get; set; }
 		public bool OracleUseSysdbaRole { get; set; }
-        public string PgSchema { get; set; }
+        public string SchemaName { get; set; }
 
 		public string PrefixForTables { get; set; }
 		public string PrefixForViews { get; set; }
@@ -257,7 +257,9 @@ namespace SalarDbCodeGenerator.DbProject
 				// the schema engine
                 
 				// shcema engine options
-                engine.SpecificOwner = this.DatabaseProvider == DatabaseProvider.Oracle ? this.SqlUsername : this.PgSchema;
+                engine.SpecificOwner = this.DatabaseProvider == DatabaseProvider.Oracle ?
+					this.SqlUsername :
+					this.SchemaName;
 
 				// Read schema list from db
 				engine.ReadViewsTablesList(out dbTables, out dbViews);

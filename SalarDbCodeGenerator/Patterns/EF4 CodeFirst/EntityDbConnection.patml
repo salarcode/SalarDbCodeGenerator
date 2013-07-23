@@ -42,6 +42,6 @@ namespace [:Namespace:]
 			<![CDATA[connection.SetPassword(@"[:ConnectionStringPwd:]");]]>
 		</Condition>
 		<Condition Key="SqlCe4"></Condition>
-    <Condition Key="Npgsql"></Condition>
-  </PatternContent>
+		<Condition Key="Npgsql"></Condition>
+	</PatternContent>
 </PatternFile>

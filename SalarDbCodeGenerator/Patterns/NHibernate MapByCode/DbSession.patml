@@ -208,8 +208,8 @@ namespace [:Namespace:].Entities
 						//db.LogSqlInConsole = true;
 					});]]>
 		</Condition>
-    <Condition Key="Npgsql">
-      <![CDATA[
+		<Condition Key="Npgsql">
+			<![CDATA[
 			configure.DataBaseIntegration(
 				db =>
 					{
@@ -225,6 +225,6 @@ namespace [:Namespace:].Entities
 						//db.LogFormattedSql = true;
 						//db.LogSqlInConsole = true;
 					});]]>
-    </Condition>
+		</Condition>
 	</PatternContent>
 </PatternFile>

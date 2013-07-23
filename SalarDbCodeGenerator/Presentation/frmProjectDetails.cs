@@ -138,7 +138,7 @@ namespace SalarDbCodeGenerator.Presentation
                 ProjectInstance.DbSettions.DatabaseName = txtPgDbName.Text;
                 ProjectInstance.DbSettions.SqlUsername = txtPgUsername.Text;
                 ProjectInstance.DbSettions.SqlPassword = txtPgPassword.Text;
-                ProjectInstance.DbSettions.PgSchema = txtPgSchema.Text;
+                ProjectInstance.DbSettions.SchemaName = txtPgSchema.Text;
 
                 ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Npgsql;
             }
@@ -234,7 +234,7 @@ namespace SalarDbCodeGenerator.Presentation
                 txtPgDbName.Text = ProjectInstance.DbSettions.DatabaseName;
                 txtPgUsername.Text = ProjectInstance.DbSettions.SqlUsername;
                 txtPgPassword.Text = ProjectInstance.DbSettions.SqlPassword;
-                txtPgSchema.Text = ProjectInstance.DbSettions.PgSchema;
+                txtPgSchema.Text = ProjectInstance.DbSettions.SchemaName;
             }
 
 

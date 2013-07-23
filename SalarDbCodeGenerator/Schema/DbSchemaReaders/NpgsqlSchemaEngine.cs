@@ -70,7 +70,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
                 case DataProviderClassNames.ClassNamespace:
                     return "Npgsql";
                 case DataProviderClassNames.AssemblyReference:
-                    return "System.Data";
+					return "Npgsql";
                 case DataProviderClassNames.StoredProcParamPrefix:
                     return "@";
                 default:

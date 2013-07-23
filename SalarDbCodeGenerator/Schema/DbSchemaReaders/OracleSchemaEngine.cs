@@ -260,15 +260,18 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 					if (!IsTableSelected(tableName))
 						continue;
 
+					var jumpToNext = false;
 					// search in views about this
 					foreach (var view in viewList)
 					{
 						if (view.TableName == tableName)
 						{
+							jumpToNext = true;
 							// we ignore view here
-							continue;
+							break;
 						}
 					}
+					if (jumpToNext) continue;
 
 					// View columns
 					List<DbColumn> columns = ReadColumns(tableName);
