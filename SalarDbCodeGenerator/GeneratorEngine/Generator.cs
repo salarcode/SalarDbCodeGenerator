@@ -68,7 +68,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 					// Copy action requested
 					if (patFile.Action == PatternsListItemAction.Copy)
 					{
-						var fileName = Path.GetFileName(patFile.Path);
+						var fileName = Path.GetFileName(Replacer_DatabaseProvider(patFile.Path));
 						// Check if pattern is selected by user
 						if (!_projectDef.CodeGenSettings.SelectedPatterns.Contains(fileName))
 						{
@@ -77,15 +77,17 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 
 						var copyPath = _projectDef.GenerationPath;
 						var copyPathDir = Common.ProjectPathMakeAbsolute(copyPath, _projectDef.ProjectFileName);
-						if (!string.IsNullOrEmpty(patFile.ActionCopyPath))
+                        var actionCopyPath = Replacer_DatabaseProvider(patFile.ActionCopyPath);
+                        if (!string.IsNullOrEmpty(actionCopyPath))
 						{
-							copyPath = Path.Combine(copyPathDir, patFile.ActionCopyPath);
+                            copyPath = Path.Combine(copyPathDir, actionCopyPath);
 							copyPathDir = Path.GetDirectoryName(copyPath);
 						}
 
 						try
 						{
 							Directory.CreateDirectory(copyPathDir);
+                            patternFilePath = Replacer_DatabaseProvider(patternFilePath);
 							File.Copy(patternFilePath, copyPath, true);
 						}
 						catch (Exception)
@@ -451,6 +453,9 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 						break;
                     case DatabaseProvider.Npgsql:
                         dbReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.Npgsql);
+                        break;
+                    case DatabaseProvider.MySql:
+                        dbReplacer = partialContent.GetReplacement(ConditionKeyModeConsts.DatabaseProvider.MySql);
                         break;
 				}
 

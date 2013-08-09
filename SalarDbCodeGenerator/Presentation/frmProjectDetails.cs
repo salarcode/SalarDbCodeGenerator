@@ -13,6 +13,7 @@ using System.Text;
 using System.Windows.Forms;
 using Npgsql;
 using Oracle.DataAccess.Client;
+using MySql.Data.MySqlClient;
 using SalarDbCodeGenerator.DbProject;
 using SalarDbCodeGenerator.Properties;
 using SalarDbCodeGenerator.Schema.DbSchemaReaders;
@@ -142,6 +143,15 @@ namespace SalarDbCodeGenerator.Presentation
 
                 ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Npgsql;
             }
+            else if (pagerDatabaseProvider.SelectedTab == tabMySQL)
+            {
+                ProjectInstance.DbSettions.ServerName = txtMysqlHost.Text;                
+                ProjectInstance.DbSettions.DatabaseName = txtMysqlDbName.Text;
+                ProjectInstance.DbSettions.SqlUsername = txtMysqlUsername.Text;
+                ProjectInstance.DbSettions.SqlPassword = txtMysqlPassword.Text;                
+
+                ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.MySql;
+            }
 
 
 			ProjectInstance.DbSettions.SuffixForTables = txtSuffixForTables.Text;
@@ -235,6 +245,15 @@ namespace SalarDbCodeGenerator.Presentation
                 txtPgUsername.Text = ProjectInstance.DbSettions.SqlUsername;
                 txtPgPassword.Text = ProjectInstance.DbSettions.SqlPassword;
                 txtPgSchema.Text = ProjectInstance.DbSettions.SchemaName;
+            }
+            else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.MySql)
+            {
+                pagerDatabaseProvider.SelectedTab = tabMySQL;
+
+                txtMysqlHost.Text = ProjectInstance.DbSettions.ServerName;                
+                txtMysqlDbName.Text = ProjectInstance.DbSettions.DatabaseName;
+                txtMysqlUsername.Text = ProjectInstance.DbSettions.SqlUsername;
+                txtMysqlPassword.Text = ProjectInstance.DbSettions.SqlPassword;                
             }
 
 
@@ -492,6 +511,19 @@ namespace SalarDbCodeGenerator.Presentation
             }
         }
 
+        bool TestMysqlConnection(string connStr)
+        {
+            try
+            {
+                using (MySqlConnection conn = new MySqlConnection(connStr))
+                    conn.Open();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
 		void MoreOptionsExpand(bool expanded)
 		{
@@ -791,5 +823,29 @@ namespace SalarDbCodeGenerator.Presentation
                 MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void btnMysqlTestConnection_Click(object sender, EventArgs e)
+        {
+            var connStr = string.Format("server={0};port=3306;database={1};username={2};password={3}",
+                    txtMysqlHost.Text,                    
+                    txtMysqlDbName.Text,
+                    txtMysqlUsername.Text,
+                    txtMysqlPassword.Text
+                );
+
+            PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
+            if (TestMysqlConnection(connStr))
+            {
+                PleaseWait.Abort();
+                MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                PleaseWait.Abort();
+                MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+       
 	}
 }
