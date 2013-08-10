@@ -154,11 +154,7 @@ namespace [:Namespace:].Entities
 				</Condition>
 				<Condition Key="WithPrimaryKey">
 					<![CDATA[
-		public [:TableName:] GetBy[:PrimaryKeyName:]([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
-		{
-			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:PrimaryKeyNameDb:]=[:ProviderSPParamPrefix:][:PrimaryKeyName:]", new { [:PrimaryKeyName:] = [:PrimaryKeyName:] }).FirstOrDefault();
-		}
-
+[#GetPrimaryKey#]
 		public void Insert([:TableName:] model)
 		{
 			Execute(SqlInsertCommand, model);
@@ -169,9 +165,9 @@ namespace [:Namespace:].Entities
 			Execute(SqlInsertCommand, models);
 		}
 
-		public void Delete([:PrimaryKeyDotNetType:] [:PrimaryKeyName:])
+		public void Delete([#PrimaryKeyListAsArguments#])
 		{
-			Execute(SqlDeleteCommand, new { [:PrimaryKeyName:] = [:PrimaryKeyName:] });
+			Execute(SqlDeleteCommand, new { [#PrimaryKeyListAsCodeProps#] });
 		}
 
 		public void Update([:TableName:] model)
@@ -184,6 +180,98 @@ namespace [:Namespace:].Entities
 			Execute(SqlUpdateCommand, models);
 		}]]>
 				</Condition>
+
+				<ConditionContents>
+					<PatternContent Name="GetPrimaryKey" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator></ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[
+		public [:TableName:] GetBy[:FieldName:]([:FieldDotNetType:] [:FieldName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]", new { [:FieldName:] = [:FieldName:] }).FirstOrDefault();
+		}
+]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[
+		public [:TableName:] GetBy[:FieldName:]([:FieldDotNetType:] [:FieldName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]", new { [:FieldName:] = [:FieldName:] }).FirstOrDefault();
+		}
+]]>
+						</Condition>
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[
+		public [:TableName:] GetBy[:FieldName:]([:FieldDotNetType:] [:FieldName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]", new { [:FieldName:] = [:FieldName:] }).FirstOrDefault();
+		}
+]]>
+						</Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[
+		public [:TableName:] GetBy[:FieldName:]([:FieldDotNetType:] [:FieldName:])
+		{
+			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:FieldNameDb:]=[:ProviderSPParamPrefix:][:FieldName:]", new { [:FieldName:] = [:FieldName:] }).FirstOrDefault();
+		}
+]]>
+						</Condition>
+						<Condition Key="NormalField"></Condition>
+						<Condition Key="NativeNullable"></Condition>
+						<Condition Key="NullableType"></Condition>
+					</PatternContent>
+
+					<PatternContent Name="PrimaryKeyListAsCodeProps" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[, ]]>
+						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[[:FieldName:] = [:FieldName:]]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[[:FieldName:] = [:FieldName:]]]>
+						</Condition>
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[[:FieldName:] = [:FieldName:]]]>
+						</Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[[:FieldName:] = [:FieldName:]]]>
+						</Condition>
+						<Condition Key="NormalField"></Condition>
+						<Condition Key="NativeNullable"></Condition>
+						<Condition Key="NullableType"></Condition>
+					</PatternContent>
+
+					<PatternContent Name="PrimaryKeyListAsArguments" ConditionKeyMode="FieldsKeyTypeAll">
+						<ItemsSeperator>
+							<![CDATA[, ]]>
+						</ItemsSeperator>
+						<Condition Key="OneToOnePrimaryKey">
+							<![CDATA[[:FieldDotNetType:] [:FieldName:]]]>
+						</Condition>
+						<Condition Key="OneToOneForeignKey">
+							<![CDATA[[:FieldDotNetType:] [:FieldName:]]]>
+						</Condition>
+						<Condition Key="AutoInrcementPrimaryKey">
+							<![CDATA[[:FieldDotNetType:] [:FieldName:]]]>
+						</Condition>
+						<Condition Key="AutoInrcement"></Condition>
+						<Condition Key="AutoIncNativeNullable"></Condition>
+						<Condition Key="AutoIncNullableType"></Condition>
+						<Condition Key="PrimaryKey">
+							<![CDATA[[:FieldDotNetType:] [:FieldName:]]]>
+						</Condition>
+						<Condition Key="NormalField"></Condition>
+						<Condition Key="NativeNullable"></Condition>
+						<Condition Key="NullableType"></Condition>
+					</PatternContent>
+				</ConditionContents>
 			</PatternContent>
 
 			<PatternContent Name="SqlCommands" ConditionKeyMode="TablePrimaryKey">
