@@ -43,5 +43,6 @@ namespace [:Namespace:]
 		</Condition>
 		<Condition Key="SqlCe4"></Condition>
 		<Condition Key="Npgsql"></Condition>
+    <Condition Key="MySql"></Condition>
 	</PatternContent>
 </PatternFile>

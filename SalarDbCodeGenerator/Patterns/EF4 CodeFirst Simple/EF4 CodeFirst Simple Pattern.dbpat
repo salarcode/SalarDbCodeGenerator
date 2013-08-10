@@ -101,4 +101,5 @@
 	<PatternFile Action="Generate">VS2010ClassProject.patml</PatternFile>
 	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
 	<PatternFile Action="Copy" ActionCopyPath="References\EntityFramework.dll">..\..\EntityFramework.dll</PatternFile>
+  <PatternFile Action="Copy" ActionCopyPath="References\[:ProviderAssemblyReference:].dll">..\..\[:ProviderAssemblyReference:].dll</PatternFile>
 </PatternProject>

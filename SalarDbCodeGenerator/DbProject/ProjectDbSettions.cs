@@ -8,6 +8,7 @@ using System.Data.SqlServerCe;
 using System.Xml.Serialization;
 using Npgsql;
 using Oracle.DataAccess.Client;
+using MySql.Data.MySqlClient;
 using SalarDbCodeGenerator.Schema.DbSchemaReaders;
 
 // ====================================
@@ -123,6 +124,9 @@ namespace SalarDbCodeGenerator.DbProject
                 case DatabaseProvider.Npgsql:
                     return new NpgsqlConnection(GetConnectionString());
 
+                case DatabaseProvider.MySql:
+                    return new MySqlConnection(GetConnectionString());
+
 				default:
 					throw new NotSupportedException("Database type is not supported");
 			}
@@ -146,6 +150,9 @@ namespace SalarDbCodeGenerator.DbProject
 
                 case DatabaseProvider.Npgsql:
                     return new NpgsqlSchemaEngine(dbConnection);
+
+                case DatabaseProvider.MySql:
+                    return new MySQLSchemaEngine(dbConnection);
 
 				default:
 					throw new NotSupportedException("Database type is not supported");
@@ -218,6 +225,15 @@ namespace SalarDbCodeGenerator.DbProject
                         SqlPassword
                     );
 			        break;
+
+                case DatabaseProvider.MySql:
+                    connStr = string.Format("server={0};Port=3306;Database={1};User Id={2};Password={3}",
+                        ServerName,                        
+                        DatabaseName,
+                        SqlUsername,
+                        SqlPassword
+                    );
+                    break;
 			}
 			return connStr;
 		}

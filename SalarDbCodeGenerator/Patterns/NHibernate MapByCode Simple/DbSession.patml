@@ -226,5 +226,23 @@ namespace [:Namespace:].Entities
 						//db.LogSqlInConsole = true;
 					});]]>
 		</Condition>
+    <Condition Key="MySql">
+      <![CDATA[
+			configure.DataBaseIntegration(
+				db =>
+					{
+						db.ConnectionProvider<DriverConnectionProvider>();
+						db.Dialect<MySQLDialect>();
+						db.Driver<MySqlDataDriver>();
+						db.KeywordsAutoImport = Hbm2DDLKeyWords.AutoQuote;
+						db.IsolationLevel = IsolationLevel.ReadCommitted;
+						db.ConnectionString = ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString;
+						db.Timeout = 15;
+
+						////for testing ...
+						//db.LogFormattedSql = true;
+						//db.LogSqlInConsole = true;
+					});]]>
+    </Condition>
 	</PatternContent>
 </PatternFile>

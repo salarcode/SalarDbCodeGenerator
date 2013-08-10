@@ -92,6 +92,11 @@
     <Reference Include="Mono.Security">
       <HintPath>..\packages\Npgsql.2.0.12.1\lib\net40\Mono.Security.dll</HintPath>
     </Reference>
+    <Reference Include="MySql.Data, Version=6.6.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>References\MySql.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="NHibernate">
       <HintPath>References\NHibernate.dll</HintPath>
     </Reference>
@@ -149,6 +154,7 @@
     <Compile Include="Schema\Database\DbConstraintKey.cs" />
     <Compile Include="Schema\Database\DbForeignKey.cs" />
     <Compile Include="Schema\Database\DbDatabase.cs" />
+    <Compile Include="Schema\DbSchemaReaders\MySQLSchemaEngine.cs" />
     <Compile Include="Schema\DbSchemaReaders\NpgsqlSchemaEngine.cs" />
     <Compile Include="Schema\DbSchemaReaders\DbSchemaNames.cs" />
     <Compile Include="Schema\DbSchemaReaders\ExSchemaEngine.cs" />

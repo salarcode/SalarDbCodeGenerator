@@ -125,6 +125,8 @@
             this.label19 = new System.Windows.Forms.Label();
             this.txtSQLitePassword = new System.Windows.Forms.TextBox();
             this.tabPostgres = new System.Windows.Forms.TabPage();
+            this.txtPgSchema = new System.Windows.Forms.TextBox();
+            this.label30 = new System.Windows.Forms.Label();
             this.btnPgTestConnection = new System.Windows.Forms.Button();
             this.label26 = new System.Windows.Forms.Label();
             this.txtPgHost = new System.Windows.Forms.TextBox();
@@ -134,12 +136,20 @@
             this.txtPgUsername = new System.Windows.Forms.TextBox();
             this.txtPgPassword = new System.Windows.Forms.TextBox();
             this.label31 = new System.Windows.Forms.Label();
+            this.tabMySQL = new System.Windows.Forms.TabPage();
+            this.btnMysqlTestConnection = new System.Windows.Forms.Button();
+            this.label33 = new System.Windows.Forms.Label();
+            this.txtMysqlHost = new System.Windows.Forms.TextBox();
+            this.txtMysqlDbName = new System.Windows.Forms.TextBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.label35 = new System.Windows.Forms.Label();
+            this.txtMysqlUsername = new System.Windows.Forms.TextBox();
+            this.txtMysqlPassword = new System.Windows.Forms.TextBox();
+            this.label36 = new System.Windows.Forms.Label();
             this.tipHints = new System.Windows.Forms.ToolTip(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.btnSlider = new System.Windows.Forms.Button();
             this.dlgOpenSqlCe = new System.Windows.Forms.OpenFileDialog();
-            this.txtPgSchema = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.gpGenOptions.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -151,6 +161,7 @@
             this.tabOracle.SuspendLayout();
             this.tabSQLite.SuspendLayout();
             this.tabPostgres.SuspendLayout();
+            this.tabMySQL.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -175,9 +186,11 @@
             this.groupBox4.Controls.Add(this.chkTableConstraintKeys);
             this.groupBox4.Controls.Add(this.chkGenForeignKey);
             this.groupBox4.Controls.Add(this.chkGenDescription);
-            this.groupBox4.Location = new System.Drawing.Point(12, 154);
+            this.groupBox4.Location = new System.Drawing.Point(16, 190);
+            this.groupBox4.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(352, 70);
+            this.groupBox4.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox4.Size = new System.Drawing.Size(469, 86);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Generator Settings";
@@ -185,9 +198,10 @@
             // chkTableConstraintKeys
             // 
             this.chkTableConstraintKeys.AutoSize = true;
-            this.chkTableConstraintKeys.Location = new System.Drawing.Point(196, 19);
+            this.chkTableConstraintKeys.Location = new System.Drawing.Point(261, 23);
+            this.chkTableConstraintKeys.Margin = new System.Windows.Forms.Padding(4);
             this.chkTableConstraintKeys.Name = "chkTableConstraintKeys";
-            this.chkTableConstraintKeys.Size = new System.Drawing.Size(132, 17);
+            this.chkTableConstraintKeys.Size = new System.Drawing.Size(172, 21);
             this.chkTableConstraintKeys.TabIndex = 1;
             this.chkTableConstraintKeys.Text = "Tables constraint keys";
             this.tipHints.SetToolTip(this.chkTableConstraintKeys, "Supported in SQL Server (2005, 2008)");
@@ -196,9 +210,10 @@
             // chkGenForeignKey
             // 
             this.chkGenForeignKey.AutoSize = true;
-            this.chkGenForeignKey.Location = new System.Drawing.Point(31, 19);
+            this.chkGenForeignKey.Location = new System.Drawing.Point(41, 23);
+            this.chkGenForeignKey.Margin = new System.Windows.Forms.Padding(4);
             this.chkGenForeignKey.Name = "chkGenForeignKey";
-            this.chkGenForeignKey.Size = new System.Drawing.Size(155, 17);
+            this.chkGenForeignKey.Size = new System.Drawing.Size(205, 21);
             this.chkGenForeignKey.TabIndex = 0;
             this.chkGenForeignKey.Text = "Tables foreign key relations";
             this.chkGenForeignKey.UseVisualStyleBackColor = true;
@@ -206,9 +221,10 @@
             // chkGenDescription
             // 
             this.chkGenDescription.AutoSize = true;
-            this.chkGenDescription.Location = new System.Drawing.Point(31, 42);
+            this.chkGenDescription.Location = new System.Drawing.Point(41, 52);
+            this.chkGenDescription.Margin = new System.Windows.Forms.Padding(4);
             this.chkGenDescription.Name = "chkGenDescription";
-            this.chkGenDescription.Size = new System.Drawing.Size(120, 17);
+            this.chkGenDescription.Size = new System.Drawing.Size(157, 21);
             this.chkGenDescription.TabIndex = 2;
             this.chkGenDescription.Text = "Columns description";
             this.tipHints.SetToolTip(this.chkGenDescription, "Supported in SQL Server (Tables only, all versions)");
@@ -233,9 +249,11 @@
             this.gpGenOptions.Controls.Add(this.label13);
             this.gpGenOptions.Controls.Add(this.txtPrefixForTables);
             this.gpGenOptions.Controls.Add(this.label11);
-            this.gpGenOptions.Location = new System.Drawing.Point(372, 12);
+            this.gpGenOptions.Location = new System.Drawing.Point(496, 15);
+            this.gpGenOptions.Margin = new System.Windows.Forms.Padding(4);
             this.gpGenOptions.Name = "gpGenOptions";
-            this.gpGenOptions.Size = new System.Drawing.Size(323, 493);
+            this.gpGenOptions.Padding = new System.Windows.Forms.Padding(4);
+            this.gpGenOptions.Size = new System.Drawing.Size(431, 607);
             this.gpGenOptions.TabIndex = 6;
             this.gpGenOptions.TabStop = false;
             this.gpGenOptions.Text = "Generation Options";
@@ -251,9 +269,11 @@
             this.groupBox3.Controls.Add(this.chkRenCaseTables);
             this.groupBox3.Controls.Add(this.chkRenUnderlineTables);
             this.groupBox3.Controls.Add(this.chkRenRemUnderline);
-            this.groupBox3.Location = new System.Drawing.Point(11, 307);
+            this.groupBox3.Location = new System.Drawing.Point(15, 378);
+            this.groupBox3.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(302, 176);
+            this.groupBox3.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox3.Size = new System.Drawing.Size(403, 217);
             this.groupBox3.TabIndex = 10;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Renaming Options";
@@ -262,18 +282,20 @@
             // 
             this.label24.BackColor = System.Drawing.SystemColors.Info;
             this.label24.ForeColor = System.Drawing.SystemColors.GrayText;
-            this.label24.Location = new System.Drawing.Point(157, 110);
+            this.label24.Location = new System.Drawing.Point(209, 135);
+            this.label24.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(139, 56);
+            this.label24.Size = new System.Drawing.Size(185, 69);
             this.label24.TabIndex = 8;
             this.label24.Text = "Warning:\r\nNot all patterns support renaming options.\r\nUse them at your own risk.";
             // 
             // chkRenUnderlineWordDelimiter
             // 
             this.chkRenUnderlineWordDelimiter.AutoSize = true;
-            this.chkRenUnderlineWordDelimiter.Location = new System.Drawing.Point(148, 28);
+            this.chkRenUnderlineWordDelimiter.Location = new System.Drawing.Point(197, 34);
+            this.chkRenUnderlineWordDelimiter.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenUnderlineWordDelimiter.Name = "chkRenUnderlineWordDelimiter";
-            this.chkRenUnderlineWordDelimiter.Size = new System.Drawing.Size(148, 17);
+            this.chkRenUnderlineWordDelimiter.Size = new System.Drawing.Size(196, 21);
             this.chkRenUnderlineWordDelimiter.TabIndex = 7;
             this.chkRenUnderlineWordDelimiter.Text = "Underline is word delimiter";
             this.chkRenUnderlineWordDelimiter.UseVisualStyleBackColor = true;
@@ -289,17 +311,19 @@
             "camelCase",
             "lower",
             "UPPER"});
-            this.cmbRenamingCase.Location = new System.Drawing.Point(64, 99);
+            this.cmbRenamingCase.Location = new System.Drawing.Point(85, 122);
+            this.cmbRenamingCase.Margin = new System.Windows.Forms.Padding(4);
             this.cmbRenamingCase.Name = "cmbRenamingCase";
-            this.cmbRenamingCase.Size = new System.Drawing.Size(82, 21);
+            this.cmbRenamingCase.Size = new System.Drawing.Size(108, 24);
             this.cmbRenamingCase.TabIndex = 4;
             // 
             // chkRenamingCase
             // 
             this.chkRenamingCase.AutoSize = true;
-            this.chkRenamingCase.Location = new System.Drawing.Point(13, 101);
+            this.chkRenamingCase.Location = new System.Drawing.Point(17, 124);
+            this.chkRenamingCase.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenamingCase.Name = "chkRenamingCase";
-            this.chkRenamingCase.Size = new System.Drawing.Size(53, 17);
+            this.chkRenamingCase.Size = new System.Drawing.Size(66, 21);
             this.chkRenamingCase.TabIndex = 3;
             this.chkRenamingCase.Text = "Case:";
             this.chkRenamingCase.UseVisualStyleBackColor = true;
@@ -311,9 +335,10 @@
             this.chkRenCaseProps.Checked = true;
             this.chkRenCaseProps.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRenCaseProps.Enabled = false;
-            this.chkRenCaseProps.Location = new System.Drawing.Point(26, 147);
+            this.chkRenCaseProps.Location = new System.Drawing.Point(35, 181);
+            this.chkRenCaseProps.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenCaseProps.Name = "chkRenCaseProps";
-            this.chkRenCaseProps.Size = new System.Drawing.Size(90, 17);
+            this.chkRenCaseProps.Size = new System.Drawing.Size(119, 21);
             this.chkRenCaseProps.TabIndex = 6;
             this.chkRenCaseProps.Text = "For properties";
             this.chkRenCaseProps.UseVisualStyleBackColor = true;
@@ -324,9 +349,10 @@
             this.chkRenUnderlineProps.Checked = true;
             this.chkRenUnderlineProps.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRenUnderlineProps.Enabled = false;
-            this.chkRenUnderlineProps.Location = new System.Drawing.Point(26, 74);
+            this.chkRenUnderlineProps.Location = new System.Drawing.Point(35, 91);
+            this.chkRenUnderlineProps.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenUnderlineProps.Name = "chkRenUnderlineProps";
-            this.chkRenUnderlineProps.Size = new System.Drawing.Size(98, 17);
+            this.chkRenUnderlineProps.Size = new System.Drawing.Size(130, 21);
             this.chkRenUnderlineProps.TabIndex = 2;
             this.chkRenUnderlineProps.Text = "From properties";
             this.chkRenUnderlineProps.UseVisualStyleBackColor = true;
@@ -337,9 +363,10 @@
             this.chkRenCaseTables.Checked = true;
             this.chkRenCaseTables.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRenCaseTables.Enabled = false;
-            this.chkRenCaseTables.Location = new System.Drawing.Point(26, 124);
+            this.chkRenCaseTables.Location = new System.Drawing.Point(35, 153);
+            this.chkRenCaseTables.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenCaseTables.Name = "chkRenCaseTables";
-            this.chkRenCaseTables.Size = new System.Drawing.Size(72, 17);
+            this.chkRenCaseTables.Size = new System.Drawing.Size(93, 21);
             this.chkRenCaseTables.TabIndex = 5;
             this.chkRenCaseTables.Tag = "";
             this.chkRenCaseTables.Text = "For tables";
@@ -351,9 +378,10 @@
             this.chkRenUnderlineTables.Checked = true;
             this.chkRenUnderlineTables.CheckState = System.Windows.Forms.CheckState.Checked;
             this.chkRenUnderlineTables.Enabled = false;
-            this.chkRenUnderlineTables.Location = new System.Drawing.Point(26, 51);
+            this.chkRenUnderlineTables.Location = new System.Drawing.Point(35, 63);
+            this.chkRenUnderlineTables.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenUnderlineTables.Name = "chkRenUnderlineTables";
-            this.chkRenUnderlineTables.Size = new System.Drawing.Size(80, 17);
+            this.chkRenUnderlineTables.Size = new System.Drawing.Size(104, 21);
             this.chkRenUnderlineTables.TabIndex = 1;
             this.chkRenUnderlineTables.Tag = "";
             this.chkRenUnderlineTables.Text = "From tables";
@@ -362,9 +390,10 @@
             // chkRenRemUnderline
             // 
             this.chkRenRemUnderline.AutoSize = true;
-            this.chkRenRemUnderline.Location = new System.Drawing.Point(13, 28);
+            this.chkRenRemUnderline.Location = new System.Drawing.Point(17, 34);
+            this.chkRenRemUnderline.Margin = new System.Windows.Forms.Padding(4);
             this.chkRenRemUnderline.Name = "chkRenRemUnderline";
-            this.chkRenRemUnderline.Size = new System.Drawing.Size(133, 17);
+            this.chkRenRemUnderline.Size = new System.Drawing.Size(175, 21);
             this.chkRenRemUnderline.TabIndex = 0;
             this.chkRenRemUnderline.Text = "Remove underline ( _ )";
             this.chkRenRemUnderline.UseVisualStyleBackColor = true;
@@ -373,9 +402,10 @@
             // btnDelIgnoredSuffixes
             // 
             this.btnDelIgnoredSuffixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Delete16;
-            this.btnDelIgnoredSuffixes.Location = new System.Drawing.Point(211, 153);
+            this.btnDelIgnoredSuffixes.Location = new System.Drawing.Point(281, 188);
+            this.btnDelIgnoredSuffixes.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelIgnoredSuffixes.Name = "btnDelIgnoredSuffixes";
-            this.btnDelIgnoredSuffixes.Size = new System.Drawing.Size(40, 23);
+            this.btnDelIgnoredSuffixes.Size = new System.Drawing.Size(53, 28);
             this.btnDelIgnoredSuffixes.TabIndex = 5;
             this.btnDelIgnoredSuffixes.UseVisualStyleBackColor = true;
             this.btnDelIgnoredSuffixes.Click += new System.EventHandler(this.btnDelIgnoredSuffixes_Click);
@@ -383,9 +413,10 @@
             // btnAddIgnoredSuffixes
             // 
             this.btnAddIgnoredSuffixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Add16;
-            this.btnAddIgnoredSuffixes.Location = new System.Drawing.Point(165, 153);
+            this.btnAddIgnoredSuffixes.Location = new System.Drawing.Point(220, 188);
+            this.btnAddIgnoredSuffixes.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddIgnoredSuffixes.Name = "btnAddIgnoredSuffixes";
-            this.btnAddIgnoredSuffixes.Size = new System.Drawing.Size(40, 23);
+            this.btnAddIgnoredSuffixes.Size = new System.Drawing.Size(53, 28);
             this.btnAddIgnoredSuffixes.TabIndex = 4;
             this.btnAddIgnoredSuffixes.UseVisualStyleBackColor = true;
             this.btnAddIgnoredSuffixes.Click += new System.EventHandler(this.btnAddIgnoredSuffixes_Click);
@@ -393,9 +424,10 @@
             // btnDelIgnoredPrefixes
             // 
             this.btnDelIgnoredPrefixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Delete16;
-            this.btnDelIgnoredPrefixes.Location = new System.Drawing.Point(57, 153);
+            this.btnDelIgnoredPrefixes.Location = new System.Drawing.Point(76, 188);
+            this.btnDelIgnoredPrefixes.Margin = new System.Windows.Forms.Padding(4);
             this.btnDelIgnoredPrefixes.Name = "btnDelIgnoredPrefixes";
-            this.btnDelIgnoredPrefixes.Size = new System.Drawing.Size(40, 23);
+            this.btnDelIgnoredPrefixes.Size = new System.Drawing.Size(53, 28);
             this.btnDelIgnoredPrefixes.TabIndex = 2;
             this.btnDelIgnoredPrefixes.UseVisualStyleBackColor = true;
             this.btnDelIgnoredPrefixes.Click += new System.EventHandler(this.btnDelIgnoredPrefixes_Click);
@@ -403,9 +435,10 @@
             // btnAddIgnoredPrefixes
             // 
             this.btnAddIgnoredPrefixes.Image = global::SalarDbCodeGenerator.Properties.Resources.Add16;
-            this.btnAddIgnoredPrefixes.Location = new System.Drawing.Point(11, 153);
+            this.btnAddIgnoredPrefixes.Location = new System.Drawing.Point(15, 188);
+            this.btnAddIgnoredPrefixes.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddIgnoredPrefixes.Name = "btnAddIgnoredPrefixes";
-            this.btnAddIgnoredPrefixes.Size = new System.Drawing.Size(40, 23);
+            this.btnAddIgnoredPrefixes.Size = new System.Drawing.Size(53, 28);
             this.btnAddIgnoredPrefixes.TabIndex = 1;
             this.btnAddIgnoredPrefixes.UseVisualStyleBackColor = true;
             this.btnAddIgnoredPrefixes.Click += new System.EventHandler(this.btnAddIgnoredPrefixes_Click);
@@ -414,103 +447,115 @@
             // 
             this.lstIgnoredSuffixes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.lstIgnoredSuffixes.FormattingEnabled = true;
-            this.lstIgnoredSuffixes.Location = new System.Drawing.Point(165, 49);
+            this.lstIgnoredSuffixes.Location = new System.Drawing.Point(220, 60);
+            this.lstIgnoredSuffixes.Margin = new System.Windows.Forms.Padding(4);
             this.lstIgnoredSuffixes.Name = "lstIgnoredSuffixes";
-            this.lstIgnoredSuffixes.Size = new System.Drawing.Size(148, 111);
+            this.lstIgnoredSuffixes.Size = new System.Drawing.Size(196, 136);
             this.lstIgnoredSuffixes.TabIndex = 3;
             // 
             // lstIgnoredPrefixes
             // 
             this.lstIgnoredPrefixes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.Simple;
             this.lstIgnoredPrefixes.FormattingEnabled = true;
-            this.lstIgnoredPrefixes.Location = new System.Drawing.Point(11, 49);
+            this.lstIgnoredPrefixes.Location = new System.Drawing.Point(15, 60);
+            this.lstIgnoredPrefixes.Margin = new System.Windows.Forms.Padding(4);
             this.lstIgnoredPrefixes.Name = "lstIgnoredPrefixes";
-            this.lstIgnoredPrefixes.Size = new System.Drawing.Size(148, 111);
+            this.lstIgnoredPrefixes.Size = new System.Drawing.Size(196, 136);
             this.lstIgnoredPrefixes.TabIndex = 0;
             // 
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(156, 30);
+            this.label10.Location = new System.Drawing.Point(208, 37);
+            this.label10.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(84, 13);
+            this.label10.Size = new System.Drawing.Size(111, 17);
             this.label10.TabIndex = 1;
             this.label10.Text = "Ignored suffixes;";
             // 
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(11, 30);
+            this.label9.Location = new System.Drawing.Point(15, 37);
+            this.label9.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(85, 13);
+            this.label9.Size = new System.Drawing.Size(113, 17);
             this.label9.TabIndex = 1;
             this.label9.Text = "Ignored prefixes:";
             // 
             // txtSuffixForViews
             // 
-            this.txtSuffixForViews.Location = new System.Drawing.Point(101, 281);
+            this.txtSuffixForViews.Location = new System.Drawing.Point(135, 346);
+            this.txtSuffixForViews.Margin = new System.Windows.Forms.Padding(4);
             this.txtSuffixForViews.MaxLength = 20;
             this.txtSuffixForViews.Name = "txtSuffixForViews";
-            this.txtSuffixForViews.Size = new System.Drawing.Size(212, 20);
+            this.txtSuffixForViews.Size = new System.Drawing.Size(281, 22);
             this.txtSuffixForViews.TabIndex = 9;
             // 
             // txtSuffixForTables
             // 
-            this.txtSuffixForTables.Location = new System.Drawing.Point(101, 222);
+            this.txtSuffixForTables.Location = new System.Drawing.Point(135, 273);
+            this.txtSuffixForTables.Margin = new System.Windows.Forms.Padding(4);
             this.txtSuffixForTables.MaxLength = 20;
             this.txtSuffixForTables.Name = "txtSuffixForTables";
-            this.txtSuffixForTables.Size = new System.Drawing.Size(212, 20);
+            this.txtSuffixForTables.Size = new System.Drawing.Size(281, 22);
             this.txtSuffixForTables.TabIndex = 7;
             // 
             // label14
             // 
             this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(14, 284);
+            this.label14.Location = new System.Drawing.Point(19, 350);
+            this.label14.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(81, 13);
+            this.label14.Size = new System.Drawing.Size(105, 17);
             this.label14.TabIndex = 1;
             this.label14.Text = "Suffix for views:";
             // 
             // label12
             // 
             this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(13, 225);
+            this.label12.Location = new System.Drawing.Point(17, 277);
+            this.label12.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(82, 13);
+            this.label12.Size = new System.Drawing.Size(109, 17);
             this.label12.TabIndex = 1;
             this.label12.Text = "Suffix for tables:";
             // 
             // txtPrefixForViews
             // 
-            this.txtPrefixForViews.Location = new System.Drawing.Point(101, 255);
+            this.txtPrefixForViews.Location = new System.Drawing.Point(135, 314);
+            this.txtPrefixForViews.Margin = new System.Windows.Forms.Padding(4);
             this.txtPrefixForViews.MaxLength = 20;
             this.txtPrefixForViews.Name = "txtPrefixForViews";
-            this.txtPrefixForViews.Size = new System.Drawing.Size(212, 20);
+            this.txtPrefixForViews.Size = new System.Drawing.Size(281, 22);
             this.txtPrefixForViews.TabIndex = 8;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(14, 258);
+            this.label13.Location = new System.Drawing.Point(19, 318);
+            this.label13.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(81, 13);
+            this.label13.Size = new System.Drawing.Size(106, 17);
             this.label13.TabIndex = 1;
             this.label13.Text = "Prefix for views:";
             // 
             // txtPrefixForTables
             // 
-            this.txtPrefixForTables.Location = new System.Drawing.Point(101, 196);
+            this.txtPrefixForTables.Location = new System.Drawing.Point(135, 241);
+            this.txtPrefixForTables.Margin = new System.Windows.Forms.Padding(4);
             this.txtPrefixForTables.MaxLength = 20;
             this.txtPrefixForTables.Name = "txtPrefixForTables";
-            this.txtPrefixForTables.Size = new System.Drawing.Size(212, 20);
+            this.txtPrefixForTables.Size = new System.Drawing.Size(281, 22);
             this.txtPrefixForTables.TabIndex = 6;
             // 
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(13, 199);
+            this.label11.Location = new System.Drawing.Point(17, 245);
+            this.label11.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(82, 13);
+            this.label11.Size = new System.Drawing.Size(110, 17);
             this.label11.TabIndex = 1;
             this.label11.Text = "Prefix for tables:";
             // 
@@ -518,9 +563,10 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(538, 511);
+            this.btnCancel.Location = new System.Drawing.Point(717, 629);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(4);
             this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
+            this.btnCancel.Size = new System.Drawing.Size(100, 28);
             this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "&Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
@@ -528,9 +574,10 @@
             // btnOk
             // 
             this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Location = new System.Drawing.Point(619, 511);
+            this.btnOk.Location = new System.Drawing.Point(825, 629);
+            this.btnOk.Margin = new System.Windows.Forms.Padding(4);
             this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(75, 23);
+            this.btnOk.Size = new System.Drawing.Size(100, 28);
             this.btnOk.TabIndex = 3;
             this.btnOk.Text = "&OK";
             this.btnOk.UseVisualStyleBackColor = true;
@@ -548,18 +595,21 @@
             this.groupBox2.Controls.Add(this.txtGenerationPath);
             this.groupBox2.Controls.Add(this.txtNamespace);
             this.groupBox2.Controls.Add(this.txtProjectName);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            this.groupBox2.Location = new System.Drawing.Point(16, 15);
+            this.groupBox2.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(352, 136);
+            this.groupBox2.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox2.Size = new System.Drawing.Size(469, 167);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Project Information";
             // 
             // btnPatternProject
             // 
-            this.btnPatternProject.Location = new System.Drawing.Point(318, 101);
+            this.btnPatternProject.Location = new System.Drawing.Point(424, 124);
+            this.btnPatternProject.Margin = new System.Windows.Forms.Padding(4);
             this.btnPatternProject.Name = "btnPatternProject";
-            this.btnPatternProject.Size = new System.Drawing.Size(28, 20);
+            this.btnPatternProject.Size = new System.Drawing.Size(37, 25);
             this.btnPatternProject.TabIndex = 5;
             this.btnPatternProject.Text = "...";
             this.btnPatternProject.UseVisualStyleBackColor = true;
@@ -568,17 +618,19 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(31, 104);
+            this.label8.Location = new System.Drawing.Point(41, 128);
+            this.label8.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 13);
+            this.label8.Size = new System.Drawing.Size(105, 17);
             this.label8.TabIndex = 1;
             this.label8.Text = "Pattern project:";
             // 
             // btnGenPathBrowse
             // 
-            this.btnGenPathBrowse.Location = new System.Drawing.Point(318, 75);
+            this.btnGenPathBrowse.Location = new System.Drawing.Point(424, 92);
+            this.btnGenPathBrowse.Margin = new System.Windows.Forms.Padding(4);
             this.btnGenPathBrowse.Name = "btnGenPathBrowse";
-            this.btnGenPathBrowse.Size = new System.Drawing.Size(28, 20);
+            this.btnGenPathBrowse.Size = new System.Drawing.Size(37, 25);
             this.btnGenPathBrowse.TabIndex = 3;
             this.btnGenPathBrowse.Text = "...";
             this.btnGenPathBrowse.UseVisualStyleBackColor = true;
@@ -587,66 +639,75 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(24, 78);
+            this.label7.Location = new System.Drawing.Point(32, 96);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(86, 13);
+            this.label7.Size = new System.Drawing.Size(115, 17);
             this.label7.TabIndex = 1;
             this.label7.Text = "Generation path:";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 52);
+            this.label6.Location = new System.Drawing.Point(8, 64);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(104, 13);
+            this.label6.Size = new System.Drawing.Size(136, 17);
             this.label6.TabIndex = 1;
             this.label6.Text = "Default Namespace:";
             // 
             // txtPatternfile
             // 
-            this.txtPatternfile.Location = new System.Drawing.Point(116, 101);
+            this.txtPatternfile.Location = new System.Drawing.Point(155, 124);
+            this.txtPatternfile.Margin = new System.Windows.Forms.Padding(4);
             this.txtPatternfile.Name = "txtPatternfile";
-            this.txtPatternfile.Size = new System.Drawing.Size(200, 20);
+            this.txtPatternfile.Size = new System.Drawing.Size(265, 22);
             this.txtPatternfile.TabIndex = 4;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(38, 26);
+            this.label1.Location = new System.Drawing.Point(51, 32);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(72, 13);
+            this.label1.Size = new System.Drawing.Size(95, 17);
             this.label1.TabIndex = 1;
             this.label1.Text = "Project name:";
             // 
             // txtGenerationPath
             // 
-            this.txtGenerationPath.Location = new System.Drawing.Point(116, 75);
+            this.txtGenerationPath.Location = new System.Drawing.Point(155, 92);
+            this.txtGenerationPath.Margin = new System.Windows.Forms.Padding(4);
             this.txtGenerationPath.Name = "txtGenerationPath";
-            this.txtGenerationPath.Size = new System.Drawing.Size(200, 20);
+            this.txtGenerationPath.Size = new System.Drawing.Size(265, 22);
             this.txtGenerationPath.TabIndex = 2;
             // 
             // txtNamespace
             // 
-            this.txtNamespace.Location = new System.Drawing.Point(116, 49);
+            this.txtNamespace.Location = new System.Drawing.Point(155, 60);
+            this.txtNamespace.Margin = new System.Windows.Forms.Padding(4);
             this.txtNamespace.MaxLength = 128;
             this.txtNamespace.Name = "txtNamespace";
-            this.txtNamespace.Size = new System.Drawing.Size(200, 20);
+            this.txtNamespace.Size = new System.Drawing.Size(265, 22);
             this.txtNamespace.TabIndex = 1;
             // 
             // txtProjectName
             // 
-            this.txtProjectName.Location = new System.Drawing.Point(116, 23);
+            this.txtProjectName.Location = new System.Drawing.Point(155, 28);
+            this.txtProjectName.Margin = new System.Windows.Forms.Padding(4);
             this.txtProjectName.MaxLength = 255;
             this.txtProjectName.Name = "txtProjectName";
-            this.txtProjectName.Size = new System.Drawing.Size(200, 20);
+            this.txtProjectName.Size = new System.Drawing.Size(265, 22);
             this.txtProjectName.TabIndex = 0;
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.pagerDatabaseProvider);
-            this.groupBox1.Location = new System.Drawing.Point(12, 230);
+            this.groupBox1.Location = new System.Drawing.Point(16, 283);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(352, 275);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(4);
+            this.groupBox1.Size = new System.Drawing.Size(469, 338);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project Database";
@@ -659,12 +720,14 @@
             this.pagerDatabaseProvider.Controls.Add(this.tabOracle);
             this.pagerDatabaseProvider.Controls.Add(this.tabSQLite);
             this.pagerDatabaseProvider.Controls.Add(this.tabPostgres);
-            this.pagerDatabaseProvider.Location = new System.Drawing.Point(6, 19);
+            this.pagerDatabaseProvider.Controls.Add(this.tabMySQL);
+            this.pagerDatabaseProvider.Location = new System.Drawing.Point(8, 23);
+            this.pagerDatabaseProvider.Margin = new System.Windows.Forms.Padding(4);
             this.pagerDatabaseProvider.Multiline = true;
             this.pagerDatabaseProvider.Name = "pagerDatabaseProvider";
             this.pagerDatabaseProvider.SelectedIndex = 0;
             this.pagerDatabaseProvider.ShowToolTips = true;
-            this.pagerDatabaseProvider.Size = new System.Drawing.Size(340, 250);
+            this.pagerDatabaseProvider.Size = new System.Drawing.Size(453, 308);
             this.pagerDatabaseProvider.TabIndex = 0;
             // 
             // tabSQLServer
@@ -682,10 +745,11 @@
             this.tabSQLServer.Controls.Add(this.label15);
             this.tabSQLServer.Controls.Add(this.txtSqlPassword);
             this.tabSQLServer.Controls.Add(this.label3);
-            this.tabSQLServer.Location = new System.Drawing.Point(4, 25);
+            this.tabSQLServer.Location = new System.Drawing.Point(4, 55);
+            this.tabSQLServer.Margin = new System.Windows.Forms.Padding(4);
             this.tabSQLServer.Name = "tabSQLServer";
-            this.tabSQLServer.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSQLServer.Size = new System.Drawing.Size(332, 221);
+            this.tabSQLServer.Padding = new System.Windows.Forms.Padding(4);
+            this.tabSQLServer.Size = new System.Drawing.Size(445, 249);
             this.tabSQLServer.TabIndex = 0;
             this.tabSQLServer.Text = "SQL Server";
             this.tabSQLServer.ToolTipText = "MS SQL Server (2000/2005/2008/Express)";
@@ -693,9 +757,10 @@
             // 
             // btnSqlTestConnection
             // 
-            this.btnSqlTestConnection.Location = new System.Drawing.Point(106, 182);
+            this.btnSqlTestConnection.Location = new System.Drawing.Point(141, 224);
+            this.btnSqlTestConnection.Margin = new System.Windows.Forms.Padding(4);
             this.btnSqlTestConnection.Name = "btnSqlTestConnection";
-            this.btnSqlTestConnection.Size = new System.Drawing.Size(98, 23);
+            this.btnSqlTestConnection.Size = new System.Drawing.Size(131, 28);
             this.btnSqlTestConnection.TabIndex = 7;
             this.btnSqlTestConnection.Text = "Test connection";
             this.btnSqlTestConnection.UseVisualStyleBackColor = true;
@@ -704,36 +769,40 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 9);
+            this.label2.Location = new System.Drawing.Point(28, 11);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(79, 13);
+            this.label2.Size = new System.Drawing.Size(105, 17);
             this.label2.TabIndex = 1;
             this.label2.Text = "SqlServer host:";
             // 
             // rbtnSqlAuthentication
             // 
             this.rbtnSqlAuthentication.AutoSize = true;
-            this.rbtnSqlAuthentication.Location = new System.Drawing.Point(106, 107);
+            this.rbtnSqlAuthentication.Location = new System.Drawing.Point(141, 132);
+            this.rbtnSqlAuthentication.Margin = new System.Windows.Forms.Padding(4);
             this.rbtnSqlAuthentication.Name = "rbtnSqlAuthentication";
-            this.rbtnSqlAuthentication.Size = new System.Drawing.Size(116, 17);
+            this.rbtnSqlAuthentication.Size = new System.Drawing.Size(150, 21);
             this.rbtnSqlAuthentication.TabIndex = 4;
             this.rbtnSqlAuthentication.Text = "SQL authentication";
             this.rbtnSqlAuthentication.UseVisualStyleBackColor = true;
             // 
             // txtSqlHost
             // 
-            this.txtSqlHost.Location = new System.Drawing.Point(106, 6);
+            this.txtSqlHost.Location = new System.Drawing.Point(141, 7);
+            this.txtSqlHost.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlHost.Name = "txtSqlHost";
-            this.txtSqlHost.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlHost.Size = new System.Drawing.Size(265, 22);
             this.txtSqlHost.TabIndex = 0;
             // 
             // rbtnSqlWindowsAuthentication
             // 
             this.rbtnSqlWindowsAuthentication.AutoSize = true;
             this.rbtnSqlWindowsAuthentication.Checked = true;
-            this.rbtnSqlWindowsAuthentication.Location = new System.Drawing.Point(106, 84);
+            this.rbtnSqlWindowsAuthentication.Location = new System.Drawing.Point(141, 103);
+            this.rbtnSqlWindowsAuthentication.Margin = new System.Windows.Forms.Padding(4);
             this.rbtnSqlWindowsAuthentication.Name = "rbtnSqlWindowsAuthentication";
-            this.rbtnSqlWindowsAuthentication.Size = new System.Drawing.Size(139, 17);
+            this.rbtnSqlWindowsAuthentication.Size = new System.Drawing.Size(178, 21);
             this.rbtnSqlWindowsAuthentication.TabIndex = 3;
             this.rbtnSqlWindowsAuthentication.TabStop = true;
             this.rbtnSqlWindowsAuthentication.Text = "Windows authentication";
@@ -741,67 +810,75 @@
             // 
             // txtSqlDbName
             // 
-            this.txtSqlDbName.Location = new System.Drawing.Point(106, 32);
+            this.txtSqlDbName.Location = new System.Drawing.Point(141, 39);
+            this.txtSqlDbName.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlDbName.Name = "txtSqlDbName";
-            this.txtSqlDbName.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlDbName.Size = new System.Drawing.Size(265, 22);
             this.txtSqlDbName.TabIndex = 1;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(44, 159);
+            this.label5.Location = new System.Drawing.Point(59, 196);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.Size = new System.Drawing.Size(73, 17);
             this.label5.TabIndex = 1;
             this.label5.Text = "Password:";
             // 
             // txtSqlConnectTimeout
             // 
-            this.txtSqlConnectTimeout.Location = new System.Drawing.Point(106, 58);
+            this.txtSqlConnectTimeout.Location = new System.Drawing.Point(141, 71);
+            this.txtSqlConnectTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlConnectTimeout.MaxLength = 3;
             this.txtSqlConnectTimeout.Name = "txtSqlConnectTimeout";
-            this.txtSqlConnectTimeout.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlConnectTimeout.Size = new System.Drawing.Size(265, 22);
             this.txtSqlConnectTimeout.TabIndex = 2;
             this.txtSqlConnectTimeout.Text = "15";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(42, 133);
+            this.label4.Location = new System.Drawing.Point(56, 164);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(58, 13);
+            this.label4.Size = new System.Drawing.Size(77, 17);
             this.label4.TabIndex = 1;
             this.label4.Text = "Username:";
             // 
             // txtSqlUsername
             // 
-            this.txtSqlUsername.Location = new System.Drawing.Point(106, 130);
+            this.txtSqlUsername.Location = new System.Drawing.Point(141, 160);
+            this.txtSqlUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlUsername.Name = "txtSqlUsername";
-            this.txtSqlUsername.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlUsername.Size = new System.Drawing.Size(265, 22);
             this.txtSqlUsername.TabIndex = 5;
             // 
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(13, 61);
+            this.label15.Location = new System.Drawing.Point(17, 75);
+            this.label15.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(87, 13);
+            this.label15.Size = new System.Drawing.Size(114, 17);
             this.label15.TabIndex = 1;
             this.label15.Text = "Connect timeout:";
             // 
             // txtSqlPassword
             // 
-            this.txtSqlPassword.Location = new System.Drawing.Point(106, 156);
+            this.txtSqlPassword.Location = new System.Drawing.Point(141, 192);
+            this.txtSqlPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlPassword.Name = "txtSqlPassword";
-            this.txtSqlPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlPassword.Size = new System.Drawing.Size(265, 22);
             this.txtSqlPassword.TabIndex = 6;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(15, 35);
+            this.label3.Location = new System.Drawing.Point(20, 43);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(85, 13);
+            this.label3.Size = new System.Drawing.Size(112, 17);
             this.label3.TabIndex = 1;
             this.label3.Text = "Database name:";
             // 
@@ -813,10 +890,11 @@
             this.tabSqlCe.Controls.Add(this.txtSqlCePassword);
             this.tabSqlCe.Controls.Add(this.label27);
             this.tabSqlCe.Controls.Add(this.label25);
-            this.tabSqlCe.Location = new System.Drawing.Point(4, 25);
+            this.tabSqlCe.Location = new System.Drawing.Point(4, 55);
+            this.tabSqlCe.Margin = new System.Windows.Forms.Padding(4);
             this.tabSqlCe.Name = "tabSqlCe";
-            this.tabSqlCe.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSqlCe.Size = new System.Drawing.Size(332, 221);
+            this.tabSqlCe.Padding = new System.Windows.Forms.Padding(4);
+            this.tabSqlCe.Size = new System.Drawing.Size(445, 249);
             this.tabSqlCe.TabIndex = 3;
             this.tabSqlCe.Text = "SqlServerCE4";
             this.tipHints.SetToolTip(this.tabSqlCe, "SQL Server Compact 4.0");
@@ -824,9 +902,10 @@
             // 
             // btnSqlCeSelectDatabase
             // 
-            this.btnSqlCeSelectDatabase.Location = new System.Drawing.Point(106, 32);
+            this.btnSqlCeSelectDatabase.Location = new System.Drawing.Point(141, 39);
+            this.btnSqlCeSelectDatabase.Margin = new System.Windows.Forms.Padding(4);
             this.btnSqlCeSelectDatabase.Name = "btnSqlCeSelectDatabase";
-            this.btnSqlCeSelectDatabase.Size = new System.Drawing.Size(98, 23);
+            this.btnSqlCeSelectDatabase.Size = new System.Drawing.Size(131, 28);
             this.btnSqlCeSelectDatabase.TabIndex = 26;
             this.btnSqlCeSelectDatabase.Text = "Browse";
             this.btnSqlCeSelectDatabase.UseVisualStyleBackColor = true;
@@ -834,9 +913,10 @@
             // 
             // btnSqlCeTestConnection
             // 
-            this.btnSqlCeTestConnection.Location = new System.Drawing.Point(106, 96);
+            this.btnSqlCeTestConnection.Location = new System.Drawing.Point(141, 118);
+            this.btnSqlCeTestConnection.Margin = new System.Windows.Forms.Padding(4);
             this.btnSqlCeTestConnection.Name = "btnSqlCeTestConnection";
-            this.btnSqlCeTestConnection.Size = new System.Drawing.Size(98, 23);
+            this.btnSqlCeTestConnection.Size = new System.Drawing.Size(131, 28);
             this.btnSqlCeTestConnection.TabIndex = 27;
             this.btnSqlCeTestConnection.Text = "Test connection";
             this.btnSqlCeTestConnection.UseVisualStyleBackColor = true;
@@ -844,34 +924,38 @@
             // 
             // txtSqlCeDatabaseName
             // 
-            this.txtSqlCeDatabaseName.Location = new System.Drawing.Point(106, 6);
+            this.txtSqlCeDatabaseName.Location = new System.Drawing.Point(141, 7);
+            this.txtSqlCeDatabaseName.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlCeDatabaseName.Name = "txtSqlCeDatabaseName";
             this.txtSqlCeDatabaseName.ReadOnly = true;
-            this.txtSqlCeDatabaseName.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlCeDatabaseName.Size = new System.Drawing.Size(265, 22);
             this.txtSqlCeDatabaseName.TabIndex = 20;
             // 
             // txtSqlCePassword
             // 
-            this.txtSqlCePassword.Location = new System.Drawing.Point(106, 70);
+            this.txtSqlCePassword.Location = new System.Drawing.Point(141, 86);
+            this.txtSqlCePassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtSqlCePassword.Name = "txtSqlCePassword";
-            this.txtSqlCePassword.Size = new System.Drawing.Size(200, 20);
+            this.txtSqlCePassword.Size = new System.Drawing.Size(265, 22);
             this.txtSqlCePassword.TabIndex = 21;
             // 
             // label27
             // 
             this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(51, 74);
+            this.label27.Location = new System.Drawing.Point(68, 91);
+            this.label27.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(56, 13);
+            this.label27.Size = new System.Drawing.Size(73, 17);
             this.label27.TabIndex = 22;
             this.label27.Text = "Password:";
             // 
             // label25
             // 
             this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(3, 9);
+            this.label25.Location = new System.Drawing.Point(4, 11);
+            this.label25.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(104, 13);
+            this.label25.Size = new System.Drawing.Size(137, 17);
             this.label25.TabIndex = 23;
             this.label25.Text = "SqlCE 4.0 database:";
             // 
@@ -892,10 +976,11 @@
             this.tabOracle.Controls.Add(this.txtOrclUsername);
             this.tabOracle.Controls.Add(this.label22);
             this.tabOracle.Controls.Add(this.txtOrclPassword);
-            this.tabOracle.Location = new System.Drawing.Point(4, 25);
+            this.tabOracle.Location = new System.Drawing.Point(4, 55);
+            this.tabOracle.Margin = new System.Windows.Forms.Padding(4);
             this.tabOracle.Name = "tabOracle";
-            this.tabOracle.Padding = new System.Windows.Forms.Padding(3);
-            this.tabOracle.Size = new System.Drawing.Size(332, 221);
+            this.tabOracle.Padding = new System.Windows.Forms.Padding(4);
+            this.tabOracle.Size = new System.Drawing.Size(445, 249);
             this.tabOracle.TabIndex = 2;
             this.tabOracle.Text = "Oracle";
             this.tabOracle.ToolTipText = "Oracle 8i/ 9i/ 10g/ 11g";
@@ -903,26 +988,29 @@
             // 
             // txtOrclDbName
             // 
-            this.txtOrclDbName.Location = new System.Drawing.Point(106, 156);
+            this.txtOrclDbName.Location = new System.Drawing.Point(141, 192);
+            this.txtOrclDbName.Margin = new System.Windows.Forms.Padding(4);
             this.txtOrclDbName.Name = "txtOrclDbName";
-            this.txtOrclDbName.Size = new System.Drawing.Size(200, 20);
+            this.txtOrclDbName.Size = new System.Drawing.Size(265, 22);
             this.txtOrclDbName.TabIndex = 7;
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(15, 159);
+            this.label23.Location = new System.Drawing.Point(20, 196);
+            this.label23.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label23.Name = "label23";
-            this.label23.Size = new System.Drawing.Size(85, 13);
+            this.label23.Size = new System.Drawing.Size(112, 17);
             this.label23.TabIndex = 16;
             this.label23.Text = "Database name:";
             // 
             // lnkOracleConnStr
             // 
             this.lnkOracleConnStr.AutoSize = true;
-            this.lnkOracleConnStr.Location = new System.Drawing.Point(308, 9);
+            this.lnkOracleConnStr.Location = new System.Drawing.Point(411, 11);
+            this.lnkOracleConnStr.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lnkOracleConnStr.Name = "lnkOracleConnStr";
-            this.lnkOracleConnStr.Size = new System.Drawing.Size(13, 13);
+            this.lnkOracleConnStr.Size = new System.Drawing.Size(16, 17);
             this.lnkOracleConnStr.TabIndex = 1;
             this.lnkOracleConnStr.TabStop = true;
             this.lnkOracleConnStr.Text = "?";
@@ -931,18 +1019,20 @@
             // chkOrclUserRoleSYSDBA
             // 
             this.chkOrclUserRoleSYSDBA.AutoSize = true;
-            this.chkOrclUserRoleSYSDBA.Location = new System.Drawing.Point(218, 186);
+            this.chkOrclUserRoleSYSDBA.Location = new System.Drawing.Point(291, 229);
+            this.chkOrclUserRoleSYSDBA.Margin = new System.Windows.Forms.Padding(4);
             this.chkOrclUserRoleSYSDBA.Name = "chkOrclUserRoleSYSDBA";
-            this.chkOrclUserRoleSYSDBA.Size = new System.Drawing.Size(69, 17);
+            this.chkOrclUserRoleSYSDBA.Size = new System.Drawing.Size(85, 21);
             this.chkOrclUserRoleSYSDBA.TabIndex = 8;
             this.chkOrclUserRoleSYSDBA.Text = "SYSDBA";
             this.chkOrclUserRoleSYSDBA.UseVisualStyleBackColor = true;
             // 
             // btnOrclTestConnection
             // 
-            this.btnOrclTestConnection.Location = new System.Drawing.Point(106, 182);
+            this.btnOrclTestConnection.Location = new System.Drawing.Point(141, 224);
+            this.btnOrclTestConnection.Margin = new System.Windows.Forms.Padding(4);
             this.btnOrclTestConnection.Name = "btnOrclTestConnection";
-            this.btnOrclTestConnection.Size = new System.Drawing.Size(98, 23);
+            this.btnOrclTestConnection.Size = new System.Drawing.Size(131, 28);
             this.btnOrclTestConnection.TabIndex = 9;
             this.btnOrclTestConnection.Text = "Test connection";
             this.btnOrclTestConnection.UseVisualStyleBackColor = true;
@@ -951,9 +1041,10 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(3, 9);
+            this.label18.Location = new System.Drawing.Point(4, 11);
+            this.label18.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label18.Name = "label18";
-            this.label18.Size = new System.Drawing.Size(97, 13);
+            this.label18.Size = new System.Drawing.Size(128, 17);
             this.label18.TabIndex = 13;
             this.label18.Text = "Data source name:";
             // 
@@ -961,9 +1052,10 @@
             // 
             this.rbtnOrclSpecificUsernamePass.AutoSize = true;
             this.rbtnOrclSpecificUsernamePass.Checked = true;
-            this.rbtnOrclSpecificUsernamePass.Location = new System.Drawing.Point(106, 81);
+            this.rbtnOrclSpecificUsernamePass.Location = new System.Drawing.Point(141, 100);
+            this.rbtnOrclSpecificUsernamePass.Margin = new System.Windows.Forms.Padding(4);
             this.rbtnOrclSpecificUsernamePass.Name = "rbtnOrclSpecificUsernamePass";
-            this.rbtnOrclSpecificUsernamePass.Size = new System.Drawing.Size(181, 17);
+            this.rbtnOrclSpecificUsernamePass.Size = new System.Drawing.Size(237, 21);
             this.rbtnOrclSpecificUsernamePass.TabIndex = 4;
             this.rbtnOrclSpecificUsernamePass.TabStop = true;
             this.rbtnOrclSpecificUsernamePass.Text = "Specific username and password";
@@ -971,17 +1063,19 @@
             // 
             // txtOrclDataSource
             // 
-            this.txtOrclDataSource.Location = new System.Drawing.Point(106, 6);
+            this.txtOrclDataSource.Location = new System.Drawing.Point(141, 7);
+            this.txtOrclDataSource.Margin = new System.Windows.Forms.Padding(4);
             this.txtOrclDataSource.Name = "txtOrclDataSource";
-            this.txtOrclDataSource.Size = new System.Drawing.Size(200, 20);
+            this.txtOrclDataSource.Size = new System.Drawing.Size(265, 22);
             this.txtOrclDataSource.TabIndex = 0;
             // 
             // rbtnOrclWindowsAuthentication
             // 
             this.rbtnOrclWindowsAuthentication.AutoSize = true;
-            this.rbtnOrclWindowsAuthentication.Location = new System.Drawing.Point(106, 58);
+            this.rbtnOrclWindowsAuthentication.Location = new System.Drawing.Point(141, 71);
+            this.rbtnOrclWindowsAuthentication.Margin = new System.Windows.Forms.Padding(4);
             this.rbtnOrclWindowsAuthentication.Name = "rbtnOrclWindowsAuthentication";
-            this.rbtnOrclWindowsAuthentication.Size = new System.Drawing.Size(139, 17);
+            this.rbtnOrclWindowsAuthentication.Size = new System.Drawing.Size(178, 21);
             this.rbtnOrclWindowsAuthentication.TabIndex = 3;
             this.rbtnOrclWindowsAuthentication.Text = "Windows authentication";
             this.rbtnOrclWindowsAuthentication.UseVisualStyleBackColor = true;
@@ -989,52 +1083,58 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(44, 133);
+            this.label20.Location = new System.Drawing.Point(59, 164);
+            this.label20.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(56, 13);
+            this.label20.Size = new System.Drawing.Size(73, 17);
             this.label20.TabIndex = 14;
             this.label20.Text = "Password:";
             // 
             // txtOrclConnectTimeout
             // 
-            this.txtOrclConnectTimeout.Location = new System.Drawing.Point(106, 32);
+            this.txtOrclConnectTimeout.Location = new System.Drawing.Point(141, 39);
+            this.txtOrclConnectTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.txtOrclConnectTimeout.MaxLength = 3;
             this.txtOrclConnectTimeout.Name = "txtOrclConnectTimeout";
-            this.txtOrclConnectTimeout.Size = new System.Drawing.Size(200, 20);
+            this.txtOrclConnectTimeout.Size = new System.Drawing.Size(265, 22);
             this.txtOrclConnectTimeout.TabIndex = 2;
             this.txtOrclConnectTimeout.Text = "15";
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(42, 107);
+            this.label21.Location = new System.Drawing.Point(56, 132);
+            this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(58, 13);
+            this.label21.Size = new System.Drawing.Size(77, 17);
             this.label21.TabIndex = 11;
             this.label21.Text = "Username:";
             // 
             // txtOrclUsername
             // 
-            this.txtOrclUsername.Location = new System.Drawing.Point(106, 104);
+            this.txtOrclUsername.Location = new System.Drawing.Point(141, 128);
+            this.txtOrclUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtOrclUsername.Name = "txtOrclUsername";
-            this.txtOrclUsername.Size = new System.Drawing.Size(200, 20);
+            this.txtOrclUsername.Size = new System.Drawing.Size(265, 22);
             this.txtOrclUsername.TabIndex = 5;
             this.txtOrclUsername.TextChanged += new System.EventHandler(this.txtOrclUsername_TextChanged);
             // 
             // label22
             // 
             this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(13, 35);
+            this.label22.Location = new System.Drawing.Point(17, 43);
+            this.label22.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(87, 13);
+            this.label22.Size = new System.Drawing.Size(114, 17);
             this.label22.TabIndex = 10;
             this.label22.Text = "Connect timeout:";
             // 
             // txtOrclPassword
             // 
-            this.txtOrclPassword.Location = new System.Drawing.Point(106, 130);
+            this.txtOrclPassword.Location = new System.Drawing.Point(141, 160);
+            this.txtOrclPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtOrclPassword.Name = "txtOrclPassword";
-            this.txtOrclPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtOrclPassword.Size = new System.Drawing.Size(265, 22);
             this.txtOrclPassword.TabIndex = 6;
             // 
             // tabSQLite
@@ -1047,10 +1147,11 @@
             this.tabSQLite.Controls.Add(this.txtSQLiteConnectTimeout);
             this.tabSQLite.Controls.Add(this.label19);
             this.tabSQLite.Controls.Add(this.txtSQLitePassword);
-            this.tabSQLite.Location = new System.Drawing.Point(4, 25);
+            this.tabSQLite.Location = new System.Drawing.Point(4, 55);
+            this.tabSQLite.Margin = new System.Windows.Forms.Padding(4);
             this.tabSQLite.Name = "tabSQLite";
-            this.tabSQLite.Padding = new System.Windows.Forms.Padding(3);
-            this.tabSQLite.Size = new System.Drawing.Size(332, 221);
+            this.tabSQLite.Padding = new System.Windows.Forms.Padding(4);
+            this.tabSQLite.Size = new System.Drawing.Size(445, 249);
             this.tabSQLite.TabIndex = 1;
             this.tabSQLite.Text = "SQLite";
             this.tabSQLite.ToolTipText = "SQLite v3";
@@ -1058,9 +1159,10 @@
             // 
             // btnSQLiteSelectDatabase
             // 
-            this.btnSQLiteSelectDatabase.Location = new System.Drawing.Point(106, 32);
+            this.btnSQLiteSelectDatabase.Location = new System.Drawing.Point(141, 39);
+            this.btnSQLiteSelectDatabase.Margin = new System.Windows.Forms.Padding(4);
             this.btnSQLiteSelectDatabase.Name = "btnSQLiteSelectDatabase";
-            this.btnSQLiteSelectDatabase.Size = new System.Drawing.Size(98, 23);
+            this.btnSQLiteSelectDatabase.Size = new System.Drawing.Size(131, 28);
             this.btnSQLiteSelectDatabase.TabIndex = 1;
             this.btnSQLiteSelectDatabase.Text = "Browse";
             this.btnSQLiteSelectDatabase.UseVisualStyleBackColor = true;
@@ -1068,9 +1170,10 @@
             // 
             // btnSQLiteTestConnection
             // 
-            this.btnSQLiteTestConnection.Location = new System.Drawing.Point(106, 122);
+            this.btnSQLiteTestConnection.Location = new System.Drawing.Point(141, 150);
+            this.btnSQLiteTestConnection.Margin = new System.Windows.Forms.Padding(4);
             this.btnSQLiteTestConnection.Name = "btnSQLiteTestConnection";
-            this.btnSQLiteTestConnection.Size = new System.Drawing.Size(98, 23);
+            this.btnSQLiteTestConnection.Size = new System.Drawing.Size(131, 28);
             this.btnSQLiteTestConnection.TabIndex = 4;
             this.btnSQLiteTestConnection.Text = "Test connection";
             this.btnSQLiteTestConnection.UseVisualStyleBackColor = true;
@@ -1079,52 +1182,58 @@
             // label16
             // 
             this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(11, 9);
+            this.label16.Location = new System.Drawing.Point(15, 11);
+            this.label16.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(89, 13);
+            this.label16.Size = new System.Drawing.Size(118, 17);
             this.label16.TabIndex = 13;
             this.label16.Text = "SQLite database:";
             // 
             // txtSQLiteDatabaseName
             // 
-            this.txtSQLiteDatabaseName.Location = new System.Drawing.Point(106, 6);
+            this.txtSQLiteDatabaseName.Location = new System.Drawing.Point(141, 7);
+            this.txtSQLiteDatabaseName.Margin = new System.Windows.Forms.Padding(4);
             this.txtSQLiteDatabaseName.Name = "txtSQLiteDatabaseName";
             this.txtSQLiteDatabaseName.ReadOnly = true;
-            this.txtSQLiteDatabaseName.Size = new System.Drawing.Size(200, 20);
+            this.txtSQLiteDatabaseName.Size = new System.Drawing.Size(265, 22);
             this.txtSQLiteDatabaseName.TabIndex = 0;
             // 
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(44, 99);
+            this.label17.Location = new System.Drawing.Point(59, 122);
+            this.label17.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(56, 13);
+            this.label17.Size = new System.Drawing.Size(73, 17);
             this.label17.TabIndex = 14;
             this.label17.Text = "Password:";
             // 
             // txtSQLiteConnectTimeout
             // 
-            this.txtSQLiteConnectTimeout.Location = new System.Drawing.Point(106, 70);
+            this.txtSQLiteConnectTimeout.Location = new System.Drawing.Point(141, 86);
+            this.txtSQLiteConnectTimeout.Margin = new System.Windows.Forms.Padding(4);
             this.txtSQLiteConnectTimeout.MaxLength = 3;
             this.txtSQLiteConnectTimeout.Name = "txtSQLiteConnectTimeout";
-            this.txtSQLiteConnectTimeout.Size = new System.Drawing.Size(200, 20);
+            this.txtSQLiteConnectTimeout.Size = new System.Drawing.Size(265, 22);
             this.txtSQLiteConnectTimeout.TabIndex = 2;
             this.txtSQLiteConnectTimeout.Text = "30";
             // 
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(13, 73);
+            this.label19.Location = new System.Drawing.Point(17, 90);
+            this.label19.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(87, 13);
+            this.label19.Size = new System.Drawing.Size(114, 17);
             this.label19.TabIndex = 10;
             this.label19.Text = "Connect timeout:";
             // 
             // txtSQLitePassword
             // 
-            this.txtSQLitePassword.Location = new System.Drawing.Point(106, 96);
+            this.txtSQLitePassword.Location = new System.Drawing.Point(141, 118);
+            this.txtSQLitePassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtSQLitePassword.Name = "txtSQLitePassword";
-            this.txtSQLitePassword.Size = new System.Drawing.Size(200, 20);
+            this.txtSQLitePassword.Size = new System.Drawing.Size(265, 22);
             this.txtSQLitePassword.TabIndex = 3;
             // 
             // tabPostgres
@@ -1140,19 +1249,40 @@
             this.tabPostgres.Controls.Add(this.txtPgUsername);
             this.tabPostgres.Controls.Add(this.txtPgPassword);
             this.tabPostgres.Controls.Add(this.label31);
-            this.tabPostgres.Location = new System.Drawing.Point(4, 25);
+            this.tabPostgres.Location = new System.Drawing.Point(4, 55);
+            this.tabPostgres.Margin = new System.Windows.Forms.Padding(4);
             this.tabPostgres.Name = "tabPostgres";
-            this.tabPostgres.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPostgres.Size = new System.Drawing.Size(332, 221);
+            this.tabPostgres.Padding = new System.Windows.Forms.Padding(4);
+            this.tabPostgres.Size = new System.Drawing.Size(445, 249);
             this.tabPostgres.TabIndex = 4;
             this.tabPostgres.Text = "Postgres";
             this.tabPostgres.UseVisualStyleBackColor = true;
             // 
+            // txtPgSchema
+            // 
+            this.txtPgSchema.Location = new System.Drawing.Point(141, 71);
+            this.txtPgSchema.Margin = new System.Windows.Forms.Padding(4);
+            this.txtPgSchema.Name = "txtPgSchema";
+            this.txtPgSchema.Size = new System.Drawing.Size(265, 22);
+            this.txtPgSchema.TabIndex = 21;
+            this.txtPgSchema.Text = "public";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(68, 75);
+            this.label30.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(63, 17);
+            this.label30.TabIndex = 22;
+            this.label30.Text = "Schema:";
+            // 
             // btnPgTestConnection
             // 
-            this.btnPgTestConnection.Location = new System.Drawing.Point(106, 140);
+            this.btnPgTestConnection.Location = new System.Drawing.Point(141, 172);
+            this.btnPgTestConnection.Margin = new System.Windows.Forms.Padding(4);
             this.btnPgTestConnection.Name = "btnPgTestConnection";
-            this.btnPgTestConnection.Size = new System.Drawing.Size(98, 23);
+            this.btnPgTestConnection.Size = new System.Drawing.Size(131, 28);
             this.btnPgTestConnection.TabIndex = 20;
             this.btnPgTestConnection.Text = "Test connection";
             this.btnPgTestConnection.UseVisualStyleBackColor = true;
@@ -1161,74 +1291,186 @@
             // label26
             // 
             this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(21, 9);
+            this.label26.Location = new System.Drawing.Point(28, 11);
+            this.label26.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(79, 13);
+            this.label26.Size = new System.Drawing.Size(106, 17);
             this.label26.TabIndex = 9;
             this.label26.Text = "Posgresql host:";
             // 
             // txtPgHost
             // 
-            this.txtPgHost.Location = new System.Drawing.Point(106, 6);
+            this.txtPgHost.Location = new System.Drawing.Point(141, 7);
+            this.txtPgHost.Margin = new System.Windows.Forms.Padding(4);
             this.txtPgHost.Name = "txtPgHost";
-            this.txtPgHost.Size = new System.Drawing.Size(200, 20);
+            this.txtPgHost.Size = new System.Drawing.Size(265, 22);
             this.txtPgHost.TabIndex = 8;
             // 
             // txtPgDbName
             // 
-            this.txtPgDbName.Location = new System.Drawing.Point(106, 32);
+            this.txtPgDbName.Location = new System.Drawing.Point(141, 39);
+            this.txtPgDbName.Margin = new System.Windows.Forms.Padding(4);
             this.txtPgDbName.Name = "txtPgDbName";
-            this.txtPgDbName.Size = new System.Drawing.Size(200, 20);
+            this.txtPgDbName.Size = new System.Drawing.Size(265, 22);
             this.txtPgDbName.TabIndex = 10;
             // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(44, 117);
+            this.label28.Location = new System.Drawing.Point(59, 144);
+            this.label28.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label28.Name = "label28";
-            this.label28.Size = new System.Drawing.Size(56, 13);
+            this.label28.Size = new System.Drawing.Size(73, 17);
             this.label28.TabIndex = 11;
             this.label28.Text = "Password:";
             // 
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(42, 91);
+            this.label29.Location = new System.Drawing.Point(56, 112);
+            this.label29.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(58, 13);
+            this.label29.Size = new System.Drawing.Size(77, 17);
             this.label29.TabIndex = 12;
             this.label29.Text = "Username:";
             // 
             // txtPgUsername
             // 
-            this.txtPgUsername.Location = new System.Drawing.Point(106, 88);
+            this.txtPgUsername.Location = new System.Drawing.Point(141, 108);
+            this.txtPgUsername.Margin = new System.Windows.Forms.Padding(4);
             this.txtPgUsername.Name = "txtPgUsername";
-            this.txtPgUsername.Size = new System.Drawing.Size(200, 20);
+            this.txtPgUsername.Size = new System.Drawing.Size(265, 22);
             this.txtPgUsername.TabIndex = 18;
             // 
             // txtPgPassword
             // 
-            this.txtPgPassword.Location = new System.Drawing.Point(106, 114);
+            this.txtPgPassword.Location = new System.Drawing.Point(141, 140);
+            this.txtPgPassword.Margin = new System.Windows.Forms.Padding(4);
             this.txtPgPassword.Name = "txtPgPassword";
-            this.txtPgPassword.Size = new System.Drawing.Size(200, 20);
+            this.txtPgPassword.Size = new System.Drawing.Size(265, 22);
             this.txtPgPassword.TabIndex = 19;
             // 
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(15, 35);
+            this.label31.Location = new System.Drawing.Point(20, 43);
+            this.label31.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(85, 13);
+            this.label31.Size = new System.Drawing.Size(112, 17);
             this.label31.TabIndex = 14;
             this.label31.Text = "Database name:";
+            // 
+            // tabMySQL
+            // 
+            this.tabMySQL.Controls.Add(this.btnMysqlTestConnection);
+            this.tabMySQL.Controls.Add(this.label33);
+            this.tabMySQL.Controls.Add(this.txtMysqlHost);
+            this.tabMySQL.Controls.Add(this.txtMysqlDbName);
+            this.tabMySQL.Controls.Add(this.label34);
+            this.tabMySQL.Controls.Add(this.label35);
+            this.tabMySQL.Controls.Add(this.txtMysqlUsername);
+            this.tabMySQL.Controls.Add(this.txtMysqlPassword);
+            this.tabMySQL.Controls.Add(this.label36);
+            this.tabMySQL.Location = new System.Drawing.Point(4, 55);
+            this.tabMySQL.Name = "tabMySQL";
+            this.tabMySQL.Padding = new System.Windows.Forms.Padding(3);
+            this.tabMySQL.Size = new System.Drawing.Size(445, 249);
+            this.tabMySQL.TabIndex = 5;
+            this.tabMySQL.Text = "MySQL";
+            this.tabMySQL.UseVisualStyleBackColor = true;
+            // 
+            // btnMysqlTestConnection
+            // 
+            this.btnMysqlTestConnection.Location = new System.Drawing.Point(141, 172);
+            this.btnMysqlTestConnection.Margin = new System.Windows.Forms.Padding(4);
+            this.btnMysqlTestConnection.Name = "btnMysqlTestConnection";
+            this.btnMysqlTestConnection.Size = new System.Drawing.Size(131, 28);
+            this.btnMysqlTestConnection.TabIndex = 31;
+            this.btnMysqlTestConnection.Text = "Test connection";
+            this.btnMysqlTestConnection.UseVisualStyleBackColor = true;
+            this.btnMysqlTestConnection.Click += new System.EventHandler(this.btnMysqlTestConnection_Click);
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(43, 12);
+            this.label33.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(89, 17);
+            this.label33.TabIndex = 24;
+            this.label33.Text = "MySQL host:";
+            // 
+            // txtMysqlHost
+            // 
+            this.txtMysqlHost.Location = new System.Drawing.Point(141, 7);
+            this.txtMysqlHost.Margin = new System.Windows.Forms.Padding(4);
+            this.txtMysqlHost.Name = "txtMysqlHost";
+            this.txtMysqlHost.Size = new System.Drawing.Size(265, 22);
+            this.txtMysqlHost.TabIndex = 23;
+            this.txtMysqlHost.Text = "localhost";
+            // 
+            // txtMysqlDbName
+            // 
+            this.txtMysqlDbName.Location = new System.Drawing.Point(141, 71);
+            this.txtMysqlDbName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtMysqlDbName.Name = "txtMysqlDbName";
+            this.txtMysqlDbName.Size = new System.Drawing.Size(265, 22);
+            this.txtMysqlDbName.TabIndex = 25;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(59, 128);
+            this.label34.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(73, 17);
+            this.label34.TabIndex = 26;
+            this.label34.Text = "Password:";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(56, 101);
+            this.label35.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(77, 17);
+            this.label35.TabIndex = 27;
+            this.label35.Text = "Username:";
+            // 
+            // txtMysqlUsername
+            // 
+            this.txtMysqlUsername.Location = new System.Drawing.Point(141, 108);
+            this.txtMysqlUsername.Margin = new System.Windows.Forms.Padding(4);
+            this.txtMysqlUsername.Name = "txtMysqlUsername";
+            this.txtMysqlUsername.Size = new System.Drawing.Size(265, 22);
+            this.txtMysqlUsername.TabIndex = 29;
+            // 
+            // txtMysqlPassword
+            // 
+            this.txtMysqlPassword.Location = new System.Drawing.Point(141, 140);
+            this.txtMysqlPassword.Margin = new System.Windows.Forms.Padding(4);
+            this.txtMysqlPassword.Name = "txtMysqlPassword";
+            this.txtMysqlPassword.Size = new System.Drawing.Size(265, 22);
+            this.txtMysqlPassword.TabIndex = 30;
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(21, 71);
+            this.label36.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(112, 17);
+            this.label36.TabIndex = 28;
+            this.label36.Text = "Database name:";
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.btnSlider);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panel1.Location = new System.Drawing.Point(699, 0);
+            this.panel1.Location = new System.Drawing.Point(932, 0);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(10, 541);
+            this.panel1.Size = new System.Drawing.Size(13, 666);
             this.panel1.TabIndex = 5;
             // 
             // btnSlider
@@ -1238,9 +1480,10 @@
             this.btnSlider.FlatAppearance.BorderColor = System.Drawing.Color.Silver;
             this.btnSlider.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSlider.Image = global::SalarDbCodeGenerator.Properties.Resources.ToLeft10;
-            this.btnSlider.Location = new System.Drawing.Point(0, 203);
+            this.btnSlider.Location = new System.Drawing.Point(0, 250);
+            this.btnSlider.Margin = new System.Windows.Forms.Padding(4);
             this.btnSlider.Name = "btnSlider";
-            this.btnSlider.Size = new System.Drawing.Size(10, 135);
+            this.btnSlider.Size = new System.Drawing.Size(13, 166);
             this.btnSlider.TabIndex = 0;
             this.btnSlider.UseVisualStyleBackColor = false;
             this.btnSlider.Click += new System.EventHandler(this.btnSlider_Click);
@@ -1251,28 +1494,11 @@
             this.dlgOpenSqlCe.Filter = "SqlCE 4 Database (*.sdf;*.*)|*.sdf;*.*";
             this.dlgOpenSqlCe.Title = "Select SqlCE 4 database";
             // 
-            // txtPgSchema
-            // 
-            this.txtPgSchema.Location = new System.Drawing.Point(106, 58);
-            this.txtPgSchema.Name = "txtPgSchema";
-            this.txtPgSchema.Size = new System.Drawing.Size(200, 20);
-            this.txtPgSchema.TabIndex = 21;
-            this.txtPgSchema.Text = "public";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(51, 61);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(49, 13);
-            this.label30.TabIndex = 22;
-            this.label30.Text = "Schema:";
-            // 
             // frmProjectDetails
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(709, 541);
+            this.ClientSize = new System.Drawing.Size(945, 666);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.gpGenOptions);
@@ -1280,6 +1506,7 @@
             this.Controls.Add(this.btnOk);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "frmProjectDetails";
             this.Text = "Project Options";
             this.Load += new System.EventHandler(this.frmNewProject_Load);
@@ -1303,6 +1530,8 @@
             this.tabSQLite.PerformLayout();
             this.tabPostgres.ResumeLayout(false);
             this.tabPostgres.PerformLayout();
+            this.tabMySQL.ResumeLayout(false);
+            this.tabMySQL.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1421,5 +1650,15 @@
         private System.Windows.Forms.Label label31;
         private System.Windows.Forms.TextBox txtPgSchema;
         private System.Windows.Forms.Label label30;
+        private System.Windows.Forms.TabPage tabMySQL;
+        private System.Windows.Forms.Button btnMysqlTestConnection;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.TextBox txtMysqlHost;
+        private System.Windows.Forms.TextBox txtMysqlDbName;
+        private System.Windows.Forms.Label label34;
+        private System.Windows.Forms.Label label35;
+        private System.Windows.Forms.TextBox txtMysqlUsername;
+        private System.Windows.Forms.TextBox txtMysqlPassword;
+        private System.Windows.Forms.Label label36;
 	}
 }
