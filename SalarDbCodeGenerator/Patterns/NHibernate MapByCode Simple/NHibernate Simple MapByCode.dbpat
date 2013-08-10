@@ -103,4 +103,5 @@
 	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
 	<PatternFile Action="Copy" ActionCopyPath="References\Iesi.Collections.dll">..\..\Iesi.Collections.dll</PatternFile>
 	<PatternFile Action="Copy" ActionCopyPath="References\NHibernate.dll">..\..\NHibernate.dll</PatternFile>
+	<PatternFile Action="Copy" ActionCopyPath="References\[:ProviderAssemblyReference:].dll">..\..\[:ProviderAssemblyReference:].dll</PatternFile>
 </PatternProject>

@@ -133,25 +133,25 @@ namespace SalarDbCodeGenerator.Presentation
 
 				ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Oracle;
 			}
-            else if (pagerDatabaseProvider.SelectedTab == tabPostgres)
-            {
-                ProjectInstance.DbSettions.ServerName = txtPgHost.Text;
-                ProjectInstance.DbSettions.DatabaseName = txtPgDbName.Text;
-                ProjectInstance.DbSettions.SqlUsername = txtPgUsername.Text;
-                ProjectInstance.DbSettions.SqlPassword = txtPgPassword.Text;
-                ProjectInstance.DbSettions.SchemaName = txtPgSchema.Text;
+			else if (pagerDatabaseProvider.SelectedTab == tabPostgres)
+			{
+				ProjectInstance.DbSettions.ServerName = txtPgHost.Text;
+				ProjectInstance.DbSettions.DatabaseName = txtPgDbName.Text;
+				ProjectInstance.DbSettions.SqlUsername = txtPgUsername.Text;
+				ProjectInstance.DbSettions.SqlPassword = txtPgPassword.Text;
+				ProjectInstance.DbSettions.SchemaName = txtPgSchema.Text;
 
-                ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Npgsql;
-            }
-            else if (pagerDatabaseProvider.SelectedTab == tabMySQL)
-            {
-                ProjectInstance.DbSettions.ServerName = txtMysqlHost.Text;                
-                ProjectInstance.DbSettions.DatabaseName = txtMysqlDbName.Text;
-                ProjectInstance.DbSettions.SqlUsername = txtMysqlUsername.Text;
-                ProjectInstance.DbSettions.SqlPassword = txtMysqlPassword.Text;                
+				ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.Npgsql;
+			}
+			else if (pagerDatabaseProvider.SelectedTab == tabMySQL)
+			{
+				ProjectInstance.DbSettions.ServerName = txtMysqlHost.Text;
+				ProjectInstance.DbSettions.DatabaseName = txtMysqlDbName.Text;
+				ProjectInstance.DbSettions.SqlUsername = txtMysqlUsername.Text;
+				ProjectInstance.DbSettions.SqlPassword = txtMysqlPassword.Text;
 
-                ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.MySql;
-            }
+				ProjectInstance.DbSettions.DatabaseProvider = DatabaseProvider.MySql;
+			}
 
 
 			ProjectInstance.DbSettions.SuffixForTables = txtSuffixForTables.Text;
@@ -236,25 +236,25 @@ namespace SalarDbCodeGenerator.Presentation
 				txtOrclPassword.Text = ProjectInstance.DbSettions.SqlPassword;
 				chkOrclUserRoleSYSDBA.Checked = ProjectInstance.DbSettions.OracleUseSysdbaRole;
 			}
-            else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.Npgsql)
-            {
-                pagerDatabaseProvider.SelectedTab = tabPostgres;
+			else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.Npgsql)
+			{
+				pagerDatabaseProvider.SelectedTab = tabPostgres;
 
-                txtPgHost.Text = ProjectInstance.DbSettions.ServerName;
-                txtPgDbName.Text = ProjectInstance.DbSettions.DatabaseName;
-                txtPgUsername.Text = ProjectInstance.DbSettions.SqlUsername;
-                txtPgPassword.Text = ProjectInstance.DbSettions.SqlPassword;
-                txtPgSchema.Text = ProjectInstance.DbSettions.SchemaName;
-            }
-            else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.MySql)
-            {
-                pagerDatabaseProvider.SelectedTab = tabMySQL;
+				txtPgHost.Text = ProjectInstance.DbSettions.ServerName;
+				txtPgDbName.Text = ProjectInstance.DbSettions.DatabaseName;
+				txtPgUsername.Text = ProjectInstance.DbSettions.SqlUsername;
+				txtPgPassword.Text = ProjectInstance.DbSettions.SqlPassword;
+				txtPgSchema.Text = ProjectInstance.DbSettions.SchemaName;
+			}
+			else if (ProjectInstance.DbSettions.DatabaseProvider == DatabaseProvider.MySql)
+			{
+				pagerDatabaseProvider.SelectedTab = tabMySQL;
 
-                txtMysqlHost.Text = ProjectInstance.DbSettions.ServerName;                
-                txtMysqlDbName.Text = ProjectInstance.DbSettions.DatabaseName;
-                txtMysqlUsername.Text = ProjectInstance.DbSettions.SqlUsername;
-                txtMysqlPassword.Text = ProjectInstance.DbSettions.SqlPassword;                
-            }
+				txtMysqlHost.Text = ProjectInstance.DbSettions.ServerName;
+				txtMysqlDbName.Text = ProjectInstance.DbSettions.DatabaseName;
+				txtMysqlUsername.Text = ProjectInstance.DbSettions.SqlUsername;
+				txtMysqlPassword.Text = ProjectInstance.DbSettions.SqlPassword;
+			}
 
 
 			txtSuffixForTables.Text = ProjectInstance.DbSettions.SuffixForTables;
@@ -497,33 +497,33 @@ namespace SalarDbCodeGenerator.Presentation
 			}
 		}
 
-        bool TestPgConnection(string connStr)
-        {
-            try
-            {
-                using (NpgsqlConnection conn = new NpgsqlConnection(connStr))
-                    conn.Open();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+		bool TestPgConnection(string connStr)
+		{
+			try
+			{
+				using (NpgsqlConnection conn = new NpgsqlConnection(connStr))
+					conn.Open();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
-        bool TestMysqlConnection(string connStr)
-        {
-            try
-            {
-                using (MySqlConnection conn = new MySqlConnection(connStr))
-                    conn.Open();
-                return true;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
+		bool TestMysqlConnection(string connStr)
+		{
+			try
+			{
+				using (MySqlConnection conn = new MySqlConnection(connStr))
+					conn.Open();
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
+		}
 
 		void MoreOptionsExpand(bool expanded)
 		{
@@ -531,12 +531,12 @@ namespace SalarDbCodeGenerator.Presentation
 			if (expanded)
 			{
 				btnSlider.Image = Resources.ToLeft10;
-				this.Size = new Size(715, this.Size.Height);
+				this.Size = new Size(760, this.Size.Height);
 			}
 			else
 			{
 				btnSlider.Image = Resources.ToRight10;
-				this.Size = new Size(383, this.Size.Height);
+				this.Size = new Size(430, this.Size.Height);
 			}
 		}
 
@@ -783,9 +783,9 @@ namespace SalarDbCodeGenerator.Presentation
 			try
 			{
 				Process.Start(new ProcessStartInfo("http://www.connectionstrings.com/oracle#p12")
-								{
-									UseShellExecute = true,
-								});
+				{
+					UseShellExecute = true,
+				});
 				MessageBox.Show("Oracle Connection String Template:\n\n" +
 				"(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST=xxx.xxx.xxx.xxx)(PORT=xxxx)))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=xxxxx)))\n\n" +
 				"Also visit http://www.connectionstrings.com/oracle#p12 for more information."
@@ -802,50 +802,50 @@ namespace SalarDbCodeGenerator.Presentation
 				txtOrclDbName.Text = txtOrclUsername.Text;
 		}
 
-        private void btnPgTestConnection_Click(object sender, EventArgs e)
-        {
-            var connStr = string.Format("server={0};Port=5432;Database={1};User Id={2};Password={3}",
-                    txtPgHost.Text,
-                    txtPgDbName.Text,
-                    txtPgUsername.Text,
-                    txtPgPassword.Text
-                );
+		private void btnPgTestConnection_Click(object sender, EventArgs e)
+		{
+			var connStr = string.Format("server={0};Port=5432;Database={1};User Id={2};Password={3}",
+					txtPgHost.Text,
+					txtPgDbName.Text,
+					txtPgUsername.Text,
+					txtPgPassword.Text
+				);
 
-            PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
-            if (TestPgConnection(connStr))
-            {
-                PleaseWait.Abort();
-                MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                PleaseWait.Abort();
-                MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+			PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
+			if (TestPgConnection(connStr))
+			{
+				PleaseWait.Abort();
+				MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else
+			{
+				PleaseWait.Abort();
+				MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
-        private void btnMysqlTestConnection_Click(object sender, EventArgs e)
-        {
-            var connStr = string.Format("server={0};port=3306;database={1};username={2};password={3}",
-                    txtMysqlHost.Text,                    
-                    txtMysqlDbName.Text,
-                    txtMysqlUsername.Text,
-                    txtMysqlPassword.Text
-                );
+		private void btnMysqlTestConnection_Click(object sender, EventArgs e)
+		{
+			var connStr = string.Format("server={0};port=3306;database={1};username={2};password={3}",
+					txtMysqlHost.Text,
+					txtMysqlDbName.Text,
+					txtMysqlUsername.Text,
+					txtMysqlPassword.Text
+				);
 
-            PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
-            if (TestMysqlConnection(connStr))
-            {
-                PleaseWait.Abort();
-                MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            else
-            {
-                PleaseWait.Abort();
-                MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+			PleaseWait.ShowPleaseWait("Testing connection to database server", true, false);
+			if (TestMysqlConnection(connStr))
+			{
+				PleaseWait.Abort();
+				MessageBox.Show("Connection test succeed", "Test succeed", MessageBoxButtons.OK, MessageBoxIcon.Information);
+			}
+			else
+			{
+				PleaseWait.Abort();
+				MessageBox.Show("Connection test failed!", "Test failed!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
+		}
 
-       
+
 	}
 }

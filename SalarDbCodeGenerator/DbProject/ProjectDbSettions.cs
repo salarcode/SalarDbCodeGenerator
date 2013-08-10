@@ -40,7 +40,7 @@ namespace SalarDbCodeGenerator.DbProject
 		public int ConnectTimeout { get; set; }
 		public DateTime LastFetch { get; set; }
 		public bool OracleUseSysdbaRole { get; set; }
-        public string SchemaName { get; set; }
+		public string SchemaName { get; set; }
 
 		public string PrefixForTables { get; set; }
 		public string PrefixForViews { get; set; }
@@ -121,11 +121,11 @@ namespace SalarDbCodeGenerator.DbProject
 					}
 					return conn;
 
-                case DatabaseProvider.Npgsql:
-                    return new NpgsqlConnection(GetConnectionString());
+				case DatabaseProvider.Npgsql:
+					return new NpgsqlConnection(GetConnectionString());
 
-                case DatabaseProvider.MySql:
-                    return new MySqlConnection(GetConnectionString());
+				case DatabaseProvider.MySql:
+					return new MySqlConnection(GetConnectionString());
 
 				default:
 					throw new NotSupportedException("Database type is not supported");
@@ -148,11 +148,11 @@ namespace SalarDbCodeGenerator.DbProject
 				case DatabaseProvider.SqlCe4:
 					return new SQLCeSchemaEngine(dbConnection);
 
-                case DatabaseProvider.Npgsql:
-                    return new NpgsqlSchemaEngine(dbConnection);
+				case DatabaseProvider.Npgsql:
+					return new NpgsqlSchemaEngine(dbConnection);
 
-                case DatabaseProvider.MySql:
-                    return new MySQLSchemaEngine(dbConnection);
+				case DatabaseProvider.MySql:
+					return new MySQLSchemaEngine(dbConnection);
 
 				default:
 					throw new NotSupportedException("Database type is not supported");
@@ -215,25 +215,25 @@ namespace SalarDbCodeGenerator.DbProject
 						ServerName,
 						ConnectTimeout
 					);
-			        break;
+					break;
 
-                case DatabaseProvider.Npgsql:
-                    connStr = string.Format("server={0};Port=5432;Database={1};User Id={2};Password={3}",
-                        ServerName,
-                        DatabaseName,
-                        SqlUsername,
-                        SqlPassword
-                    );
-			        break;
+				case DatabaseProvider.Npgsql:
+					connStr = string.Format("server={0};Port=5432;Database={1};User Id={2};Password={3}",
+						ServerName,
+						DatabaseName,
+						SqlUsername,
+						SqlPassword
+					);
+					break;
 
-                case DatabaseProvider.MySql:
-                    connStr = string.Format("server={0};Port=3306;Database={1};User Id={2};Password={3}",
-                        ServerName,                        
-                        DatabaseName,
-                        SqlUsername,
-                        SqlPassword
-                    );
-                    break;
+				case DatabaseProvider.MySql:
+					connStr = string.Format("server={0};Port=3306;Database={1};User Id={2};Password={3}",
+						ServerName,
+						DatabaseName,
+						SqlUsername,
+						SqlPassword
+					);
+					break;
 			}
 			return connStr;
 		}
@@ -271,9 +271,9 @@ namespace SalarDbCodeGenerator.DbProject
 				// Woot! no error!
 
 				// the schema engine
-                
+
 				// shcema engine options
-                engine.SpecificOwner = this.DatabaseProvider == DatabaseProvider.Oracle ?
+				engine.SpecificOwner = this.DatabaseProvider == DatabaseProvider.Oracle ?
 					this.SqlUsername :
 					this.SchemaName;
 

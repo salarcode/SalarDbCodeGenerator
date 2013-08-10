@@ -13,8 +13,8 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		SqlCe4,
 		Oracle,
 		SQLite,
-        Npgsql,
-        MySql
+		Npgsql,
+		MySql
 	}
 
 	public enum DataProviderClassNames

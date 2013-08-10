@@ -12,8 +12,8 @@ using SalarDbCodeGenerator.Schema.Patterns;
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Salar Khalilzadeh <salar2k@gmail.com>
-// © 2012, All rights reserved
-// 2012/07/21
+// © 2013, All rights reserved
+// 2013/08/21
 // ====================================
 namespace SalarDbCodeGenerator.GeneratorEngine
 {
@@ -63,12 +63,14 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 			_patternProject.PatternFiles.ForEach(
 				patFile =>
 				{
-					var patternFilePath = Path.Combine(patternsFolder, patFile.Path);
+					// Pattern filename can change based on the selected DataProider
+					var patternFilePath = Replacer_DatabaseProvider(patFile.Path);
+					var patternFileAddress = Path.Combine(patternsFolder, patternFilePath);
 
 					// Copy action requested
 					if (patFile.Action == PatternsListItemAction.Copy)
 					{
-						var fileName = Path.GetFileName(Replacer_DatabaseProvider(patFile.Path));
+						var fileName = Path.GetFileName(patternFilePath);
 						// Check if pattern is selected by user
 						if (!_projectDef.CodeGenSettings.SelectedPatterns.Contains(fileName))
 						{
@@ -77,18 +79,19 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 
 						var copyPath = _projectDef.GenerationPath;
 						var copyPathDir = Common.ProjectPathMakeAbsolute(copyPath, _projectDef.ProjectFileName);
-                        var actionCopyPath = Replacer_DatabaseProvider(patFile.ActionCopyPath);
-                        if (!string.IsNullOrEmpty(actionCopyPath))
+
+						if (!string.IsNullOrEmpty(patFile.ActionCopyPath))
 						{
-                            copyPath = Path.Combine(copyPathDir, actionCopyPath);
+							var actionCopyPath = Replacer_DatabaseProvider(patFile.ActionCopyPath);
+							
+							copyPath = Path.Combine(copyPathDir, actionCopyPath);
 							copyPathDir = Path.GetDirectoryName(copyPath);
 						}
 
 						try
 						{
 							Directory.CreateDirectory(copyPathDir);
-                            patternFilePath = Replacer_DatabaseProvider(patternFilePath);
-							File.Copy(patternFilePath, copyPath, true);
+							File.Copy(patternFileAddress, copyPath, true);
 						}
 						catch (Exception)
 						{
@@ -99,7 +102,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 
 
 					// load the pattern file
-					var patternFile = PatternFile.ReadFromFile(patternFilePath);
+					var patternFile = PatternFile.ReadFromFile(patternFileAddress);
 
 
 					// Check if pattern is selected by user

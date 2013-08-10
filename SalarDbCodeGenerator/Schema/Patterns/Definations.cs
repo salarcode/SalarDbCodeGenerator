@@ -190,19 +190,19 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		public static class FieldForeignKey
 		{
 			public const string MultiplicityOne = "MultiplicityOne";
-            public const string MultiplicityMany = "MultiplicityMany";
-            public const string MultiplicityOneToOnePrimary = "MultiplicityOneToOnePrimary";
-            public const string MultiplicityOneToOneForeign = "MultiplicityOneToOneForeign";
-        }
+			public const string MultiplicityMany = "MultiplicityMany";
+			public const string MultiplicityOneToOnePrimary = "MultiplicityOneToOnePrimary";
+			public const string MultiplicityOneToOneForeign = "MultiplicityOneToOneForeign";
+		}
 
 		/// <summary>
-        /// AutoInrcementPrimaryKey ,AutoInrcement, PrimaryKey,OneToOnePrimaryKey , OneToOneForeignKey, AutoIncNativeNullable, AutoIncNullableType, NormalField, NativeNullable, NullableType
+		/// AutoInrcementPrimaryKey ,AutoInrcement, PrimaryKey,OneToOnePrimaryKey , OneToOneForeignKey, AutoIncNativeNullable, AutoIncNullableType, NormalField, NativeNullable, NullableType
 		/// </summary>
 		public static class FieldKeyType
 		{
 			public const string AutoInrcement = "AutoInrcement";
 			public const string PrimaryKey = "PrimaryKey";
-            
+
 			/// <summary>
 			/// One-to-one the primary key, Is PrimaryKey, Is AutoIncrement
 			/// </summary>
@@ -211,9 +211,9 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			/// <summary>
 			/// One-to-one the dependant foreign key, Is PrimaryKey
 			/// </summary>
-            public const string OneToOneForeignKey = "OneToOneForeignKey";
-            public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";
-            public const string AutoIncNativeNullable = "AutoIncNativeNullable";
+			public const string OneToOneForeignKey = "OneToOneForeignKey";
+			public const string AutoInrcementPrimaryKey = "AutoInrcementPrimaryKey";
+			public const string AutoIncNativeNullable = "AutoIncNativeNullable";
 			public const string AutoIncNullableType = "AutoIncNullableType";
 			public const string NormalField = "NormalField";
 			public const string NativeNullable = "NativeNullable";
@@ -263,8 +263,8 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			public const string SQLServer = "SQLServer";
 			public const string SQLite = "SQLite";
 			public const string SqlCe4 = "SqlCe4";
-            public const string Npgsql = "Npgsql";
-            public const string MySql = "MySql";
+			public const string Npgsql = "Npgsql";
+			public const string MySql = "MySql";
 		}
 
 

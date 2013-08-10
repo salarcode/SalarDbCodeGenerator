@@ -398,14 +398,16 @@ namespace SalarDbCodeGenerator
 				foreach (var file in patternCopyActionList)
 				{
 					var listItem = new ListViewItem();
+					var fileName = Path.GetFileName(file.Path);
 
-                    var conn = _projectDefinaton.DbSettions.GetNewConnection();
-                    var fileName = Common.ReplaceExIgnoreCase(file.Path,
-                                      ReplaceConsts.ProviderAssemblyReference,
-                                      _projectDefinaton.DbSettions.GetSchemaEngine(conn).GetDataProviderClassName(DataProviderClassNames.AssemblyReference));
+					// BUG: doesn't support other database provider replacements
+					// BUG: will work but will display something like ":].dll" in the list
+					if (file.Path.Contains(ReplaceConsts.ProviderAssemblyReference))
+					{
+						fileName = file.Path.Replace(ReplaceConsts.ProviderAssemblyReference, "(DatabaseAssembly)");
+						fileName = Path.GetFileName(fileName);
+					}
 
-                    fileName = Path.GetFileName(fileName);
-                    
 					if (applyAllAsSelected)
 					{
 						listItem.Checked = true;
@@ -421,11 +423,8 @@ namespace SalarDbCodeGenerator
 						}
 					}
 					listItem.Text = fileName;
-                    fileName = Common.ReplaceExIgnoreCase(file.ActionCopyPath,
-                                      ReplaceConsts.ProviderAssemblyReference,
-                                      _projectDefinaton.DbSettions.GetSchemaEngine(conn).GetDataProviderClassName(DataProviderClassNames.AssemblyReference));
+					listItem.ToolTipText = "Copy to: " + file.ActionCopyPath;
 
-                    listItem.ToolTipText = "Copy to: " + fileName;
 					listItem.Group = lstPatterns.Groups[actionCopyGroupName];
 					lstPatterns.Items.Add(listItem);
 				}
@@ -907,9 +906,9 @@ namespace SalarDbCodeGenerator
 				schemaDatabase.Provider = _projectDefinaton.DbSettions.DatabaseProvider;
 
 				// shcema engine options
-			    schemaEngine.SpecificOwner = _projectDefinaton.DbSettions.DatabaseProvider == DatabaseProvider.Oracle
-			                                     ? _projectDefinaton.DbSettions.SqlUsername
-			                                     : _projectDefinaton.DbSettions.SchemaName;
+				schemaEngine.SpecificOwner = _projectDefinaton.DbSettions.DatabaseProvider == DatabaseProvider.Oracle
+												 ? _projectDefinaton.DbSettions.SqlUsername
+												 : _projectDefinaton.DbSettions.SchemaName;
 
 				// columns descriptions
 				schemaEngine.ReadColumnsDescription = _projectDefinaton.CodeGenSettings.GenerateColumnsDescription;
