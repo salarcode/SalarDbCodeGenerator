@@ -96,7 +96,7 @@
 	<PatternFile Action="Generate">AppConfig.patml</PatternFile>
 	<PatternFile Action="Generate">BaseDap.patml</PatternFile>
 	<PatternFile Action="Generate">BaseModel.patml</PatternFile>
-	<PatternFile Action="Generate">DapperAccessPricipal.patml</PatternFile>
+	<PatternFile Action="Generate">DapperAccessPrincipal.patml</PatternFile>
 	<PatternFile Action="Generate">DapperAccessUser.patml</PatternFile>
 	<PatternFile Action="Generate">DapperSqlMapper.patml</PatternFile>
 	<PatternFile Action="Generate">DapperDynamicParameters.patml</PatternFile>

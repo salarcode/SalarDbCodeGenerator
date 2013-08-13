@@ -97,7 +97,7 @@
 	<PatternFile Action="Generate">BaseDap.patml</PatternFile>
 	<PatternFile Action="Generate">BaseModel.patml</PatternFile>
 	<PatternFile Action="Generate">DapperContext.patml</PatternFile>
-	<PatternFile Action="Generate">DapperContextPricipal.patml</PatternFile>
+	<PatternFile Action="Generate">DapperContextPrincipal.patml</PatternFile>
 	<PatternFile Action="Generate">DapperContextUser.patml</PatternFile>
 	<PatternFile Action="Generate">DapperSqlMapper.patml</PatternFile>
 	<PatternFile Action="Generate">DapperEntityPrincipal.patml</PatternFile>

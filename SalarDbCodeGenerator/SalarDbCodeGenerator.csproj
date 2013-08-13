@@ -304,7 +304,7 @@
     <None Include="Patterns\DapperAccess\DapperAccess C# Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\DapperAccess\DapperAccessPricipal.patml">
+    <None Include="Patterns\DapperAccess\DapperAccessPrincipal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\DapperAccess\DapperAccessUser.patml">
@@ -349,7 +349,7 @@
     <None Include="Patterns\DapperContext\DapperContext C# Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\DapperContext\DapperContextPricipal.patml">
+    <None Include="Patterns\DapperContext\DapperContextPrincipal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\DapperContext\DapperEntityPrincipal.patml">
@@ -376,7 +376,7 @@
     <None Include="Patterns\DapperSQLinq\DapperDynamicParameters.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\DapperSQLinq\DapperAccessPricipal.patml">
+    <None Include="Patterns\DapperSQLinq\DapperAccessPrincipal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\DapperSQLinq\DapperAccessUser.patml">
@@ -837,7 +837,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearStamp.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
+      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearStamp.MonthAndDayStamp" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>
