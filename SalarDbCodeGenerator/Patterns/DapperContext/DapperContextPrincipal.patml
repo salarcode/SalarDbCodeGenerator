@@ -79,6 +79,27 @@ namespace [:Namespace:].Entities
 ]]>
 		</Condition>
 		<ConditionContents>
+			<PatternContent Name="GetTopSelectStatement" ConditionKeyMode="DatabaseProvider">
+				<Condition Key="SQLServer">
+					<![CDATA[SELECT TOP {0} * FROM {1}]]>
+				</Condition>
+				<Condition Key="SqlCe4">
+					<![CDATA[SELECT TOP {0} * FROM {1}]]>
+				</Condition>
+				<Condition Key="Oracle">
+					<![CDATA[SELECT * FROM {1} WHERE ROWNUM<={0}]]>
+				</Condition>
+				<Condition Key="SQLite">
+					<![CDATA[SELECT * FROM {1}  LIMIT {0}]]>
+				</Condition>
+				<Condition Key="Npgsql">
+					<![CDATA[SELECT * FROM {1}  LIMIT {0}]]>
+				</Condition>
+				<Condition Key="MySql">
+					<![CDATA[SELECT * FROM {1}  LIMIT {0}]]>
+				</Condition>
+			</PatternContent>
+
 			<PatternContent Name="ForeignKeys" ConditionKeyMode="FieldsForeignKeyAll">
 				<Condition Key="MultiplicityOne">
 					<![CDATA[

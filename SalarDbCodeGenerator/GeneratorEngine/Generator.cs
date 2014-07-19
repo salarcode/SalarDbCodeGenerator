@@ -513,6 +513,27 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 						// nothing!
 						break;
 
+					case PatternConditionKeyMode.DatabaseProvider:
+						appliedContent = PatternContentAppliesTo_General(pattern);
+						
+						// base content
+						if (!string.IsNullOrEmpty(pattern.BaseContent))
+						{
+							appliedContent = pattern.BaseContent.Replace(ReplaceConsts.PatternContentInnerContents, appliedContent);
+						}
+
+						// internal pattern contents
+						if (pattern.ConditionContents.Count > 0)
+						{
+							// nested call
+							appliedContent = PatternContentAppliesTo_OneTable(appliedContent, pattern.ConditionContents, table, null, null);
+						}
+
+						// replace the content
+						baseContent = baseContent.Replace(replacementName, appliedContent);
+
+						break;
+
 					case PatternConditionKeyMode.TablesAll:
 					case PatternConditionKeyMode.ViewsAll:
 					case PatternConditionKeyMode.TablesAndViewsAll:
