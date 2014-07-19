@@ -1,4 +1,8 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using Npgsql;
+using Oracle.ManagedDataAccess.Client;
+using SalarDbCodeGenerator.Schema.DbSchemaReaders;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data.Common;
@@ -6,10 +10,6 @@ using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Data.SqlServerCe;
 using System.Xml.Serialization;
-using Npgsql;
-using Oracle.DataAccess.Client;
-using MySql.Data.MySqlClient;
-using SalarDbCodeGenerator.Schema.DbSchemaReaders;
 
 // ====================================
 // SalarDbCodeGenerator

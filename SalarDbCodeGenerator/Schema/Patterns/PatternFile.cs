@@ -122,7 +122,7 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			return (PatternFile)this.MemberwiseClone();
 		}
 
- 		public string ToSummaryString()
+		public string ToSummaryString()
 		{
 			var sb = new StringBuilder();
 

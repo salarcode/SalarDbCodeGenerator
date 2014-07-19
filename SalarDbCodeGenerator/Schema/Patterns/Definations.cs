@@ -219,6 +219,7 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 			public const string NativeNullable = "NativeNullable";
 			public const string NullableType = "NullableType";
 		}
+
 		public static class FieldReferencedKeyType
 		{
 

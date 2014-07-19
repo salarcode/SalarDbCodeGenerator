@@ -107,10 +107,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>References\Npgsql.dll</HintPath>
     </Reference>
-    <Reference Include="Oracle.DataAccess, Version=0.0.0.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
-      <HintPath>References\Oracle.DataAccess.dll</HintPath>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <HintPath>References\Oracle.ManagedDataAccess.dll</HintPath>
     </Reference>
     <Reference Include="policy.2.0.Npgsql, Version=0.0.0.0, Culture=neutral, PublicKeyToken=5d8b90d52f46fda7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -402,82 +401,82 @@
     <None Include="Patterns\DapperSQLinq\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\AppConfig.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\AppConfig.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\BaseEntity.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\BaseEntity.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\EntityDbConnection.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\EntityDbConnection.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\EF4 CodeFirst MVVM Pattern.dbpat">
+    <None Include="Patterns\EF6 CodeFirst MVVM\EF6 CodeFirst MVVM Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\Entity.DataAnnotations.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\Entity.DataAnnotations.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\Entity.Principal.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\Entity.Principal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\Entity.User.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\Entity.User.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\EntityObjectContext.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\EntityObjectContext.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst MVVM\VS2010ClassProject.patml">
+    <None Include="Patterns\EF6 CodeFirst MVVM\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\AppConfig.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\AppConfig.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\BaseEntity.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\BaseEntity.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\EF4 CodeFirst Simple Pattern.dbpat">
+    <None Include="Patterns\EF6 CodeFirst Simple\EF6 CodeFirst Simple Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\Entity.Principal.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\Entity.Principal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\Entity.User.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\Entity.User.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\EntityDbConnection.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\EntityDbConnection.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\EntityObjectContext.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\EntityObjectContext.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst Simple\VS2010ClassProject.patml">
+    <None Include="Patterns\EF6 CodeFirst Simple\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\AppConfig.patml">
+    <None Include="Patterns\EF6 CodeFirst\AppConfig.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\BaseEntity.patml">
+    <None Include="Patterns\EF6 CodeFirst\BaseEntity.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\Entity.DataAnnotations.patml">
+    <None Include="Patterns\EF6 CodeFirst\Entity.DataAnnotations.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\EF4 CodeFirst Pattern.dbpat">
+    <None Include="Patterns\EF6 CodeFirst\EF6 CodeFirst Pattern.dbpat">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\Entity.Principal.patml">
+    <None Include="Patterns\EF6 CodeFirst\Entity.Principal.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\Entity.User.patml">
+    <None Include="Patterns\EF6 CodeFirst\Entity.User.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\EntityDbConnection.patml">
+    <None Include="Patterns\EF6 CodeFirst\EntityDbConnection.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\EntityObjectContext.patml">
+    <None Include="Patterns\EF6 CodeFirst\EntityObjectContext.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Patterns\EF4 CodeFirst\VS2010ClassProject.patml">
+    <None Include="Patterns\EF6 CodeFirst\VS2010ClassProject.patml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Patterns\EF4 POCO C#\AppConfig.patml">
@@ -763,6 +762,7 @@
     <Content Include="References\ICSharpCode.TextEditor.dll" />
     <Content Include="References\Iesi.Collections.dll" />
     <Content Include="References\NHibernate.dll" />
+    <Content Include="References\Oracle.ManagedDataAccess.dll" />
     <Content Include="References\SQLinq.dll" />
     <Content Include="References\System.Data.SQLite.Linq.dll" />
     <Content Include="References\System.Data.SqlServerCe.dll" />
@@ -842,7 +842,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties BuildVersion_BuildVersioningStyle="None.None.YearStamp.MonthAndDayStamp" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_UpdateFileVersion="True" />
+      <UserProperties BuildVersion_UpdateFileVersion="True" BuildVersion_UpdateAssemblyVersion="True" BuildVersion_BuildVersioningStyle="None.None.YearStamp.MonthAndDayStamp" />
     </VisualStudio>
   </ProjectExtensions>
   <PropertyGroup>

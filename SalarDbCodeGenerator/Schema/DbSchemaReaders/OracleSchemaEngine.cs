@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Oracle.ManagedDataAccess.Client;
+using SalarDbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.Schema.Database;
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Oracle.DataAccess.Client;
-using SalarDbCodeGenerator.DbProject;
-using SalarDbCodeGenerator.Schema.Database;
 
 // ====================================
 // SalarDbCodeGenerator
@@ -177,7 +177,24 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				return _cache_All_Constraints;
 			}
 		}
+		private DataTable _cache_All_Sequences;
+		private DataTable Cache_All_Sequences
+		{
+			get
+			{
+				const string all_sequences = "SELECT SEQUENCE_NAME FROM ALL_SEQUENCES";
 
+				if (_cache_All_Sequences == null)
+				{
+					using (var adapter = new OracleDataAdapter(all_sequences, _dbConnection))
+					{
+						_cache_All_Sequences = new DataTable();
+						adapter.Fill(_cache_All_Sequences);
+					}
+				}
+				return _cache_All_Sequences;
+			}
+		}
 		private const string STR_ConstraintType_Unique = "U";
 		private const string STR_ConstraintType_Primarykey = "P";
 		private const string STR_ConstraintType_ForeignKey = "R";
@@ -293,6 +310,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				// correct tables name by case sesitivity usage!
 				AssignCaseSensitiveTablesName(result);
 
+				ApplyTablesSequenceNames(result);
 
 				// detect the sql server version
 				OracleServerVersions dbVersion = DetectVersion(_dbConnection);
@@ -314,6 +332,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			}
 			return result;
 		}
+
 
 		/// <summary>
 		/// Only oracle allows case sensitive table names!
@@ -406,10 +425,10 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			if (!string.IsNullOrWhiteSpace(this.SpecificOwner))
 			{
 				restrictions = new string[]
-					               	{
-					               		SpecificOwner.ToUpper(),
+									{
+										SpecificOwner.ToUpper(),
 										tableName
-					               	};
+									};
 			}
 
 			// Used to get columns Sql DataType
@@ -686,6 +705,22 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 			}
 		}
 
+
+		/// <summary>
+		/// Applies the sequence name for each primary key in the tables
+		/// </summary>
+		private void ApplyTablesSequenceNames(IEnumerable<DbTable> tables)
+		{
+			foreach (var table in tables)
+			{
+				foreach (var column in table.SchemaColumns)
+				{
+					if (!column.PrimaryKey) continue;
+					column.SequenceName = GetTableColumnSequenceName(table.TableNameSchema, column);
+				}
+			}
+		}
+
 		private DbForeignKeyAction ConvertOracleForeignKeyAction(string action)
 		{
 			switch (action)
@@ -887,6 +922,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 								{
 									// description found!
 									column.UserDescription = descriptionData.DefaultView[0].Row["comments"].ToString();
+									column.UserDescription = column.UserDescription.Replace("\r\n", " ").Replace("\n", " ");
 								}
 							}
 					}
@@ -897,6 +933,92 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 				// something is wrong! don't stop here!
 				// TODO: inform user
 			}
+		}
+
+		/// <summary>
+		/// Finds the sequence name for the PRIMARY KEY!!!
+		/// </summary>
+		private string GetTableColumnSequenceName(string tableName, DbColumn column)
+		{
+			const string oracleSequenceExt = "_SEQ";
+			const int maxNameLen = 31;
+
+			var sequenceName = tableName + "_" + column.FieldNameDb + oracleSequenceExt;
+			if (sequenceName.Length > maxNameLen)
+				sequenceName = sequenceName.Substring(0, maxNameLen - 1);
+			sequenceName = sequenceName.ToUpper();
+
+			// reading primary key column info
+			var squenceColumn = Cache_All_Sequences.Select(string.Format("SEQUENCE_NAME='{0}'",
+				sequenceName));
+			if (squenceColumn != null && squenceColumn.Length > 0)
+			{
+				return squenceColumn[0]["SEQUENCE_NAME"].ToString();
+			}
+			return string.Empty;
+		}
+
+		/// <summary>
+		/// Finds the sequence name for the PRIMARY KEY!!!
+		/// </summary>
+		private string GetTableColumnSequenceName_FromDB(string tableName, DbColumn column)
+		{
+			const string oracleSequenceExt = "_SEQ";
+			const int maxNameLen = 31;
+
+			var sequenceName = tableName + "_" + column.FieldNameDb + oracleSequenceExt;
+			if (sequenceName.Length > maxNameLen)
+				sequenceName = sequenceName.Substring(0, maxNameLen - 1);
+			sequenceName = sequenceName.ToUpper();
+
+			// here we know the sequence name
+			// but we have to be sure of it is there
+			// so a query to the db is required!
+
+			const string sequenceSelectCommand = "SELECT SEQUENCE_NAME FROM ALL_SEQUENCES WHERE SEQUENCE_NAME = N'{0}' ";
+
+			try
+			{
+				using (var adapter = new OracleDataAdapter(
+					String.Format(sequenceSelectCommand, sequenceName),
+					(OracleConnection)_dbConnection))
+				{
+					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
+
+					// description data table
+					using (var descriptionData = new DataTable())
+					{
+						// Jjust to avoid stupid "Failed to enable constraints" error!
+						using (var tempDs = new DataSet())
+						{
+							// Avoiding stupid "Failed to enable constraints" error!
+							tempDs.EnforceConstraints = false;
+							tempDs.Tables.Add(descriptionData);
+
+							// Get from db
+							adapter.Fill(descriptionData);
+						}
+
+						// if something found
+						if (descriptionData.Rows.Count > 0)
+						{
+							var row = descriptionData.Rows[0];
+							var seqName = row["SEQUENCE_NAME"].ToString();
+
+							if (!string.IsNullOrWhiteSpace(seqName))
+								return seqName;
+
+							return string.Empty;
+						}
+					}
+				}
+			}
+			catch
+			{
+				// something is wrong! don't stop here!
+				// TODO: inform user
+			}
+			return string.Empty;
 		}
 
 		/// <summary>

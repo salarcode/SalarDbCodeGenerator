@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("SalarDbCodeGenerator")]
-[assembly: AssemblyCopyright("Copyright © 2009-2013 All Rights Reserved")]
+[assembly: AssemblyCopyright("Copyright © 2009-2014 All Rights Reserved")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -22,5 +22,5 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("c42fbf10-7fd7-4406-9e3f-48f0f0c3e68f")]
 
-[assembly: AssemblyVersion("3.0.2013.0813")]
-[assembly: AssemblyFileVersion("3.0.2013.0813")]
+[assembly: AssemblyVersion("3.5.2014.0719")]
+[assembly: AssemblyFileVersion("3.5.2014.0719")]

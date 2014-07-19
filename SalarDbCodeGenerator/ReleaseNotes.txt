@@ -8,29 +8,34 @@ Version Next
 
 	Fixes:
 
+*  Couldn't read columns description if the table has schema specified.
 *  Bug in "CopyDataMember" of the ActiveRecord patterns is fixed.
+
+	Pattern Changes:
+*  Entity Framework pattern is updated to version 6.
+
 
 ------------------------------------
 Version 2.1.2013.0719		2013/7/19
-    Pattern Changes:
+	Pattern Changes:
 	*	DapperContext pattern is added.
 	*	All patterns are updated to work with one-to-one relations.
 
-    Changes:
+	Changes:
 	*	One-to-one relation is supported.
 	*	Minor bug fixes.
 
 
 ------------------------------------
 Version 2.0.2012.0724		2012/7/24
-    Pattern Changes:
+	Pattern Changes:
 
 NHibernate MappingByCode is added.
 NHibernate MappingByCode simple and MVVM patterns are added.
 DapperAccess+SQLinq pattern is added!
 Added connection manager for EF patterns.
 
-    Changes:
+	Changes:
 
 New database schema engine.
 New pattern schema engine.
@@ -44,7 +49,7 @@ SQLCE columns description supported.
 Fixed errors reading SQLite encrypted databases.
 ForeignKey actions (for update and delete) are supported.
 
-    Breaking changes:
+	Breaking changes:
 
 Version 1.0 projects are not compatible.
 Generated project names renamed from "[:ProjectName:]-VS2010.csproj" to "[:ProjectName:].csproj"
@@ -55,7 +60,7 @@ SQLServer ForeignKeys synced by columns order.
 ------------------------------------
 Version 1.1.2012.0518
 
-    New: DapperAccess pattern is added based on Dapper mini ORM
+	New: DapperAccess pattern is added based on Dapper mini ORM
 
-    Update: EF all patterns are updated to support custom model mapping.
-    New: One-to-One relation detection.
+	Update: EF all patterns are updated to support custom model mapping.
+	New: One-to-One relation detection.

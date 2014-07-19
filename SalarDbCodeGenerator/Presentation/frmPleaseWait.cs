@@ -8,7 +8,7 @@ using System.Diagnostics;
 // http://SalarDbCodeGenerator.codeplex.com
 // Salar Khalilzadeh <salar2k@gmail.com>
 // © 2012, All rights reserved
-// 2012/07/06
+// 2014/01/28
 // ====================================
 namespace SalarDbCodeGenerator
 {
@@ -30,6 +30,15 @@ namespace SalarDbCodeGenerator
 			if (_prevActiveForm != null && _prevActiveForm != this)
 			{
 				_prevActiveForm.Focus();
+			}
+			else
+			{
+				if (Application.OpenForms.Count > 0)
+				{
+					var main = Application.OpenForms[Application.OpenForms.Count - 1];
+					main.Activate();
+					main.Focus();
+				}
 			}
 		}
 

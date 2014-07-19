@@ -194,7 +194,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 					// read columns description
 					if (ReadColumnsDescription)
-						ApplyColumnsDescription(tableName, columns);
+						ApplyColumnsDescription(tableName, ownerName, columns);
 
 					// new table
 					var dbTable = new DbTable(tableName, columns);
@@ -252,7 +252,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 
 					// read columns description
 					if (ReadColumnsDescription)
-						ApplyColumnsDescription(viewName, columns);
+						ApplyColumnsDescription(viewName, ownerName, columns);
 
 					// new view
 					var view = new DbView(viewName, columns);
@@ -270,7 +270,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		/// <summary>
 		/// Read columns schema from database
 		/// </summary>
-		private List<DbColumn> ReadColumns(String tableName, string ownerName)
+		private List<DbColumn> ReadColumns(string tableName, string ownerName)
 		{
 			List<DbColumn> result = new List<DbColumn>();
 
@@ -837,18 +837,20 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 		/// <summary>
 		/// Reads columns description from SQLServer
 		/// </summary>
-		private void ApplyColumnsDescription(string tableName, List<DbColumn> columns)
+		private void ApplyColumnsDescription(string tableName, string ownerName, List<DbColumn> columns)
 		{
+			// READING TABLE DESCRIPTION --> SELECT * FROM sys.extended_properties where minor_id=0 and major_id=OBJECT_ID('acc.AccAccount')  order by major_id
+
 			// there is no column!
 			if (columns.Count == 0)
 				return;
 
 			// command format
-			const string descriptionSql = "SELECT * FROM ::fn_listextendedproperty('MS_Description', 'user', 'dbo', 'table', N'{0}', 'column', NULL) AS func ";
+			const string descriptionSql = "SELECT * FROM ::fn_listextendedproperty('MS_Description', 'schema', N'{0}', 'table', N'{1}', 'column', NULL) AS func ";
 
 			try
 			{
-				using (var adapter = new SqlDataAdapter(String.Format(descriptionSql, tableName), (SqlConnection)_dbConnection))
+				using (var adapter = new SqlDataAdapter(String.Format(descriptionSql, ownerName, tableName), (SqlConnection)_dbConnection))
 				{
 					adapter.MissingSchemaAction = MissingSchemaAction.AddWithKey;
 
@@ -877,6 +879,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 								{
 									// description found!
 									column.UserDescription = descriptionData.DefaultView[0].Row["value"].ToString();
+									column.UserDescription = column.UserDescription.Replace("\r\n", " ").Replace("\n", " ");
 								}
 							}
 					}

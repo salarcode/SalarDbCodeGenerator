@@ -102,6 +102,8 @@ namespace SalarDbCodeGenerator.Schema.Database
 		public string UserDescription { get; set; }
 
 		//public string DataTypeDotNetClean { get; set; }
+
+        public string SequenceName { get; set; }
 		#endregion
 
 		#region public methods

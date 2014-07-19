@@ -63,6 +63,9 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		public const string PrimaryKeyName = "[:PrimaryKeyName:]";
 		public const string PrimaryKeyNameDb = "[:PrimaryKeyNameDb:]";
 
+		public const string PrimaryKeySequenceName = "[:PrimaryKeySequenceName:]";
+
+
 		// Constraint keys
 		public const string IndexKeyDbType = "[:IndexKeyDbType:]";
 		public const string IndexKeyDbTypeSize = "[:IndexKeyDbTypeSize:]";

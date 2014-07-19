@@ -1,22 +1,18 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using Npgsql;
+using Oracle.ManagedDataAccess.Client;
+using SalarDbCodeGenerator.DbProject;
+using SalarDbCodeGenerator.Properties;
+using SalarDbCodeGenerator.Schema.DbSchemaReaders;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Data.SqlServerCe;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using Npgsql;
-using Oracle.DataAccess.Client;
-using MySql.Data.MySqlClient;
-using SalarDbCodeGenerator.DbProject;
-using SalarDbCodeGenerator.Properties;
-using SalarDbCodeGenerator.Schema.DbSchemaReaders;
 
 namespace SalarDbCodeGenerator.Presentation
 {

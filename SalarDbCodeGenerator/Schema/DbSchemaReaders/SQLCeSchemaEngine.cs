@@ -411,6 +411,7 @@ namespace SalarDbCodeGenerator.Schema.DbSchemaReaders
 								{
 									// description found!
 									column.UserDescription = descriptionData.DefaultView[0].Row["Value"].ToString();
+									column.UserDescription = column.UserDescription.Replace("\r\n", " ").Replace("\n", " ");
 								}
 							}
 					}
