@@ -891,11 +891,15 @@ namespace SalarDbCodeGenerator
 		private void UiAction_Generate()
 		{
 			PleaseWait.ShowPleaseWait("Connecting to database server", true, false);
+
 			using (System.Data.Common.DbConnection conn = _projectDefinaton.DbSettions.GetNewConnection())
 			using (ExSchemaEngine schemaEngine = _projectDefinaton.DbSettions.GetSchemaEngine(conn))
 			{
 				// Connection to database
 				conn.Open();
+
+				// Let application catchup
+				Application.DoEvents();
 
 				// Reading database
 				PleaseWait.WaitingState = "Reading database schema";

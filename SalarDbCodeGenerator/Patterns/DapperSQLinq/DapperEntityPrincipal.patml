@@ -26,7 +26,7 @@ namespace [:Namespace:].Entities
 		<BaseContent>[:InnerContent:]</BaseContent>
 		<Condition Key="TheReplacement">
 			<![CDATA[
-	[SQLinqTable("[:TableNameDb:]")]
+	[SQLinqTable("[:TableOwnerNameAsPrefix:][:TableNameDb:]")]
 	public partial class [:TableName:] : BaseModel
 	{
 [#FieldsProperties#]

@@ -86,6 +86,7 @@ namespace SalarDbCodeGenerator.GeneratorEngine
 		public const string TableNameRefField = "[:TableNameRefField:]";
 		public const string TableNameDbRefField = "[:TableNameDbRefField:]";
 		public const string TableOwnerName = "[:TableOwnerName:]";
+		public const string TableOwnerNameAsPrefix = "[:TableOwnerNameAsPrefix:]";
 
 		// ForeignKeys
 		public const string LocalTableName = "[:LocalTableName:]";

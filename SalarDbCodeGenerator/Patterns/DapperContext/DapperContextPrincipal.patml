@@ -88,7 +88,7 @@ namespace [:Namespace:].Entities
 		public List<[:LocalTableName:]> GetBy[:LocalFieldName:]([:LocalFieldDotNetType:] [:LocalFieldName:])
 		{
 			return Query<[:LocalTableName:]>(SqlSelectCommand + " WHERE [:LocalFieldNameDb:]=[:ProviderSPParamPrefix:][:LocalFieldName:]", new { [:LocalFieldName:] = [:LocalFieldName:] }).ToList();
- 		}]]>
+		}]]>
 				</Condition>
 				<Condition Key="MultiplicityMany"></Condition>
 				<Condition Key="MultiplicityOneToOnePrimary">
@@ -119,7 +119,7 @@ namespace [:Namespace:].Entities
 		public List<[:TableName:]> GetBy[:IndexKeyName:]([:IndexKeyDotNetType:] [:IndexKeyName:])
 		{
 			return Query<[:TableName:]>(SqlSelectCommand + " WHERE [:IndexKeyNameDb:]=[:ProviderSPParamPrefix:][:IndexKeyName:]", new { [:IndexKeyName:] = [:IndexKeyName:] }).ToList();
- 		}]]>
+		}]]>
 				</Condition>
 			</PatternContent>
 
@@ -277,19 +277,19 @@ namespace [:Namespace:].Entities
 			<PatternContent Name="SqlCommands" ConditionKeyMode="TablePrimaryKey">
 				<Condition Key="ReadOnlyTable">
 					<![CDATA[
-		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlTableName = "[:TableOwnerNameAsPrefix:][:TableNameDb:]";
 		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;]]>
 				</Condition>
 				<Condition Key="NoPrimaryKey">
 					<![CDATA[
-		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlTableName = "[:TableOwnerNameAsPrefix:][:TableNameDb:]";
 		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
 		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " [#InsertParametersValue#] ";
 		]]>
 				</Condition>
 				<Condition Key="WithPrimaryKey">
 					<![CDATA[
-		public const string SqlTableName = "[:TableNameDb:]";
+		public const string SqlTableName = "[:TableOwnerNameAsPrefix:][:TableNameDb:]";
 		public const string SqlSelectCommand = "SELECT * FROM " + SqlTableName;
 		public const string SqlInsertCommand = "INSERT INTO " + SqlTableName + " ([#InsertParametersName#]) VALUES ([#InsertParametersValue#]) ";
 		public const string SqlUpdateCommand = "UPDATE " + SqlTableName + " SET [#UpdateParameters#] WHERE [#PrimaryKeyParameters#]";

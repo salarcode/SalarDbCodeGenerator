@@ -14,8 +14,8 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
 using Dapper;
+using [:ProviderClassReferenceName:];
 
 namespace [:Namespace:].Base
 {
@@ -26,7 +26,7 @@ namespace [:Namespace:].Base
 
 		protected BaseDap()
 		{
-			Connection = new SqlConnection(ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString);
+			Connection = new [:ProviderClassConnection:](ConfigurationManager.ConnectionStrings["[:DatabaseName:]ConnectionString"].ConnectionString);
 		}
 
 		public IDbConnection Connection

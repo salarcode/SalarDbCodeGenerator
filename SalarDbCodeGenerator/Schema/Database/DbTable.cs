@@ -28,7 +28,9 @@ namespace SalarDbCodeGenerator.Schema.Database
 		public List<DbForeignKey> ForeignKeys { get; private set; }
 		public List<DbConstraintKey> ConstraintKeys { get; private set; }
 		public string OwnerName { get; set; }
+
 		public string TableNameSchema { get; set; }
+
 		public string TableName
 		{
 			get { return _tableName; }

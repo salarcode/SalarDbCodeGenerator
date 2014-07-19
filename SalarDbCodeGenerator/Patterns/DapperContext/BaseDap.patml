@@ -14,7 +14,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
-using System.Data.SqlClient;
+using [:ProviderClassReferenceName:];
 using [:Namespace:].Entities;
 using Dapper;
 
@@ -28,9 +28,9 @@ namespace [:Namespace:].Base
 		protected internal BaseDap()
 		{
 			_connectionContainer = new ConnectionContainer()
-									   {
-										   Connection =  [:DatabaseName:]Connection.CreateConnection()
-									   };
+										 {
+											 Connection =  [:DatabaseName:]Connection.CreateConnection()
+										 };
 		}
 		protected internal BaseDap(ConnectionContainer container, bool leaveOpen)
 		{
@@ -50,7 +50,7 @@ namespace [:Namespace:].Base
 			set { _leaveOpen = value; }
 		}
 
- 		public IDbTransaction BeginTransaction()
+		public IDbTransaction BeginTransaction()
 		{
 			_connectionContainer.Transaction = _connectionContainer.Connection.BeginTransaction();
 			return _connectionContainer.Transaction;
@@ -193,7 +193,7 @@ namespace [:Namespace:].Base
 			{
 				return data;
 			}
- 			return new DapperModelQuery<T>(data, _connectionContainer);
+			return new DapperModelQuery<T>(data, _connectionContainer);
 		}
 
 		protected IList<T> AssignOwner<T>(IList<T> data)
@@ -202,7 +202,7 @@ namespace [:Namespace:].Base
 			{
 				return data;
 			}
- 			for (int i = 0; i < data.Count; i++)
+			for (int i = 0; i < data.Count; i++)
 			{
 				var baseModel = data[i] as BaseModel;
 				if (baseModel != null)
@@ -212,7 +212,7 @@ namespace [:Namespace:].Base
 		}
 		protected void AssignListOwner<T>(IList<T> data) where T : BaseModel
 		{
- 			for (int i = 0; i < data.Count; i++)
+			for (int i = 0; i < data.Count; i++)
 			{
 				data[i].DbConnection = _connectionContainer;
 			}

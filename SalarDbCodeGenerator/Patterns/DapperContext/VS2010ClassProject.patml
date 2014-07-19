@@ -22,8 +22,8 @@
 		<AppDesignerFolder>Properties</AppDesignerFolder>
 		<RootNamespace>[:Namespace:]</RootNamespace>
 		<AssemblyName>[:ProjectName:]</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+		<TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+		<TargetFrameworkProfile>Client</TargetFrameworkProfile>
 		<FileAlignment>512</FileAlignment>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,13 +45,13 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
+		<Reference Include="System.Core" />
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.configuration" />
+		<Reference Include="System.ComponentModel.DataAnnotations" />
 		<Reference Include="System.Data" />
-    <Reference Include="[:ProviderAssemblyReference:]" />
-    <Reference Include="System.Runtime.Serialization" />
+		<Reference Include="[:ProviderAssemblyReference:]" />
+		<Reference Include="System.Runtime.Serialization" />
 		<Reference Include="System.Xml" />
 	</ItemGroup>
 	<ItemGroup>

@@ -8,7 +8,7 @@
 		Overwrite="true"
 		FilePath="Entities\[:DatabaseName:]Context.cs"
 		Language="C#"
-		/>
+		/> 
 	<BaseContent>
 		<![CDATA[using System;
 using System.Collections.Generic;
