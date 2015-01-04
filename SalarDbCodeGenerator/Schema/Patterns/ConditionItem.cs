@@ -9,7 +9,7 @@ using System.Xml.Serialization;
 // SalarDbCodeGenerator
 // http://SalarDbCodeGenerator.codeplex.com
 // Salar Khalilzadeh <salar2k@gmail.com>
-// © 2012, All rights reserved
+// © 2014, All rights reserved
  // ====================================
 namespace SalarDbCodeGenerator.Schema.Patterns
 {
@@ -18,6 +18,17 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 	/// </summary>
 	public class ConditionItem
 	{
+		/// <summary>
+		/// Condition on if this item should be applied or not
+		/// </summary>
+		[Serializable]
+		public enum ApplyConditionMode
+		{
+			NotSet,
+			Equals,
+			NotEquals
+		}
+
 		public ConditionItem()
 		{
 			Key = string.Empty;
@@ -40,6 +51,13 @@ namespace SalarDbCodeGenerator.Schema.Patterns
 		{
 			return Key;
 		}
- 
+
+
+		/// <summary>
+		/// Condition on if this item should be applied or not
+		/// </summary>
+		[XmlAttribute]
+		public ApplyConditionMode ApplyCondition { get; set; }
 	}
+	 
 }

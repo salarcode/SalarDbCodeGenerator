@@ -42,6 +42,18 @@ namespace [:Namespace:]
 			}
 		}
 
+		internal void OpenConnection()
+		{
+			if (_connection != null && _connection.State != ConnectionState.Open)
+				_connection.Open();
+		}
+
+		internal void CloseConnection()
+		{
+			if (_connection != null)
+				_connection.Close();
+		}
+
 		public void Dispose()
 		{
 			if (_transaction != null)

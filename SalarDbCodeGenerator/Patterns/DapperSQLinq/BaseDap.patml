@@ -49,12 +49,14 @@ namespace [:Namespace:].Base
 
 		public IDbTransaction BeginTransaction()
 		{
+			OpenConnection();
 			_transaction = _connection.BeginTransaction();
 			return _transaction;
 		}
 
 		public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
 		{
+			OpenConnection();
 			_transaction = _connection.BeginTransaction(isolationLevel);
 			return _transaction;
 		}

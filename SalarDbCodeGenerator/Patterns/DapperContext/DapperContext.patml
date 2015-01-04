@@ -41,12 +41,14 @@ namespace [:Namespace:].Entities
 
 		public IDbTransaction BeginTransaction()
 		{
+			DbConnection.OpenConnection();
 			DbConnection.Transaction = DbConnection.Connection.BeginTransaction();
 			return DbConnection.Transaction;
 		}
 
 		public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
 		{
+			DbConnection.OpenConnection();
 			DbConnection.Transaction = DbConnection.Connection.BeginTransaction(isolationLevel);
 			return DbConnection.Transaction;
 		}

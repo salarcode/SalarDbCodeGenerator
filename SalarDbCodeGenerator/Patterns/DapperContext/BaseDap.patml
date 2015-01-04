@@ -52,12 +52,14 @@ namespace [:Namespace:].Base
 
 		public IDbTransaction BeginTransaction()
 		{
+			OpenConnection();
 			_connectionContainer.Transaction = _connectionContainer.Connection.BeginTransaction();
 			return _connectionContainer.Transaction;
 		}
 
 		public IDbTransaction BeginTransaction(IsolationLevel isolationLevel)
 		{
+			OpenConnection();
 			_connectionContainer.Transaction = _connectionContainer.Connection.BeginTransaction(isolationLevel);
 			return _connectionContainer.Transaction;
 		}
@@ -177,14 +179,12 @@ namespace [:Namespace:].Base
 
 		protected void OpenConnection()
 		{
-			if (_connectionContainer.Connection != null && _connectionContainer.Connection.State != ConnectionState.Open)
-				_connectionContainer.Connection.Open();
+			_connectionContainer.OpenConnection();
 		}
 
 		protected void CloseConnection()
 		{
-			if (_connectionContainer.Connection != null)
-				_connectionContainer.Connection.Close();
+			_connectionContainer.CloseConnection();
 		}
 
 		protected IEnumerable<T> AssignOwner<T>(IEnumerable<T> data)
